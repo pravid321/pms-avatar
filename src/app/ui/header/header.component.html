@@ -1,0 +1,97 @@
+<nav class="navbar navbar-dark">
+    <a class="navbar-brand" href="/">
+        <img src="./assets/images/tejal-topbar-logo.png" alt="">
+    </a>
+    <div class="navbar-expand ml-auto navbar-nav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0);">
+                    <i class="fa fa-user"></i> Welcome to New User
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" data-target="#" id="navbarDropdownMenuLink" role="button">
+                    <i class="fa fa-cog"></i> Settings
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                    <li><a class="dropdown-item" href="#" (click)="logout();">Logout</a></li>
+                    <!-- <li><a class="dropdown-item" href="#">Another action</a></li> -->
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+<nav id="sub-navbar" class="navbar navbar-expand-lg sub-navbar">
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navContent2" aria-controls="navContent2" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>   </button> -->
+
+    <div class="nav-item">
+        <a class="nav-link link-fl" href="javascript:void(0);">
+            <i class="fa fa-bars" data-toggle="collapse" data-target="#main-sidebar-container" aria-controls="main-sidebar-container" aria-expanded="false"></i>&nbsp;&nbsp;<span routerLink="./dashboard">Dashboard</span>
+        </a>
+        <a class="nav-link link-fl" href="javascript:void(0);" *ngIf="paramDetails.pageName == 'Dashboard'">
+            <i class="fa fa-calendar"></i>&nbsp;&nbsp;{{ now | date : 'dd-MMMM-y | h:mm a' }}
+        </a>
+    </div>
+
+
+    <div id="navSub" class="collapse navbar-collapse" style="padding-left: 20%;" *ngIf="paramDetails.pageName != 'Dashboard'">
+        <ul id="sub-menu1" class="navbar-nav">
+
+            <li class="nav-item" routerLinkActive="active" routerLink="./frontdesk">
+                <a class="nav-link" href="javascript:void(0);">
+                    <img src="./assets/images/frontdesk-small-ico.png" alt="">&nbsp;Front Desk
+                </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" routerLink="./housekeeping">
+                <a class="nav-link" href="javascript:void(0);">
+                    <img src="./assets/images/housekeeping-small-ico.png" alt="">&nbsp;Housekeeping
+                </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" routerLink="./restaurant">
+                <a class="nav-link" href="javascript:void(0);">
+                    <img src="./assets/images/restaurant-samll-ico.png" alt="">&nbsp;Restaurant
+                </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" routerLink="./others">
+                <a class="nav-link" href="javascript:void(0);">
+                    <img src="./assets/images/others-samll-ico.png" alt="">&nbsp;Others
+                </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" routerLink="./reports">
+                <a class="nav-link" href="javascript:void(0);">
+                    <img src="./assets/images/reports-samll-ico.png" alt="">&nbsp;Reports
+                </a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fa fa-headphones"></i>&nbsp;Live Support
+                </a>
+            </li>
+        </ul>
+
+    </div>
+    <!-- <div id="close-sub-menu" class="form-inline">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <div class="nav-link">Close</div>
+                </li>
+            </ul>
+        </div> -->
+</nav>
+
+<!-- sidebar -->
+<div id="main-sidebar-container" class="collapse width pull-right">
+    <div class="main-sidebar">
+        <div class="row">
+            <div class="col-xs-12">
+
+                <a class="navbar-brand sidebar-texts" href="#">Menu</a>
+                <a class="navbar-brand sidebar-texts" data-toggle="modal" data-target=".login-modal-sm" href="#">Menu2</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end sidebar -->
