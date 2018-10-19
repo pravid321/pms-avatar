@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   //apiUrl: 'http://35.231.136.108:8080/BMPMS/pms/'
-  apiUrl: 'http://103.196.221.74:8080/BMPMS/pms/'
-  //apiUrl: 'http://localhost:4201/'
+  //apiUrl: 'http://103.196.221.74:8080/BMPMS/pms/'
+  apiUrl: 'http://localhost:8080/BMPMS/pms/'
 };
 
 /*

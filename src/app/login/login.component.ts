@@ -11,6 +11,7 @@ export class LoginComponent implements OnInit {
 
   isLoggedin: boolean;
   globalResponse: any;
+  authHeaders: any;
 
   constructor(private _router: Router, private _auth: AuthService) { }
 
@@ -29,7 +30,8 @@ export class LoginComponent implements OnInit {
 
     this._auth.getUserDetails(username, password)
       .subscribe((result) => {
-        this.globalResponse = result;
+        this.globalResponse = result.body;
+        this.authHeaders = result.headers;        
       },
         error => {
           console.log(error.message, "invalid username or password");
@@ -37,15 +39,15 @@ export class LoginComponent implements OnInit {
         },
         () => {
           // this is the sueccessful login part
-          console.log(this.globalResponse);
-          this._auth.storeToken(this.globalResponse.authToken);
+          //console.log(this.globalResponse);
+          this._auth.storeToken(this.authHeaders.get('Authorization'));
           this._auth.setAllowedModules(this.globalResponse.modulesAllowed.modules);
           this.isLoggedin = true;
           this._router.navigateByUrl('/ui/dashboard');
         }
       );
 
-    console.log("in login component::::", event, username, password);
+    //console.log("in login component::::", event, username, password);
   }
 
 }

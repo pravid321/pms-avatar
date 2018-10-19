@@ -2,6 +2,16 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~font-awesome/css/font-awesome.css";
 
+/* schedular themes */
+@import url('themes/scheduler_8.css');
+@import url('themes/scheduler_green.css');
+@import url('themes/scheduler_traditional.css');
+@import url('themes/scheduler_transparent.css');
+@import url('themes/scheduler_white.css');
+
 body {
     background-color: #EEEEEE;
+    .scheduler_default_corner div:nth-of-type(2) {
+        display: none !important;
+    }
 }

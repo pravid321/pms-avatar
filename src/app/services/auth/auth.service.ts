@@ -19,7 +19,7 @@ export class AuthService {
       "userName": username,
       //"email": username,
       "password": password
-    }).pipe(map(res => res),
+    }, {observe: 'response'}).pipe(map(res => res),
       catchError(this.errorHandler)
     );
   }
@@ -33,7 +33,7 @@ export class AuthService {
     return this.getToken() !== null;
   }
 
-  storeToken(token: string){
+  storeToken(token: string){  
     localStorage.setItem("token", token);
   }
 
