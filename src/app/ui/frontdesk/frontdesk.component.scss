@@ -1,1 +1,29 @@
-.frontdesk{background-color: #fff;}
+.frontdesk {
+    background-color: #fff;
+
+    .frontdesk-header {
+        padding: 10px;
+
+        .btn-xs {
+            padding: 1px 5px;
+            font-size: 12px;
+            line-height: 1.5;
+            margin: auto 5px;
+
+            &.btn-round-xs {
+                border-radius: 11px;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            &.active{
+                background: #6F85FB;
+                color: #fff;
+            }
+            &:focus{
+                box-shadow: none;
+            }
+        }
+
+    }
+
+}

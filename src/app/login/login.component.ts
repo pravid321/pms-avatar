@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
         () => {
           // this is the sueccessful login part
           //console.log(this.globalResponse);
-          this._auth.storeToken(this.authHeaders.get('Authorization'));
+          this._auth.storeToken(this.authHeaders.get('authToken'));
           this._auth.setAllowedModules(this.globalResponse.modulesAllowed.modules);
           this.isLoggedin = true;
           this._router.navigateByUrl('/ui/dashboard');

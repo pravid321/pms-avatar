@@ -18,10 +18,10 @@ export class SchedulerComponent {
         scale: "Day",
         treeEnabled: true,
         //days: DayPilot.Date.today().daysInYear(),
-        days: 60,
+        days: 30,
         startDate: DayPilot.Date.today().firstDayOfMonth(),
         //scrollTo: DayPilot.Date.today().firstDayOfMonth(),
-        theme: "scheduler_8",
+        theme: "scheduler_transparent",
         durationBarVisible: true,
         onTimeRangeSelected: args => {
             let name = prompt("New reservation:", "Guest Name");

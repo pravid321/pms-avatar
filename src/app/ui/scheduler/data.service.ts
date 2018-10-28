@@ -27,7 +27,7 @@ export class DataService {
     }
   ];
 
-  thisMonth: DayPilot.Date = DayPilot.Date.today().firstDayOfMonth();
+  thisMonth: DayPilot.Date = DayPilot.Date.today();
 
   events: any[] = [
     {
@@ -35,7 +35,7 @@ export class DataService {
       resource: 'R102',
       start: this.thisMonth.addDays(3),
       end: this.thisMonth.addDays(8),
-      text: 'Scheduler Event 1',
+      text: 'Mr. Rabin Deb',
       color: '#e69138'
     },
     {
@@ -43,7 +43,7 @@ export class DataService {
       resource: 'R301',
       start: this.thisMonth.addDays(2),
       end: this.thisMonth.addDays(5),
-      text: 'Scheduler Event 2',
+      text: 'Mr. John Doe',
       color: '#6aa84f'
     },
     {
@@ -51,7 +51,7 @@ export class DataService {
       resource: 'R301',
       start: this.thisMonth.addDays(15),
       end: this.thisMonth.addDays(18),
-      text: 'Scheduler Event 3',
+      text: 'Miss. Tina Dey',
       color: '#3c78d8'
     }
   ];
@@ -86,7 +86,7 @@ export class DataService {
   createEvent(data: CreateEventParams): Observable<EventData> {
     console.log("in create event: ", data);
     let newRev: EventData = {
-      id: 5,
+      id: Math.floor((Math.random() * 100) + 1),
       start: data.start,
       end: data.end,
       text: data.text,

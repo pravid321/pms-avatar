@@ -1,6 +1,34 @@
 <div class="frontdesk">
+
+    <div class="frontdesk-header">
+
+        <div class="row">
+            <div class="col-md-3">
+                <i class="fa fa-calendar" (click)="showPicker = !showPicker"></i>
+                <i class="fa fa-calendar" style="margin-left:5px;" (click)="showPicker = !showPicker"></i>
+                <span style="margin-left:20px;">{{selectedStartDate}} - {{selectedEndDate}}</span>
+                <div [hidden]="!showPicker" style="position: absolute;z-index: 999;background: #fff;overflow: visible;">
+                    <ngbd-datepicker-range ></ngbd-datepicker-range>
+                </div>
+                
+                
+            </div>
+            <div class="col-md-6">
+                <button type="button" class="btn btn-default btn-round-xs btn-xs" [class.active]="dateTab == 'custom'" (click)="setSchedularDateRange('custom')">Custom</button>
+                <button type="button" class="btn btn-default btn-round-xs btn-xs" [class.active]="dateTab == '1'" (click)="setSchedularDateRange('1')">Today</button>
+                <button type="button" class="btn btn-default btn-round-xs btn-xs" [class.active]="dateTab == '3'"  (click)="setSchedularDateRange('3')">3 Days</button>
+                <button type="button" class="btn btn-default btn-round-xs btn-xs" [class.active]="dateTab == '7'"  (click)="setSchedularDateRange('7')">Week</button>
+                <button type="button" class="btn btn-default btn-round-xs btn-xs" [class.active]="dateTab == '15'"  (click)="setSchedularDateRange('15')">15 Days</button>
+                <button type="button" class="btn btn-default btn-round-xs btn-xs" [class.active]="dateTab == 'month'"  (click)="setSchedularDateRange('month')">Month</button>
+            </div>
+            <div class="col-md-3">
+                    <!-- <ngbd-datepicker-range ></ngbd-datepicker-range> -->
+            </div>
+        </div>
+    </div>
+
     <daypilot-scheduler [config]="config" [events]="events" #scheduler></daypilot-scheduler>
-<br>
-<br>
-    <scheduler-component></scheduler-component>
+    <!-- <br> -->
+    <!-- <br> -->
+    <!-- <scheduler-component></scheduler-component> -->
 </div>
