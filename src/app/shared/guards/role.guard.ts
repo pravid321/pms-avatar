@@ -15,7 +15,7 @@ export class RoleGuard implements CanActivate {
     // this will be passed from the route config
     // on the data property
     if (!this._auth.isAccessableModule(route.data)){
-      //this.router.navigate(['ui/dashboard']);
+      this.router.navigate(['ui/dashboard']);
       return false;
     }
     return true;

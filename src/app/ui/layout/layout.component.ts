@@ -7,20 +7,51 @@ import { RouteParameterService } from '../../shared/route.parameter.service';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit {
-  
-  paramDetails = {
-    url: '',
-    pageName: '' 
-  };
 
-  constructor(private routeParamService: RouteParameterService) { }
+  paramDetails: any;
 
-  ngOnInit() { 
-    this.paramDetails = this.routeParamService.getParam();
+  constructor(private routeParamService: RouteParameterService) {
+    this.paramDetails = {
+      url: '',
+      pageName: ''
+    };
   }
 
-  @HostListener('click') openDropdown(eventData: Event) {    
-      this.paramDetails = this.routeParamService.getParam();
+  ngOnInit() { }
+
+  ngAfterViewInit(): void {
+    this.routeParamService.currentRouteData.subscribe(routeData => {
+      this.paramDetails = routeData;
+      if (this.paramDetails.pageName == 'Dashboard') {
+        $('body').css({
+          'background-color': '#EEE'
+        });
+      } else {
+        $('body').css({
+          'background-color': '#FFF'
+        });
+      }
+    });
   }
 
+  @HostListener('click') openDropdown(eventData: Event) {
+
+    this.routeParamService.currentRouteData.subscribe(routeData => {
+      this.paramDetails = routeData;
+
+      if (this.paramDetails.pageName == 'Dashboard') {
+
+        $('body').css({
+          'background-color': '#EEE'
+        });
+
+      } else {
+
+        $('body').css({
+          'background-color': '#FFF'
+        });
+
+      }
+    });
+  }
 }

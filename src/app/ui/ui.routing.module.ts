@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LayoutComponent } from './layout/layout.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { FrontdeskComponent } from './frontdesk/frontdesk.component';
+import { FrontdeskComponent, frontDeskChildComponents } from './frontdesk/frontdesk.component';
 import { RestaurantComponent } from './restaurant/restaurant.component';
 import { HousekeepingComponent } from './housekeeping/housekeeping.component';
 import { ReportsComponent } from './reports/reports.component';
@@ -12,7 +12,7 @@ import { OthersComponent } from './others/others.component';
 import { AuthGuard } from '../shared/guards/auth.guard';
 import { RoleGuard } from '../shared/guards/role.guard';
 
-export const uiRoutingComponent = [DashboardComponent, FrontdeskComponent, RestaurantComponent, HousekeepingComponent, ReportsComponent, OthersComponent];
+export const uiRoutingComponent = [DashboardComponent, FrontdeskComponent, frontDeskChildComponents, RestaurantComponent, HousekeepingComponent, ReportsComponent, OthersComponent];
 
 @NgModule({
   imports: [

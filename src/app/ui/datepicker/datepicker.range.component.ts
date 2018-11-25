@@ -40,13 +40,7 @@ export class NgbdDatepickerRange {
         this.dateData.changeEndDate(calendar.getNext(calendar.getToday(), 'd', 14));
      }
 
-    ngOnInit() {
-        //this.dateData.currentStartDate.subscribe(stDate => this.fromDate = stDate);
-        //this.dateData.currentEndDate.subscribe(edDate => this.toDate = edDate);
-
-        //console.log("in in it: ", this.fromDate, this.toDate);
-        
-    }
+    ngOnInit() { }
 
     onDateSelection(date: NgbDate) {
         if (!this.fromDate && !this.toDate) {

@@ -13,6 +13,7 @@ import { DropdownDirective } from './shared/dropdown.directive';
 import { RouteParameterService } from './shared/route.parameter.service';
 import { JwtInterceptor } from './services/jwt.interceptor';
 import { AuthGuard } from './shared/guards/auth.guard';
+import { Daterangepicker } from 'ng2-daterangepicker';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { AuthGuard } from './shared/guards/auth.guard';
     NgbModule.forRoot(),
     //AppRoutingModule,
     UiModule,
+    Daterangepicker,
     RouterModule.forRoot(
       [
         {

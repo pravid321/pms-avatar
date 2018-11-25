@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable()
@@ -21,7 +21,6 @@ export class DateDataService {
 
     changeEndDate(endDate: NgbDate) {
         this.endDate.next(endDate);
-
     }
 
 }

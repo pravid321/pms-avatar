@@ -19,47 +19,67 @@ export class AuthService {
       "userName": username,
       //"email": username,
       "password": password
-    }, {observe: 'response'}).pipe(map(res => res),
+    }, {
+        responseType: 'json',
+        observe: 'response'
+      }).pipe(map(res => {
+        //console.log("response header: ", res);
+        return res;
+      }),
+        catchError(this.errorHandler)
+      );
+  }
+
+  fetchUserDetails() {
+    let servUrl = environment.apiUrl;
+    let userDataUrl = servUrl + 'getLoginData/1';
+
+    return this._http.post(userDataUrl, {}).pipe(map(res => {      
+      return res;
+    }),
       catchError(this.errorHandler)
     );
   }
 
-  errorHandler( error: Response){
-    console.log("error");
-    return throwError(error);
+  errorHandler(errorRes: Response) {
+    console.log("error: ", errorRes, errorRes.status);
+    //if(errorRes.headers.status)
+    return throwError(errorRes);
   }
 
-  public isAuthenticated(): boolean{
+  public isAuthenticated(): boolean {
     return this.getToken() !== null;
   }
 
-  storeToken(token: string){  
+  storeToken(token: string) {
     localStorage.setItem("token", token);
   }
 
-  getToken(){
+  getToken() {
     return localStorage.getItem("token");
   }
 
-  removeToken(){
+  removeToken() {
     return localStorage.removeItem("token");
   }
 
-  setAllowedModules(allowedModuleList){
+  setAllowedModules(allowedModuleList) {
     localStorage.setItem("allowedModules", JSON.stringify(allowedModuleList));
   }
 
-  getAllowedModules(){
+  getAllowedModules() {
     return localStorage.getItem("allowedModules");
   }
 
-  isAccessableModule(routeModule): boolean{
+  isAccessableModule(routeModule): boolean {
     let allowedModules = JSON.parse(localStorage.getItem("allowedModules"));
-    //console.log("in isAccessable module: ", allowedModules, routeModule, allowedModules.find(moduleObj =>  moduleObj.moduleID == routeModule.moduleID && moduleObj.moduleName == routeModule.moduleName));//this.allowedModules.find(moduleObj => { moduleObj.moduleID == routeModule.moduleID && moduleObj.moduleName == routeModule.moduleName }));
+    console.log("in isAccessable module: ", allowedModules, routeModule);//, allowedModules.find(moduleObj =>  moduleObj.moduleID == routeModule.moduleID && moduleObj.moduleName == routeModule.moduleName));//this.allowedModules.find(moduleObj => { moduleObj.moduleID == routeModule.moduleID && moduleObj.moduleName == routeModule.moduleName }));
+    if (typeof allowedModules !== 'undefined' && allowedModules !== null) {
+      let isModuleExists = allowedModules.find(moduleObj => moduleObj.moduleID == routeModule.moduleID && moduleObj.moduleName == routeModule.moduleName);
+      return typeof isModuleExists !== 'undefined' ? true : false;
+    } else
+      return false;
 
-    let isModuleExists = allowedModules.find(moduleObj =>  moduleObj.moduleID == routeModule.moduleID && moduleObj.moduleName == routeModule.moduleName);
-    
-    return typeof isModuleExists !== 'undefined' ? true : false;
   }
 
 }

@@ -10,6 +10,7 @@ import { AuthService } from '../services/auth/auth.service';
 export class LoginComponent implements OnInit {
 
   isLoggedin: boolean;
+  invalidLogin: boolean;
   globalResponse: any;
   authHeaders: any;
 
@@ -30,18 +31,24 @@ export class LoginComponent implements OnInit {
 
     this._auth.getUserDetails(username, password)
       .subscribe((result) => {
+        console.log("--->", result.headers, result.headers.get('Content-Type'), result.headers.get('authToken'));
         this.globalResponse = result.body;
-        this.authHeaders = result.headers;        
+        this.authHeaders = result.headers;
       },
         error => {
-          console.log(error.message, "invalid username or password");
+          //console.log(error.message, "invalid username or password");
+          this.invalidLogin = true;
+          $(".alert-danger").fadeTo(2000, 500).slideUp(500, function () {
+            $(".alert-danger").slideUp(500);
+          });
 
         },
         () => {
           // this is the sueccessful login part
-          //console.log(this.globalResponse);
           this._auth.storeToken(this.authHeaders.get('authToken'));
+          //this._auth.storeToken('Vml2ZWtHOldlbGNvbWVAMTIz');
           this._auth.setAllowedModules(this.globalResponse.modulesAllowed.modules);
+          this.invalidLogin = false;
           this.isLoggedin = true;
           this._router.navigateByUrl('/ui/dashboard');
         }

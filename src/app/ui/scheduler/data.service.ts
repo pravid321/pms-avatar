@@ -105,6 +105,16 @@ export class DataService {
     return this.http.post("/api/events/move", data) as Observable<any>;
   }
 
+  updateEvent(data: DayPilot.Event): Observable<any> {
+    console.log("Updating event: " + data.text());
+    console.log(data);
+    return new Observable(observer => {
+      setTimeout(() => {
+        observer.next({result: "OK"});
+      }, 200);
+    });
+  }
+
 }
 
 export interface MoveEventParams {
@@ -128,3 +138,16 @@ export interface CreateEventParams {
   text: string;
   resource: string | number;
 }
+
+export interface UpdateEventParams {
+  id: string | number;
+  start: string;
+  end: string;
+  text: string;
+  resource: string | number;
+}
+
+
+
+
+

@@ -1,0 +1,23 @@
+.booking-row{
+    margin:0px 10px;
+    .col-flexible{
+        padding:0px;
+        .form-container{
+            margin:0px 0.5px;
+            header{
+                background-color:#DCE2FF;padding: 5px 15px;margin-bottom: 1px; 
+            }
+            section{
+                background-color: #F7F9FF;margin-bottom: 1px; padding: 5px 15px;
+                .form-row{
+                    .card-holder{
+                        margin-top: 6px;
+                        a{
+                            margin-right: 5px; 
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

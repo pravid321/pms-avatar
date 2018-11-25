@@ -12,7 +12,7 @@ export class RestaurantComponent implements OnInit {
   constructor(private router: Router, private routeParamService: RouteParameterService) { }
 
   ngOnInit() {
-    this.routeParamService.setParam({
+    this.routeParamService.changeRoute({
       url: this.router.url,
       pageName: 'Restaurant'
     });

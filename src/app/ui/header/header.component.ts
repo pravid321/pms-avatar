@@ -1,35 +1,76 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+
 import { AuthService } from '../../services/auth/auth.service';
+import { RouteParameterService } from '../../shared/route.parameter.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnChanges {
+
+  now: number;
+  subHeaderPaddingLeft: number;
+  userData: any;
 
   @Input()
-  paramDetails:any;
+  paramDetails: any;
 
-  now:number;
-
-  constructor(private _router : Router, private _auth: AuthService) {
-    this.now = Date.now(); 
+  constructor(private routeParamService: RouteParameterService, private _auth: AuthService) {
+    this.userData = {
+      userName: ''
+    }
+    this.now = Date.now();
     setInterval(() => {
       this.now = Date.now();
     }, 10000);
   }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this._auth.fetchUserDetails()
+      .subscribe(userResponse => {        
+        this.userData = userResponse
+      });
+  }
 
-  /*ngOnChanges(changes: SimpleChanges){
-    console.log("in on changes: ", changes.paramDetails['pageName']);
-  }*/
+  ngAfterViewInit(): void {
 
-  logout(){
+    $('#sidebarCollapse').on('click', function () {
+      if ($('#sidebar').hasClass('active')) {
+        $('#sidebar').removeClass('active');
+        $('.overlay').removeClass('active');
+      } else {
+        $('#sidebar').addClass('active');
+        $('.overlay').addClass('active');
+        $('.collapse.in').toggleClass('in');
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+      }
+    });
+
+    $('#dismiss, .overlay, .side-link').on('click', function () {
+      $('#sidebar').removeClass('active');
+      $('.overlay').removeClass('active');
+    });  
+
+
+    setTimeout(() => {
+      let excessWidth = $("#sub-navbar").outerWidth() - $("#sub-menu1").outerWidth();
+      this.subHeaderPaddingLeft = (excessWidth / 2) - $(".nav-item").outerWidth();
+    }, 0);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    //console.log("in changes: ", this.paramDetails);
+
+    setTimeout(() => {
+      let excessWidth = $("#sub-navbar").outerWidth() - $("#sub-menu1").outerWidth();
+      this.subHeaderPaddingLeft = (excessWidth / 2) - $(".nav-item").outerWidth();
+    }, 0);
+  }
+
+  logout() {
     this._auth.removeToken();
-    //this._router.navigateByUrl('/login');
   }
 
 }

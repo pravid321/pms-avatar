@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark">
+<nav id="main-navbar" class="navbar navbar-dark">
     <a class="navbar-brand" href="/">
         <img src="./assets/images/tejal-topbar-logo.png" alt="">
     </a>
@@ -6,7 +6,7 @@
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="javascript:void(0);">
-                    <i class="fa fa-user"></i> Welcome to New User
+                    <i class="fa fa-user"></i> Welcome {{userData.userName}}
                 </a>
             </li>
             <li class="nav-item dropdown">
@@ -14,8 +14,8 @@
                     <i class="fa fa-cog"></i> Settings
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                    <li><a class="dropdown-item" href="#">About Us</a></li>
                     <li><a class="dropdown-item" href="#" (click)="logout();">Logout</a></li>
-                    <!-- <li><a class="dropdown-item" href="#">Another action</a></li> -->
                 </ul>
             </li>
         </ul>
@@ -26,7 +26,8 @@
 
     <div class="nav-item">
         <a class="nav-link link-fl" href="javascript:void(0);">
-            <i class="fa fa-bars" data-toggle="collapse" data-target="#main-sidebar-container" aria-controls="main-sidebar-container" aria-expanded="false"></i>&nbsp;&nbsp;<span routerLink="./dashboard">Dashboard</span>
+            <!-- <i class="fa fa-bars" id="sidebarCollapse" data-toggle="collapse" data-target="#main-sidebar-container" aria-controls="main-sidebar-container" aria-expanded="false"></i>&nbsp;&nbsp;<span routerLink="./dashboard">Dashboard</span> -->
+            <i class="fa fa-bars" id="sidebarCollapse"></i>&nbsp;&nbsp;<span routerLink="./dashboard">Dashboard</span>
         </a>
         <a class="nav-link link-fl" href="javascript:void(0);" *ngIf="paramDetails.pageName == 'Dashboard'">
             <i class="fa fa-calendar"></i>&nbsp;&nbsp;{{ now | date : 'dd-MMMM-y | h:mm a' }}
@@ -34,7 +35,7 @@
     </div>
 
 
-    <div id="navSub" class="collapse navbar-collapse" style="padding-left: 20%;" *ngIf="paramDetails.pageName != 'Dashboard'">
+    <div id="navSub" class="collapse navbar-collapse" [style.padding-left.px]="subHeaderPaddingLeft" style="text-align: center" *ngIf="paramDetails.pageName != 'Dashboard'">
         <ul id="sub-menu1" class="navbar-nav">
 
             <li class="nav-item" routerLinkActive="active" routerLink="./frontdesk">
@@ -52,14 +53,14 @@
                     <img src="./assets/images/restaurant-samll-ico.png" alt="">&nbsp;Restaurant
                 </a>
             </li>
-            <li class="nav-item" routerLinkActive="active" routerLink="./others">
-                <a class="nav-link" href="javascript:void(0);">
-                    <img src="./assets/images/others-samll-ico.png" alt="">&nbsp;Others
-                </a>
-            </li>
             <li class="nav-item" routerLinkActive="active" routerLink="./reports">
                 <a class="nav-link" href="javascript:void(0);">
                     <img src="./assets/images/reports-samll-ico.png" alt="">&nbsp;Reports
+                </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" routerLink="./others">
+                <a class="nav-link" href="javascript:void(0);">
+                    <img src="./assets/images/others-samll-ico.png" alt="">&nbsp;Others
                 </a>
             </li>
         </ul>
@@ -83,15 +84,88 @@
 </nav>
 
 <!-- sidebar -->
-<div id="main-sidebar-container" class="collapse width pull-right">
-    <div class="main-sidebar">
-        <div class="row">
-            <div class="col-xs-12">
-
-                <a class="navbar-brand sidebar-texts" href="#">Menu</a>
-                <a class="navbar-brand sidebar-texts" data-toggle="modal" data-target=".login-modal-sm" href="#">Menu2</a>
-            </div>
-        </div>
+<nav id="sidebar">
+    <!-- <div id="dismiss">
+        <i class="fa fa-arrow-left"></i>
     </div>
-</div>
+
+    <div class="sidebar-header">
+        <h3>Links</h3>
+    </div>
+
+    <ul class="list-unstyled components"> -->
+    <!-- <p>Dummy Heading</p> -->
+    <!-- <li class="active">
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Dashboard</a>
+                <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <li>
+                        <a href="#">Home 1</a>
+                    </li>
+                    <li>
+                        <a href="#">Home 2</a>
+                    </li>
+                    <li>
+                        <a href="#">Home 3</a>
+                    </li>
+                </ul>
+            </li> -->
+    <!-- <li>
+                <a href="#">About</a>
+                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
+                <ul class="collapse list-unstyled" id="pageSubmenu">
+                    <li>
+                        <a href="#">Page 1</a>
+                    </li>
+                    <li>
+                        <a href="#">Page 2</a>
+                    </li>
+                    <li>
+                        <a href="#">Page 3</a>
+                    </li>
+                </ul>
+            </li>
+        <li class="side-link" routerLinkActive="active" routerLink="./dashboard">
+            <a href="javascript:void(0);">Dashboard</a>
+        </li>
+        <li class="side-link" routerLinkActive="active" routerLink="./frontdesk">
+            <a href="javascript:void(0);">Frontdesk</a>
+        </li>
+        <li class="side-link" routerLinkActive="active" routerLink="./housekeeping">
+            <a href="javascript:void(0);">Housekeeping</a>
+        </li>
+        <li class="side-link" routerLinkActive="active" routerLink="./restaurant">
+            <a href="javascript:void(0);">Restaurant</a>
+        </li>
+        <li class="side-link" routerLinkActive="active" routerLink="./reports">
+            <a href="javascript:void(0);">Reports</a>
+        </li>
+        <li class="side-link" routerLinkActive="active" routerLink="./others">
+            <a href="javascript:void(0);">Others</a>
+        </li> -->
+    <!-- </ul> -->
+    <ul class="list-unstyled components">
+        <li>
+            <a href="#roomSubmenu" data-toggle="collapse" aria-expanded="false">
+                <img src="./assets/images/room-service-ico.png" alt=""> Room Operations
+            </a>
+            <ul class="collapse list-unstyled" id="roomSubmenu">
+                <li><a href="#">Check in List</a></li>
+                <li><a href="#">Check out List</a></li>                
+                <li><a href="#">Reservation List</a></li>
+                <li><a href="#">Temp Room List</a></li>
+                <li><a href="#">No Show List</a></li>
+                <li><a href="#">Cancelled Reservation List</a></li>
+                <li><a href="#">Check out pending list</a></li>
+                <li><a href="#">Pending Follo(s)</a></li>
+                <li><a href="#">Guest In-House List</a></li>
+                <li><a href="#">3rd Party Reservation List</a></li>
+            </ul>
+            <a href="#"> <img src="./assets/images/guest-lookup-ico.png" alt=""> Guest Look-up</a>
+            <a href="#"> <img src="./assets/images/house-status-ico.png" alt=""> House Status</a>
+            <a href="#"> <img src="./assets/images/tariffchart-ico.png" alt=""> Tariff Chart</a>
+            <a href="#"> <img src="./assets/images/accounts-ico.png" alt=""> Accounts</a>
+        </li>
+    </ul>
+
+</nav>
 <!-- end sidebar -->

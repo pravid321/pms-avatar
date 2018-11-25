@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
+export interface IRoute{
+    url: string,
+        pageName: string
+}
 
 @Injectable()
 export class RouteParameterService {
 
     constructor() { }
 
-    appRoute = {
-        url: "",
-        pageName: ""
-    }
+    private appRoute = new BehaviorSubject({});
 
-    setParam(paramObj){
-        this.appRoute.url = paramObj.url;
-        this.appRoute.pageName = paramObj.pageName;
-    }
+    currentRouteData = this.appRoute.asObservable();
 
-    getParam() {
-        return this.appRoute;
+    changeRoute(curRoute: IRoute){
+        this.appRoute.next(curRoute);
     }
 }  

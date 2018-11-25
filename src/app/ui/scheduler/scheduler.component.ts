@@ -1,30 +1,63 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { DayPilot, DayPilotSchedulerComponent } from 'daypilot-pro-angular';
-import { DataService, CreateEventParams, MoveEventParams } from './data.service'; { }
+import { QuickReservationComponent } from "./quick-reservation/quick.reservation.component";
+import { EditComponent } from "./edit.component";
+import { DataService, MoveEventParams } from './data.service';import { log } from 'util';
+import { FormArray } from '@angular/forms';
+ { }
+
+export const schedulerSupportComponent = [QuickReservationComponent, EditComponent];
 
 @Component({
     selector: 'scheduler-component',
-    template: `<daypilot-scheduler [config]="config" [events]="events" (viewChange)="viewChange($event)" #scheduler></daypilot-scheduler>`,
-    styles: [``]
+    template: `<daypilot-scheduler [config]="config" [events]="events" (viewChange)="viewChange($event)" #scheduler></daypilot-scheduler>
+    <create-dialog #create (close)="createClosed($event)"></create-dialog> 
+    `,
+    //<edit-dialog #edit (close)="editClosed($event)"></edit-dialog>
+    styles: [`
+    .modal.visible {
+        display: block !important;
+    }`]
 })
 export class SchedulerComponent {
 
-    @ViewChild('scheduler')
-    scheduler: DayPilotSchedulerComponent;
+    @ViewChild('scheduler') scheduler: DayPilotSchedulerComponent;
+    @ViewChild("create") create: QuickReservationComponent;
+    @ViewChild("edit") edit: EditComponent;
 
     events: any[] = [];
     config: any = {
-        timeHeaders: [{ "groupBy": "Month" }, { "groupBy": "Day", "format": "d" }],
+        timeHeaders: [{ "groupBy": "Day", "format": "dd,dddd" }],
         scale: "Day",
         treeEnabled: true,
-        //days: DayPilot.Date.today().daysInYear(),
+        eventHeight: 45,
         days: 30,
         startDate: DayPilot.Date.today().firstDayOfMonth(),
-        //scrollTo: DayPilot.Date.today().firstDayOfMonth(),
-        theme: "scheduler_transparent",
+        theme: "scheduler_green",
         durationBarVisible: true,
+        cellWidth: 80,  
+        headerHeightAutoFit: false,
+        headerHeight: 40,  
+        contextMenu: new DayPilot.Menu({
+            items: [{
+                text:"Edit Reservation", 
+                image: "./assets/images/guest-lookup-ico.png",
+                onClick: args => { 
+                    console.log("in click function");                    
+                    } 
+                }
+          ]
+        }), 
+        onBeforeTimeHeaderRender: args => {
+            let fromatArray = args.header.html.split(',');
+            args.header.html = fromatArray[0] + '<br>' + (""+fromatArray[1]).substring(0,3).toUpperCase();
+        },     
+        onBeforeEventRender: args => {
+            args.data.backColor = args.data.color;
+        }, 
         onTimeRangeSelected: args => {
-            let name = prompt("New reservation:", "Guest Name");
+            this.create.show(args);
+            /*let name = prompt("New reservation:", "Guest Name");
             this.scheduler.control.clearSelection();
             if (!name) {
                 return;
@@ -38,11 +71,14 @@ export class SchedulerComponent {
             this.ds.createEvent(params).subscribe(result => {
                 this.events.push();
                 this.scheduler.control.message("Event created");
-            });
+            });*/
         },
         onEventResized: args => {
             console.log("at event resized: ", args);
-            
+
+        },
+        onEventClicked: args => {
+            this.edit.show(args.e);
         },
         onEventMove: args => {
             let params: MoveEventParams = {
@@ -97,6 +133,13 @@ export class SchedulerComponent {
         let to = this.scheduler.control.visibleEnd();
     }
 
+    createClosed(args) {
+        if (args.result) {
+          this.events.push(args.result);
+          this.scheduler.control.message("Created.");
+        }
+        this.scheduler.control.clearSelection();
+      }
 
 
 }

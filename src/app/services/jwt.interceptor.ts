@@ -1,5 +1,5 @@
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -8,19 +8,24 @@ export class JwtInterceptor implements HttpInterceptor {
         // add authorization header with jwt token if available
         let authToken = localStorage.getItem("token");
         if (authToken) {
+            //console.log("in if jwt");
             request = request.clone({
                 setHeaders: {
                     "Content-Type": "application/json",
                     "Accept": "application/json",
+                    //"Access-Control-Allow-Origin": "*",
+                    //"Access-Control-Expose-Headers": "TestHeaderToExpose",
                     "authToken": `${authToken}`                    
                 }
             });
         }else {
+            //console.log("in else jwt");
             request = request.clone({
                 setHeaders: {
                     "Content-Type": "application/json",
                     "Accept": "application/json",
-                    "Access-Control-Allow-Origin": "*"                
+                    "Access-Control-Allow-Origin": "*" 
+                                   
                 }
             });
         }
