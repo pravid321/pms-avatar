@@ -1,7 +1,3 @@
-.login-row {
-    margin-top: 80px;
-}
-
 .form-signin {
     font-size: 16px;
     height: auto;
@@ -17,7 +13,7 @@
 
         i.fa {
             position: absolute;
-            top: 12px;
+            top: 10px;
             left: 14px;
         }
 
@@ -39,9 +35,15 @@
     }
 
     .btn {
-        border-radius: 3px;
-        background-color: #6787BF;
+        border-radius: 3px;        
         color: #ffffff;
+        &.btn-go{
+            padding: 10px;
+            line-height: 16px;
+        }
+        &.login-btn{
+            background-color: #6787BF;
+        }
     }
 }
 

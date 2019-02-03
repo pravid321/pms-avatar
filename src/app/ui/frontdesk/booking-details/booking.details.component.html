@@ -1,0 +1,361 @@
+<div class="row">
+    <div class="col-12 col-flexible">
+        <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true" class="text-center">
+            <!-- <strong>Well done!</strong> -->
+            <!-- <a href="#" class="alert-link">this important alert message</a> -->
+            {{alertMessageDetails.message}}
+        </alert>
+    </div>
+</div>
+
+<perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight" [config]="config" [scrollIndicators]="true">
+    <div class="row booking-row">
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 col-flexible">
+            <div class="form-container">
+                <header>
+                    Accomodation
+                </header>
+                <section>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="recipient-name">Duration</label>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="input-group date-cal">
+                                            <span (click)="dpsrt.show()">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="arrival-date" #dpsrt="bsDatepicker" bsDatepicker [bsConfig]="bsConfigStart" [(ngModel)]="bookingData.arrivalDate">
+                                        </div>
+                                    </div>
+                                    <div class="col-1 align-self-center text-center">to</div>
+                                    <div class="col">
+                                        <div class="input-group date-cal">
+                                            <span (click)="dpend.show()">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="departureDate" #dpend="bsDatepicker" bsDatepicker [bsConfig]="bsConfigEnd" [(ngModel)]="bookingData.departureDate">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="rateplan">Rate Plan</label>
+                                <!-- <input type="text" class="form-control" name="rateplan" id="rateplan" > -->
+                                <select class="form-control" name="rateplan" id="rateplan" [(ngModel)]="bookingData.ratePlan">
+                                    <option *ngFor="let ratePlan of ratePlanList" value="{{ratePlan.ratePlanCode}}">{{ratePlan.ratePlanName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="uname1">Adults</label>
+                                <select class="form-control" id="adultCount" [(ngModel)]="bookingData.adult">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="rateplan">Children</label>
+                                <select class="form-control" id="childCount" [(ngModel)]="bookingData.child">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="uname1">Room</label>
+                                <select class="form-control" id="roomCount" [(ngModel)]="bookingData.numberOfRooms">
+                                    <option value="1">1</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="rateplan">Room Type</label>
+                                <select class="form-control" name="roomType" id="roomType" (change)="roomChanged($event.target.value, '')" [(ngModel)]="bookingData.roomtype">
+                                    <option *ngFor="let roomItem of roomList" value="{{roomItem.roomCode}}">{{roomItem.roomName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 col-flexible">
+            <div class="form-container">
+                <header>
+                    Arrival &amp; Other Information
+                </header>
+
+                <section>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="inputEmail4">Arrival By</label>
+                                    <input type="text" class="form-control" id="inputEmail11" placeholder="">
+                                </div>
+                                <div class="form-group col">
+                                    <label for="arrivalTime">Arrival Time</label>
+                                    <input type="text" class="form-control" id="arrivalTime" name="arrivalTime" [(ngModel)]="bookingData.arrivalDate">
+                                </div>
+                                <div class="form-group col">
+                                    <label for="inputEmail4">Pick Up From</label>
+                                    <input type="text" class="form-control" id="inputEmail42" placeholder="">
+                                </div>
+                                <div class="form-group col">
+                                    <label for="inputPassword4">Pick Up Time</label>
+                                    <input type="text" class="form-control" id="inputPassword43" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="inputEmail4">Purpose</label>
+                                    <input type="text" class="form-control" id="inputEmail44" placeholder="">
+                                </div>
+                                <div class="form-group col">
+                                    <label for="source">Source</label>
+                                    <input type="text" class="form-control" id="source" name="source" [(ngModel)]="bookingData.bkSource">
+                                </div>
+                                <div class="form-group col">
+                                    <label for="inputEmail4">Drop To</label>
+                                    <input type="text" class="form-control" id="inputEmail46" placeholder="">
+                                </div>
+                                <div class="form-group col">
+                                    <label for="droppingTime">Dropping Time</label>
+                                    <input type="text" class="form-control" id="droppingTime" name="droppingTime" [(ngModel)]="bookingData.departureDate">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 col-flexible">
+            <div class="form-container">
+                <header>
+                    Basic Information
+                </header>
+
+
+                <section>
+                    <div class="row">
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label for="nameInitial">Title</label>
+                                <select class="form-control" id="nameInitial" name="nameInitial" [(ngModel)]="bookingData.guestDetails.guestDetail[0].namePrefix">
+                                    <option value="Mr.">Mr.</option>
+                                    <option value="Mrs.">Mrs.</option>
+                                    <option value="Miss">Miss</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="fname">First Name</label>
+                                <input type="text" class="form-control" name="fname" id="fname" [(ngModel)]="bookingData.guestDetails.guestDetail[0].givenName">
+                                <div class="invalid-feedback">Please enter your username or email</div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="mname">Middle Name</label>
+                                <input type="text" class="form-control" name="mname" id="mname" [(ngModel)]="bookingData.guestDetails.guestDetail[0].middleName">
+                                <div class="invalid-feedback">Please enter your username or email</div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="lname">Last Name</label>
+                                <input type="text" class="form-control" name="lname" id="lname" [(ngModel)]="bookingData.guestDetails.guestDetail[0].surName">
+                                <div class="invalid-feedback">Please enter your username or email</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" class="form-control" name="address" id="address" [(ngModel)]="bookingData.guestDetails.guestDetail[0].address1">
+                                <div class="invalid-feedback">Please enter your username or email</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="zipCode">Pin</label>
+                                    <input type="text" class="form-control" id="zipCode" name="zipCode" [(ngModel)]="bookingData.guestDetails.guestDetail[0].zipCode">
+                                </div>
+                                <div class="form-group col">
+                                    <label for="city">City</label>
+                                    <input type="text" class="form-control" id="city" name="city" [(ngModel)]="bookingData.guestDetails.guestDetail[0].city">
+                                </div>
+                                <div class="form-group col">
+                                    <label for="state">State</label>
+                                    <input type="text" class="form-control" id="state" name="state" [(ngModel)]="bookingData.guestDetails.guestDetail[0].state">
+                                </div>
+                                <div class="form-group col">
+                                    <label for="country">Country</label>
+                                    <input type="text" class="form-control" id="country" name="country" [(ngModel)]="bookingData.guestDetails.guestDetail[0].country">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="inputEmail4">Aadhar No</label>
+                                    <input type="text" class="form-control" id="aadhar" name="aadhar" [(ngModel)]="bookingData.guestDetails.guestDetail[0].guestRPH">
+                                </div>
+                                <div class="form-group col">
+                                    <label for="primaryPhone">Phone 1</label>
+                                    <input type="text" class="form-control" id="primaryPhone" name="primaryPhone" [(ngModel)]="bookingData.guestDetails.guestDetail[0].phone">
+                                </div>
+                                <!-- <div class="form-group col">
+                                <label for="secondaryPhone">Phone 2</label>
+                                <input type="text" class="form-control" id="secondaryPhone" name="secondaryPhone" [(ngModel)]="bookingData.guestDetails.guestDetails[0].phone">
+                            </div> -->
+                                <div class="form-group col">
+                                    <label for="guestEmail">Email</label>
+                                    <input type="email" class="form-control" id="guestEmail" name="guestEmail" [(ngModel)]="bookingData.guestDetails.guestDetail[0].email">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 col-flexible">
+            <div class="form-container">
+                <header>
+                    Payment Details
+                </header>
+
+                <section>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-row">
+                                <div class="form-group col-6">
+                                    <label for="roomDetails">Room Number</label>
+                                    <!-- <input type="text" class="form-control" id="roomDetails" name="roomDetails" [(ngModel)]="bookingData.assignedRoomNumber"> -->
+                                    <select class="form-control" name="roomNumber" id="roomNumber" [(ngModel)]="bookingData.assignedRoomNumber">
+                                        <option *ngFor="let roomNo of selectedRoomItem.roomNumbers" value="{{roomNo}}">{{roomNo}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="inputPassword4">No. of Nights</label>
+                                    <input type="text" class="form-control" id="inputPassword4" name="roomDetails" [(ngModel)]="noOfNights">
+                                </div>
+                                <div class="form-group col">
+                                    <label for="others">Others</label>
+                                    <input type="text" class="form-control" id="others" name="others">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-6">
+                                    <label for="roomPrice">Price per Room</label>
+                                    <input type="text" class="form-control" id="roomPrice" name="roomPrice">
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="inputPassword4">Other Price</label>
+                                    <input type="text" class="form-control" id="inputPassword4" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="inputEmail4">Total Price</label>
+                                    <input type="text" class="form-control" id="inputEmail4" placeholder="">
+                                </div>
+                                <div class="form-group col">
+                                    <label for="inputPassword4">GST & Other Taxes</label>
+                                    <input type="email" class="form-control" id="inputPassword4" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="inputEmail4">Pay By Card</label>
+                                    <div class="card-holder">
+                                        <a href="http://support.iconfinder.com/purchasing-and-downloading/supported-payment-methods" data-toggle="tooltip" title="" data-original-title="We accept VISA">
+                                            <img src="https://cdn0.iconfinder.com/static/img/cards/visa.svg?0ebb52d964" width="32">
+                                        </a>
+
+                                        <!-- <a href="http://support.iconfinder.com/purchasing-and-downloading/supported-payment-methods" data-toggle="tooltip" title="" data-original-title="We accept VISA">
+                                        <img src="https://cdn0.iconfinder.com/static/img/cards/visa.svg?0ebb52d964" width="32">
+                                    </a> -->
+
+                                        <a href="http://support.iconfinder.com/purchasing-and-downloading/supported-payment-methods" data-toggle="tooltip" title="" data-original-title="We accept MasterCard">
+                                            <img src="https://cdn0.iconfinder.com/static/img/cards/mastercard.svg?063b13c064" width="32">
+                                        </a>
+
+                                        <!-- <a href="http://support.iconfinder.com/purchasing-and-downloading/supported-payment-methods" data-toggle="tooltip" title="" data-original-title="We accept MasterCard">
+                                        <img src="https://cdn0.iconfinder.com/static/img/cards/mastercard.svg?063b13c064" width="32">
+                                    </a> -->
+
+                                        <a href="http://support.iconfinder.com/purchasing-and-downloading/supported-payment-methods" data-toggle="tooltip" title="" data-original-title="We accept American Express">
+                                            <img src="https://cdn0.iconfinder.com/static/img/cards/amex.svg?444731bb95" width="32">
+                                        </a>
+
+                                        <!-- <a href="http://support.iconfinder.com/purchasing-and-downloading/supported-payment-methods" data-toggle="tooltip" title="" data-original-title="We accept American Express">
+                                        <img src="https://cdn0.iconfinder.com/static/img/cards/amex.svg?444731bb95" width="32">
+                                    </a> -->
+                                    </div>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="inputPassword4">Pay By Bank</label>
+                                    <input type="text" class="form-control" id="inputPassword4" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <div class="col-12 col-flexible">
+            <div class="form-container">
+                <section>
+                    <div class="row">
+                        <div class="col text-center">
+                            <button class="btn btn-md btn-primary" (click)="modifyReservation()"> Update </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</perfect-scrollbar>
+
+<div class="row" id="pageFooter">
+    <div style="background-color:#F8F5F5;padding: 8px 10px 8px 15px;float: left;">
+        <img src="./assets/images/information-ico.png" alt="">
+    </div>
+    <div class="col" style="background-color:#F0EBEB;padding: 10px 5px 10px 15px;font-size: 14px;line-height: 21px;">
+        Room Legends | Task List | House Keeping Legends
+    </div>
+</div>

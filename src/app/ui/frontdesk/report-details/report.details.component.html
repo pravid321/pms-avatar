@@ -1,0 +1,67 @@
+<div class="row report-details-row">
+    <div class="col">
+        <div class="table-responsive">
+
+            <div class="rTable">
+
+                <div class="rTableRow">
+                    <div class="rTableHead" style="width:3%">#</div>
+                        <div class="rTableHead" style="width:8%">Group ID</div>
+                        <div class="rTableHead" style="width:7%">Res ID</div>
+                        <div class="rTableHead" style="width:15%">Guest Name</div>
+                        <div class="rTableHead" style="width:10%">Stay Duration</div>
+                        <div class="rTableHead" style="width:12%">Room# / Type</div>
+                        <div class="rTableHead" style="width:5%">Pax</div>
+                        <div class="rTableHead" style="width:8%">Status</div>
+                        <div class="rTableHead" style="width:8%">Amount</div>
+                        <div class="rTableHead" style="width:8%">Charge</div>
+                        <div class="rTableHead" style="width:8%">Action</div>
+                        <div class="rTableHead" style="width:8%">Reason</div>
+                </div>
+
+                <perfect-scrollbar *ngIf="reservationList != null && reservationList.length > 0; else noDataBody" class="scroll-container" [scrollIndicators]="true">
+                    <div class="rTableRow" *ngFor="let revItem of reservationList; let i = index;">
+                        <div class="rTableCell" style="width:3%">{{i+1}}</div>
+                        <div class="rTableCell" style="width:8%">-</div>
+                        <div class="rTableCell" style="width:7%">{{revItem.bookingID}}</div>
+                        <div class="rTableCell" style="width:15%">
+                            {{revItem.guestDetails.guestDetail[0].namePrefix +' '+ revItem.guestDetails.guestDetail[0].givenName +' '+ revItem.guestDetails.guestDetail[0].surName}}
+                        </div>                        
+
+                        <div class="rTableCell" style="width:10%">{{revItem.los}}</div>
+                        <div class="rTableCell" style="width:12%">{{revItem.assignedRoomNumber}}</div>
+                        <div class="rTableCell" style="width:5%">{{revItem.adult}}</div>
+                        <div class="rTableCell" style="width:8%">{{revItem.bookingStatus}}</div>
+
+                        <div class="rTableCell" style="width:8%"> -&nbsp;</div>
+                        <div class="rTableCell" style="width:8%">{{revItem.totalAmount}}</div>
+                        <div class="rTableCell" style="width:8%">Cancel</div>
+                        <div class="rTableCell" style="width:8%">-&nbsp;</div>
+                    </div>
+                </perfect-scrollbar>
+
+                <ng-template #noDataBody>
+
+                    <div class="rTableRow" *ngIf="reservationList != null && reservationList.length == 0">
+                            <div class="rTableCell text-center" style="width:100%">
+                                    No Data Found
+                            </div>
+                    </div>
+                </ng-template>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+<div class="row">
+    <!-- <span style="background-color: #F8F5F5;"> -->
+    <div style="background-color:#F8F5F5;padding: 8px 10px 8px 15px;float: left;display: inline-block;">
+        <img src="./assets/images/information-ico.png" alt="" srcset="">
+    </div>
+    <div class="col" style="background-color:#F0EBEB;padding: 10px 5px 10px 15px;font-size: 14px;line-height: 21px;">
+        Room Legends | Task List | House Keeping Legends
+    </div>
+</div>

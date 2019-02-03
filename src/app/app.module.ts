@@ -1,37 +1,38 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CookieService } from 'ngx-cookie-service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+
+import { AdminModule } from './admin/admin.module';
 import { AppComponent } from './app.component';
+//import { AppRoutingModule } from './app.routing.module';
+import { AuthGuard } from './shared/guards/auth.guard';
+import { ConfirmPopupComponent } from './shared/components/confirm.popup.component';
+import { DropdownDirective } from './shared/dropdown.directive';
+import { JwtInterceptor } from './services/jwt.interceptor';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { UiModule } from './ui/ui.module';
-import { AppRoutingModule } from './app.routing.module';
-import { RouterModule } from '@angular/router';
-import { DropdownDirective } from './shared/dropdown.directive';
 import { RouteParameterService } from './shared/route.parameter.service';
-import { JwtInterceptor } from './services/jwt.interceptor';
-import { AuthGuard } from './shared/guards/auth.guard';
-import { Daterangepicker } from 'ng2-daterangepicker';
+import { UiModule } from './ui/ui.module';
 
 
 @NgModule({
   declarations: [
-    //AuthService,
     AppComponent,
-    LoginComponent,
+    //AuthService,
+    ConfirmPopupComponent,
     DropdownDirective,
+    LoginComponent,
     PageNotFoundComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    NgbModule.forRoot(),
+    AdminModule,
     //AppRoutingModule,
-    UiModule,
-    Daterangepicker,
+    BrowserModule,
+    HttpClientModule,
+    FormsModule,
     RouterModule.forRoot(
       [
         {
@@ -50,9 +51,11 @@ import { Daterangepicker } from 'ng2-daterangepicker';
           component: PageNotFoundComponent
         }
       ]
-    )
+    ),
+    UiModule
   ],
   providers: [
+    CookieService,
     HttpClientModule,
     RouteParameterService,
     {
@@ -61,7 +64,8 @@ import { Daterangepicker } from 'ng2-daterangepicker';
       multi: true
     }
   ],
-  bootstrap: [AppComponent]
+  entryComponents: [ ConfirmPopupComponent ],
+  bootstrap: [ AppComponent ]
   // exports:[
   //   AppRoutingModule
   // ]

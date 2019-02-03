@@ -1,0 +1,436 @@
+<div class="cust-container">
+
+    <div class="head-section ">
+        <div class="row head-row">
+            <div class="col-8 inner-col-right-reduce">
+                <h5>Booking Details</h5>
+            </div>
+            <div class="col-4 inner-col-left-reduce">
+                <h5>Folio List</h5>
+            </div>
+        </div>
+        <div class="row body-row">
+            <div class="col-8 inner-col-right-reduce">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-md-2">
+                            Guest Name:
+                        </div>
+                        <div class="col-md-4">
+                            Sayad Ahamed
+                        </div>
+                        <div class="col-md-2">
+                            Stay Details:
+                        </div>
+                        <div class="col">
+                            SGL(104), 11-FEB-2019 to 14-FEB-2019 (3 Nights)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            Address:
+                        </div>
+                        <div class="col-md-6">
+                            16/5, Kadapara, kolkata - 700095
+                        </div>
+                        <div class="col">
+                            <div class="rate-indicator">Rack Rate</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            Phone:
+                        </div>
+                        <div class="col-md-4">
+                            6459658921
+                        </div>
+                        <div class="col-md-2">
+                            Room(s):
+                        </div>
+                        <div class="col">
+                            1 Person(s) &nbsp;&nbsp; Adults: 1
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            Created On:
+                        </div>
+                        <div class="col-md-4">
+                            08-Jan-2019
+                        </div>
+                        <div class="col-md-2">
+                            Amount:
+                        </div>
+                        <div class="col">
+                            5,000
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 inner-col-left-reduce">
+                <div class="card">
+                    <div class="row">
+                        <div class="col">
+                            <span class="error-indicator">No Folio Generated</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            Folio generate now:
+                        </div>
+                        <div class="col-7">
+                            <input type="checkbox" name="genFol" id="genFol">
+                            Generate seperate Folio for other charges
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="body-section">
+        <div class="row body-row">
+            <div class="col text-center" style="margin: 10px 0px 0px;">
+                <p class="h4">Account Statement</p>
+            </div>
+        </div>
+
+        <div class="row body-row">
+            <div class="table-responsive">
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:5%;">
+                            <input type="checkbox" name="head" id="headckb">
+                        </div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Date</div>
+                        <div class="divDisplayTableCell head text-center" style="width:20%;">Description-References</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Folio#</div>
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">Disc/Allowance</div>
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">Charges</div>
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">Tax</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Payment</div>
+                    </div>
+                </div>
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" *ngFor="let item of [1,2,3,4,5,6]; let i = index;">
+                        <div class="divDisplayTableCell brdLft text-center" style="width:5%;">
+                            <input type="checkbox" name="body" id="bodyckb_{{i}}">
+                        </div>
+                        <div class="divDisplayTableCell brdLft text-center" style="width:10%;">
+                            1{{i + 1}}-Jan-2019
+                        </div>
+                        <div class="divDisplayTableCell brdLft text-center" style="width:20%;">
+                            Description
+                        </div>
+                        <div class="divDisplayTableCell brdLft text-center" style="width:10%;">
+                            flno {{i + 1}}
+                        </div>
+                        <div class="divDisplayTableCell brdLft text-center" style="width:15%;">
+                            20%
+                        </div>
+                        <div class="divDisplayTableCell brdLft text-center" style="width:15%;">
+                            <input type="text" name="charge_{{i}}" id="charge_{{i}}" style="width:80%;">
+                        </div>
+                        <div class="divDisplayTableCell brdLft text-center" style="width:15%;">
+                            <input type="text" name="tax_{{i}}" id="tax_{{i}}" style="width:80%;">
+                        </div>
+                        <div class="divDisplayTableCell brdLft text-right" style="width:10%;">
+                            5,000.00
+                        </div>
+                    </div>
+                    <div class="divDisplayTableRow">
+                        <div class="divDisplayTableCell brdLft" style="width: 5%; background-color:#DDFBE3;">
+                            <span style="color:#DDFBE3;">.</span>
+                        </div>
+                        <div class="divDisplayTableCell brdLft" style="width: 10%; background-color:#DDFBE3;">
+                            <span style="color:#DDFBE3;">.</span>
+                        </div>
+                        <div class="divDisplayTableCell brdLft" style="width: 20%; background-color:#DDFBE3;">
+                            Total
+                        </div>
+                        <div class="divDisplayTableCell brdLft" style="width: 10%; background-color:#DDFBE3;">
+                            <span style="color:#DDFBE3;">.</span>
+                        </div>
+                        <div class="divDisplayTableCell brdLft" style="width: 15%; background-color:#DDFBE3;">
+                            <span style="color:#DDFBE3;">.</span>
+                        </div>
+                        <div class="divDisplayTableCell brdLft" style="width: 15%; background-color:#DDFBE3;">
+                            <span style="color:#DDFBE3;">.</span>
+                        </div>
+                        <div class="divDisplayTableCell brdLft" style="width: 15%; background-color:#DDFBE3;">
+                            <span style="color:#DDFBE3;">.</span>
+                        </div>
+                        <div class="divDisplayTableCell brdLft" style="width: 10%; background-color:#DDFBE3;">
+                            <span style="color:#DDFBE3;">.</span>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow">
+                        <div class="divDisplayTableCell" style="width: 60%; border-color: transparent; background-color:#DCE2FF; padding: 0px 5px;">
+                            <div style="padding-left:1%;">Payment</div>
+                            <div class="d-inline-block" style="width:15%; padding: 0px 1%;">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" style="margin-bottom:0px;">Mode</label>
+                                    <input type="email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="d-inline-block" style="width:15%; padding: 0px 1%;">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" style="margin-bottom:0px;">Type</label>
+                                    <input type="email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="d-inline-block" style="width:15%; padding: 0px 1%;">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" style="margin-bottom:0px;">Amount</label>
+                                    <input type="email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="d-inline-block" style="width:20%; padding: 0px 1%;">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" style="margin-bottom:0px;">Credit Card No.</label>
+                                    <input type="email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="d-inline-block" style="width:15%; padding: 0px 1%;">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" style="margin-bottom:0px;">Recepit No.</label>
+                                    <input type="email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="d-inline-block" style="width:20%; padding: 0px 1%;">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" style="margin-bottom:0px;">Description</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="pull-right" style="width:20%; padding: 0px 1%;">
+                                    <button class="btn btn-normal pull-right">Pay Now</button>
+                                </div>
+                                <br clear="all" />
+                            </div>
+                        </div>
+                        <div class="divDisplayTableCell text-right" style="width: 30%; border-color: transparent; padding-right:0px;">
+                            <div style="padding-right:5px;height:25px;line-height: 25px;">Booking Total</div>
+                            <div style="padding-right:5px;height:25px;line-height: 25px;">Other Charges</div>
+                            <div style="padding-right:5px;height:25px;line-height: 25px;">Total Tax</div>
+                            <div style="padding-right:5px;height:25px;line-height: 25px;">Total Disc/Allowances</div>
+                            <hr style="margin-top:1px;margin-bottom:1px;">
+                            <div style="padding-right:5px;height:25px;line-height: 25px;">Total with Tax</div>
+                            <div style="padding-right:5px;height:25px;line-height: 25px;">Total Paid</div>
+                            <hr style="margin-top:1px;margin-bottom:1px;">
+                        </div>
+                        <div class="divDisplayTableCell text-right" style="width: 10%; border-color: transparent; padding-left:0px;">
+                            <div style="height:25px;line-height: 25px;">4,000.00</div>
+                            <div style="height:25px;line-height: 25px;">4,000.00</div>
+                            <div style="height:25px;line-height: 25px;">4,000.00</div>
+                            <div style="height:25px;line-height: 25px;">4,000.00</div>
+                            <hr style="margin-top:1px;margin-bottom:1px;">
+                            <div style="height:25px;line-height: 25px;">4,000.00</div>
+                            <div style="height:25px;line-height: 25px;">4,000.00</div>
+                            <hr style="margin-top:1px;margin-bottom:1px;">
+                        </div>
+                    </div>
+                    <div class="divDisplayTableRow">
+                        <div class="divDisplayTableCell" style="width: 60%; padding: 10px 5px; border-color: #ffffff; background-color:#C0CAF5;">
+                            <div style="float:right; padding-right:1%;">
+                                <button class="btn btn-normal">Back</button>
+                                <button class="btn btn-normal">Delete Proforma Invoice</button>
+                                <button class="btn btn-normal">Close</button>
+                                <button class="btn btn-normal">Print</button>
+                            </div>
+                        </div>
+                        <div class="divDisplayTableCell text-right" style="width: 30%; border-color: #ffffff;background-color:#FFF;padding-right:0px;">
+                            <div style="padding-right:5px;height:25px;line-height: 25px;">Balance</div>
+                            <hr style="margin-top:1px;margin-bottom:1px;">
+                            <div style="height:25px;line-height: 25px;">Refund | Route Payment </div>
+                        </div>
+                        <div class="divDisplayTableCell" style="width: 10%; border-color: #ffffff;background-color:#FFF;padding-left:0px;">
+                            <div class="text-right" style="height:25px;line-height: 25px;">4,000.00</div>
+                            <hr style="margin-top:1px;margin-bottom:1px;">
+                            <div style="height:25px;line-height: 25px;"> | Currency Converter</div>
+                        </div>
+                    </div>
+                </div>
+
+                <br><br><br><br>
+                <div class="rTable table-list">
+                    <div class="rTableRow" id="tableHeaderRow">
+                        <div class="rTableHead text-center" style="width:5%;">
+                            <input type="checkbox" name="head" id="headckb">
+                        </div>
+                        <div class="rTableHead text-center" style="width:10%;">Date</div>
+                        <div class="rTableHead text-center" style="width:20%;">Description-References</div>
+                        <div class="rTableHead text-center" style="width:10%;">Folio#</div>
+                        <div class="rTableHead text-center" style="width:15%;">Disc/Allowance</div>
+                        <div class="rTableHead text-center" style="width:15%;">Charges</div>
+                        <div class="rTableHead text-center" style="width:15%;">Tax</div>
+                        <div class="rTableHead text-center" style="width:10%;">Payment</div>
+                    </div>
+
+                    <div class="rTableRow" *ngFor="let item of [1,2,3,4,5,6]; let i = index;">
+                        <div class="rTableCell text-center" style="width:5%;">
+                            <input type="checkbox" name="body" id="bodyckb_{{i}}">
+                        </div>
+                        <div class="rTableCell text-center" style="width:10%;">
+                            1{{i + 1}}-Jan-2019
+                        </div>
+                        <div class="rTableCell text-center" style="width:20%;">
+                            Description
+                        </div>
+                        <div class="rTableCell text-center" style="width:10%;">
+                            flno {{i + 1}}
+                        </div>
+                        <div class="rTableCell text-center" style="width:15%;">
+                            20%
+                        </div>
+                        <div class="rTableCell text-center" style="width:15%;">
+                            <input type="text" name="charge_{{i}}" id="charge_{{i}}" style="width:80%;">
+                        </div>
+                        <div class="rTableCell text-center" style="width:15%;">
+                            <input type="text" name="tax_{{i}}" id="tax_{{i}}" style="width:80%;">
+                        </div>
+                        <div class="rTableCell text-right" style="width:10%;">
+                            5,000.00
+                        </div>
+                    </div>
+                    <div class="rTableRow">
+                        <div class="rTableCell" style="width: 5%; background-color:#DDFBE3;">
+                            <span style="color:#DDFBE3;">.</span>
+                        </div>
+                        <div class="rTableCell" style="width: 10%; background-color:#DDFBE3;">
+                            <span style="color:#DDFBE3;">.</span>
+                        </div>
+                        <div class="rTableCell" style="width: 20%; background-color:#DDFBE3;">
+                            Total
+                        </div>
+                        <div class="rTableCell" style="width: 10%; background-color:#DDFBE3;">
+                            <span style="color:#DDFBE3;">.</span>
+                        </div>
+                        <div class="rTableCell" style="width: 15%; background-color:#DDFBE3;">
+                            <span style="color:#DDFBE3;">.</span>
+                        </div>
+                        <div class="rTableCell" style="width: 15%; background-color:#DDFBE3;">
+                            <span style="color:#DDFBE3;">.</span>
+                        </div>
+                        <div class="rTableCell" style="width: 15%; background-color:#DDFBE3;">
+                            <span style="color:#DDFBE3;">.</span>
+                        </div>
+                        <div class="rTableCell" style="width: 10%; background-color:#DDFBE3;">
+                            <span style="color:#DDFBE3;">.</span>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="rTable">
+                    <div class="rTableRow">
+                        <div class="rTableCell" style="width: 60%; border-color: transparent; background-color:#DCE2FF; padding: 15px 5px;">
+                            <div style="padding-left:1%;">Payment</div>
+                            <div class="d-inline-block" style="width:15%; padding: 0px 1%;">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" style="margin-bottom:0px;">Mode</label>
+                                    <input type="email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="d-inline-block" style="width:15%; padding: 0px 1%;">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" style="margin-bottom:0px;">Type</label>
+                                    <input type="email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="d-inline-block" style="width:15%; padding: 0px 1%;">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" style="margin-bottom:0px;">Amount</label>
+                                    <input type="email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="d-inline-block" style="width:20%; padding: 0px 1%;">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" style="margin-bottom:0px;">Credit Card No.</label>
+                                    <input type="email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="d-inline-block" style="width:15%; padding: 0px 1%;">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" style="margin-bottom:0px;">Recepit No.</label>
+                                    <input type="email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="d-inline-block" style="width:20%; padding: 0px 1%;">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" style="margin-bottom:0px;">Description</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="pull-right" style="width:20%; padding: 0px 1%;">
+                                    <button class="btn btn-normal pull-right">Pay Now</button>
+                                </div>
+                                <br clear="all" />
+                            </div>
+                        </div>
+                        <div class="rTableCell text-right" style="width: 30%; border-color: transparent; padding-right:0px;">
+                            <div style="padding-right:5px;height:25px;line-height: 25px;">Booking Total</div>
+                            <div style="padding-right:5px;height:25px;line-height: 25px;">Other Charges</div>
+                            <div style="padding-right:5px;height:25px;line-height: 25px;">Total Tax</div>
+                            <div style="padding-right:5px;height:25px;line-height: 25px;">Total Disc/Allowances</div>
+                            <hr style="margin-top:1px;margin-bottom:1px;">
+                            <div style="padding-right:5px;height:25px;line-height: 25px;">Total with Tax</div>
+                            <div style="padding-right:5px;height:25px;line-height: 25px;">Total Paid</div>
+                            <hr style="margin-top:1px;margin-bottom:1px;">
+                        </div>
+                        <div class="rTableCell text-right" style="width: 10%; border-color: transparent; padding-left:0px;">
+                            <div style="height:25px;line-height: 25px;">4,000.00</div>
+                            <div style="height:25px;line-height: 25px;">4,000.00</div>
+                            <div style="height:25px;line-height: 25px;">4,000.00</div>
+                            <div style="height:25px;line-height: 25px;">4,000.00</div>
+                            <hr style="margin-top:1px;margin-bottom:1px;">
+                            <div style="height:25px;line-height: 25px;">4,000.00</div>
+                            <div style="height:25px;line-height: 25px;">4,000.00</div>
+                            <hr style="margin-top:1px;margin-bottom:1px;">
+                        </div>
+                    </div>
+                    <div class="rTableRow">
+                        <div class="rTableCell" style="width: 60%; padding: 10px 5px; border-color: #ffffff; background-color:#C0CAF5;">
+                            <div style="float:right; padding-right:1%;">
+                                <button class="btn btn-normal">Back</button>
+                                <button class="btn btn-normal">Delete Proforma Invoice</button>
+                                <button class="btn btn-normal">Close</button>
+                                <button class="btn btn-normal">Print</button>
+                            </div>
+                        </div>
+                        <div class="rTableCell text-right" style="width: 30%; min-height:20px;padding-top: 0px;border-color: #ffffff;background-color:#FFF;padding-right:0px;">
+                            <div style="padding-right:5px;height:20px;line-height: 20px;">Balance</div>
+                            <hr style="margin-top:1px;margin-bottom:1px;">
+                        </div>
+                        <div class="rTableCell" style="width: 10%; min-height:20px;padding-top: 0px;border-color: #ffffff;background-color:#FFF;padding-left:0px;">
+                            <div class="text-right" style="height:20px;line-height: 20px;">4,000.00</div>
+                            <hr style="margin-top:1px;margin-bottom:1px;">
+                        </div>
+                        <div class="rTableCell" style="width: 40%; min-height:20px;padding-top: 0px;border-color: #ffffff;background-color:#FFF;">
+                            <div style="height:20px;line-height: 20px;text-align: right;">Refund | Route Payment | Currency Converter</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <br>
+</div>

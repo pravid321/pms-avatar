@@ -1,31 +1,65 @@
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { AlertModule } from 'ngx-bootstrap/alert';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from "@angular/forms";
 import { DayPilotModule } from 'daypilot-pro-angular';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HeaderComponent } from './header/header.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { OwlModule } from 'ngx-owl-carousel';
+import { PerfectScrollbarModule, PerfectScrollbarConfigInterface, PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PopoverModule } from 'ngx-bootstrap/popover';
+
+import { ClickElsewhereDirective } from '../shared/directives/click.elsewhere.directive';
+import { DataService } from './scheduler/data.service';
+import { DataEventService } from '../shared/data.event.service';
 import { FooterComponent } from './footer/footer.component';
-import { UiRoutingModule, uiRoutingComponent } from './ui.routing.module';
+import { FrontDeskService } from './services/front.desk.services';
+import { HeaderComponent } from './header/header.component';
+import { HousekeepingService } from './services/housekeeping.services';
 import { LayoutComponent } from './layout/layout.component';
 import { SchedulerComponent, schedulerSupportComponent } from './scheduler/scheduler.component';
-import { NgbdDatepickerRange } from './datepicker/datepicker.range.component';
-import { DataService } from './scheduler/data.service';
-import { DateDataService } from './services/date.data.service';
-import { FrontDeskService } from './services/front.desk.services';
-import { UserDataService } from './services/user.data.service';
+import { UiRoutingModule, uiRoutingComponent } from './ui.routing.module';
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  wheelPropagation: true,
+  wheelSpeed: 15
+};
 
 @NgModule({
   imports: [
+    AlertModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    CarouselModule.forRoot(),
     CommonModule,
+    DayPilotModule,
     FormsModule,
+    OwlModule,
+    PerfectScrollbarModule,
+    PopoverModule.forRoot(),
     ReactiveFormsModule,
-    NgbModule.forRoot(),
-    UiRoutingModule,
-    DayPilotModule
+    UiRoutingModule
   ],
-  declarations: [HeaderComponent, FooterComponent, LayoutComponent, uiRoutingComponent, SchedulerComponent, NgbdDatepickerRange, schedulerSupportComponent],
+  declarations: [
+    ClickElsewhereDirective,
+    FooterComponent, 
+    HeaderComponent, 
+    LayoutComponent, 
+    SchedulerComponent, 
+    schedulerSupportComponent,
+    uiRoutingComponent, 
+  ],
   exports: [LayoutComponent, SchedulerComponent],
-  providers:    [ DataService, DateDataService, FrontDeskService, UserDataService ]
+  providers:    [ 
+    DataService, 
+    DataEventService, 
+    FrontDeskService,
+    HousekeepingService,
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    }
+  ]
 })
 export class UiModule { }

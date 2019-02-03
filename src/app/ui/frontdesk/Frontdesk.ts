@@ -9,8 +9,7 @@ export interface IRoom {
     "maxPax"?: number,
     "extraBedsAllowed"?: number,
     "isBaseRoom"?: boolean,
-    "roomNumber"?: string,
-    "roomNumbers"?: any
+    "roomNumbers"?: [String]
 }
 
 export interface IRatePlan {
@@ -24,4 +23,50 @@ export interface IRatePlan {
     "isBaseRate": number,
     "hotelId": number,
     "weight": number
+}
+
+export interface IReservationData {
+    "pos": {
+        "source": {
+            "requestorID": IRequestorId,
+            "bookingChannel": IBookingChannel
+        }
+    },
+    "hotelReservations": {
+        "hotelReservation": IHotelReservation[];
+    }
+    "resStatus": string,
+    "timeStamp": string,
+    "version": string
+}
+
+export interface IRequestorId {
+    "id": string;
+    "type": string;
+}
+
+export interface IBookingChannel {
+    "primary": string;
+    "type": string;
+    "companyName": ICompanyName;
+}
+
+export interface ICompanyName {
+    "value": string;
+    "code": string;
+}
+
+export interface IHotelReservation {
+    "uniqueID": {
+        "id": string;
+        "type": string;
+    },
+    "roomStays": any;
+    "resGuests": any;
+    "resGlobalInfo": any;
+    "createDateTime": string,
+    "creatorID": string,
+    "lastModifierID": string,
+    "lastModifyDateTime": string,
+    "reservationStatus": string
 }

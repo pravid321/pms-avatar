@@ -1,37 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
-@import "~bootstrap/dist/css/bootstrap.css";
-@import "~font-awesome/css/font-awesome.css";
-
-/* schedular themes */
-@import url("themes/scheduler_8.css");
-@import url("themes/scheduler_green.css");
-@import url("themes/scheduler_traditional.css");
-@import url("themes/scheduler_transparent.css");
-@import url("themes/scheduler_white.css");
-
-@font-face {
-    font-family: "Roboto-Light";
-    src: url("./fonts/Roboto/Roboto-Light.ttf");
-}
-
-
-@font-face {
-    font-family: "Roboto-Regular";
-    src: url("./fonts/Roboto/Roboto-Regular.ttf");
-}
-
-
-@font-face {
-    font-family: "Roboto-Medium";
-    src: url("./fonts/Roboto/Roboto-Medium.ttf");
-}
-
-
-@font-face {
-    font-family: "Roboto-Bold";
-    src: url("./fonts/Roboto/Roboto-Bold.ttf");
-}
-
+@import "~./frontend-components";
 
 html {
     height: 100%;
@@ -41,6 +8,10 @@ body {
     height: 100%;
     font-family: "Roboto-Regular";
     background-color: #EEEEEE;
+
+    .dropdown {
+        .dropdown-menu {}
+    }
 
     /* right click menu style for schedular */
     /* title */
@@ -102,6 +73,100 @@ body {
         background-color: #f2f2f2;
         border-bottom: 1px solid gray;
         padding: 4px 4px 4px 37px;
+    }
+
+    .container-fluid {
+        &.custom-height {
+            height: calc(100% - 137px);
+        }
+
+        .under-construction {
+            height: 100%;
+            background-size: cover;
+            text-align: center;
+            background-position: center;
+
+            &.restaurant-bg {
+                background: url("./assets/images/restaurent.jpeg") no-repeat center center;
+            }
+
+            &.housekeeping-bg {
+                background: url("./assets/images/housekeepingwide.v1.jpg") no-repeat center center;
+            }
+
+            .starter_container {
+                padding: 0;
+                min-width: 100%;
+                height: 100%;
+
+                .follow_container {
+                    opacity: 1;
+                    left: 0;
+                    top: 0;
+                    height: 100%;
+                    -webkit-transition: all .3s cubic-bezier(0, 0, 0.58, 1);
+                    -moz-transition: all .3s cubic-bezier(0, 0, 0.58, 1);
+                    -ms-transition: all .3s cubic-bezier(0, 0, 0.58, 1);
+                    -o-transition: all .3s cubic-bezier(0, 0, 0.58, 1);
+                    transition: all .3s cubic-bezier(0, 0, 0.58, 1);
+
+                    hr {
+                        border-color: #90DAFF;
+                    }
+
+                    .top-title {
+                        color: white;
+                        font-weight: lighter;
+                        text-align: left;
+                        font-size: 25px
+                    }
+
+                    .second-title {
+                        font-weight: 400;
+                        font-size: 60px;
+                        font-style: italic;
+                        text-transform: capitalize;
+                        color: #fff;
+                        text-align: left;
+                    }
+                }
+            }
+
+            .global-overlay {
+                position: absolute;
+                top: 0;
+                left: -100vw;
+                height: 100%;
+                overflow: visible;
+                width: 100%;
+                opacity: 0;
+
+                .overlay {
+                    position: fixed;
+                    overflow: hidden;
+                    top: 0;
+                    left: -50%;
+                    background: rgba(32, 35, 45, 0.8);
+                    width: 100%;
+                    height: 100%;
+                    -webkit-transition: all .5s cubic-bezier(0.7, 0, 0.3, 1);
+                    -moz-transition: all .5s cubic-bezier(0.7, 0, 0.3, 1);
+                    -ms-transition: all .5s cubic-bezier(0.7, 0, 0.3, 1);
+                    -o-transition: all .5s cubic-bezier(0.7, 0, 0.3, 1);
+                    transition: all .5s cubic-bezier(0.7, 0, 0.3, 1);
+                    border-right: 1px solid #15171e;
+
+                    &.skew-part {
+                        -webkit-transform: skew(-25deg, 0deg);
+                        -moz-transform: skew(-25deg, 0deg);
+                        -ms-transform: skew(-25deg, 0deg);
+                        -o-transform: skew(-25deg, 0deg);
+                        transform: skew(-25deg, 0deg);
+                    }
+                }
+
+            }
+        }
     }
 
     .scheduler_default_main {
@@ -266,9 +331,9 @@ body {
             bottom: 0px;
             margin: 0px;
             overflow: hidden;
-            background-color: #97ed6d;
+            //background-color: #97ed6d;
             padding: 2px 5px;
-            border: 1px solid #5cb431;
+            //border: 1px solid #5cb431;
             display: flex;
             align-items: center;
         }
@@ -320,6 +385,12 @@ body {
         }
     }
 
+    .form-control {
+        input {
+            border: 1px solid $input-border-color;
+        }
+    }
+
     .form-control:focus,
     .custom-control-input:focus~.custom-control-label::before {
         box-shadow: none;
@@ -330,6 +401,568 @@ body {
 
         &.visible {
             display: block;
+        }
+    }
+
+    .btn {
+        padding: 0.2rem 2rem;
+        cursor: pointer;
+
+        &.btn-normal {
+            border-radius: 0px;
+            background-color: $button_normal_background_color;
+            color: $button_normal_text_color;
+            margin-left: 10px;
+        }
+    }
+
+    .point-cursor {
+        cursor: pointer;
+    }
+
+    .blocked {
+        pointer-events: none;
+        cursor: none;
+        opacity: 0.4;
+    }
+
+    #uiFooter {
+        background-color: #2E2E2E;
+
+        .navbar-text {
+            color: #ffffff;
+            padding-top: 0.2rem;
+            padding-bottom: 0.2rem;
+
+            span {
+
+                //cursor: pointer;
+                &.highlight-text {
+                    //color: #DE3463;
+                    color: hotpink;
+                }
+            }
+        }
+    }
+
+    .owl-nav {
+        font-size: 26px;
+        line-height: 26px;
+        color: $nav_color;
+
+        .owl-prev,
+        .owl-next {
+            cursor: pointer;
+        }
+    }
+
+    /* The radio */
+    .radio {
+        display: block;
+        position: relative;
+        padding-left: 30px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none
+    }
+
+
+    .radio {
+        input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+
+            &:checked~.checkround {
+                background-color: $white;
+
+                &:after {
+                    display: block;
+                    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+                    transform: scale(1);
+                }
+            }
+        }
+
+        .checkround:after {
+            left: 0.1rem;
+            top: 0.1rem;
+            width: 0.75rem;
+            height: 0.75rem;
+            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+            border-radius: 50%;
+            background: $color_amaranth_approx;
+            //Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+            transition: 0.35s;
+            //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+            transform: scale(0.0);
+        }
+    }
+
+    .span_pseudo {
+        @extend %checkbox_extension;
+    }
+
+    .chiller_cb {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        span {
+            display: inline-block;
+            width: 0.9rem;
+            height: 0.9rem;
+            border: 2px solid $color_celeste_approx;
+            position: absolute;
+            left: 0;
+            //Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+            transition: all 0.2s;
+            z-index: 1;
+            //Instead of the line below you could use @include box-sizing($bs)
+            box-sizing: content-box;
+
+            &:before {
+                @extend %checkbox_extension;
+                //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+                transform: rotate(-55deg);
+                top: 0.75rem;
+                left: 0.28rem;
+            }
+
+            &:after {
+                @extend %checkbox_extension;
+                //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+                transform: rotate(35deg);
+                bottom: 0.31rem;
+                left: 0.09rem;
+            }
+        }
+
+        input {
+            display: none;
+
+            &:disabled {
+                ~span {
+                    background: $color_cararra_approx;
+                    border-color: $color_alto_approx;
+                }
+
+                ~label {
+                    color: $color_alto_approx;
+
+                    &:hover {
+                        cursor: default;
+                    }
+                }
+            }
+
+            &:checked~span {
+                background: $color_amaranth_approx;
+                border-color: $color_amaranth_approx;
+
+                &:before {
+                    width: 0.88rem;
+                    height: 0.15rem;
+                    //Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+                    transition: width 0.1s;
+                    //Instead of the line below you could use @include transition-delay($delay-1, $delay-2, $delay-3, $delay-4, $delay-5, $delay-6, $delay-7, $delay-8, $delay-9, $delay-10)
+                    transition-delay: 0.3s;
+                }
+
+                &:after {
+                    width: 0.38rem;
+                    height: 0.15rem;
+                    //Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+                    transition: width 0.1s;
+                    //Instead of the line below you could use @include transition-delay($delay-1, $delay-2, $delay-3, $delay-4, $delay-5, $delay-6, $delay-7, $delay-8, $delay-9, $delay-10)
+                    transition-delay: 0.2s;
+                }
+            }
+        }
+
+        label {
+            padding-left: 2rem;
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+    }
+
+    /* Create a custom radio button */
+    .checkround {
+        position: absolute;
+        top: 0.2rem;
+        left: 0;
+        height: 1.25rem;
+        width: 1.25rem;
+        background-color: $white;
+        border-color: $color_amaranth_approx;
+        border-style: solid;
+        border-width: 2px;
+        //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+        border-radius: 50%;
+    }
+
+    .checkround:after {
+        content: "";
+        position: absolute;
+        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+        transform: scale(0.4);
+    }
+
+
+    .table-responsive {
+
+        /* ******* div display block and inline block type table style *********** */
+        .rTable {
+            display: block;
+            width: 100%;
+
+            &:after {
+                visibility: hidden;
+                display: block;
+                font-size: 0;
+                content: " ";
+                clear: both;
+                height: 0;
+            }
+        }
+
+        .rTableHeading {
+            clear: both;
+        }
+
+        .rTableBody {
+            clear: both;
+        }
+
+        .rTableFoot {
+            clear: both;
+        }
+
+        .rTableRow {
+            clear: both;
+
+            &:nth-child(even) {
+                .rTableCell {
+                    background-color: $table_even_cell_background_color;
+                }
+            }
+
+            &:nth-child(odd) {
+                .rTableCell {
+                    background-color: $table_odd_cell_background_color;
+                }
+            }
+        }
+
+        .rTableCell {
+            border-style: solid;
+            border-color: $table_border_color;
+            float: left;
+            min-height: 40px;
+            overflow: hidden;
+            padding: 5px;
+            border-top-width: 0px;
+            border-right-width: 0px;
+            border-bottom-width: 1px;
+            border-left-width: 1px;
+            color: $table_cell_text_color;
+
+            &:last-child {
+                border-right-width: 1px;
+            }
+
+            .edit-input-box {
+                width:90%; height:28px; line-height:28px;
+                padding: 0px 10px; border: 1px solid $input-border-color;
+            }
+        }
+
+        .rTableHead {
+            border-style: solid;
+            border-color: $table_border_color;
+            float: left;
+            min-height: 30px;
+            overflow: hidden;
+            padding: 5px;
+            background-color: $table_head_background_color;
+            color: $table_head_text_color;
+            border-top-width: 1px;
+            border-right-width: 0px;
+            border-bottom-width: 1px;
+            border-left-width: 1px;
+            text-align: center;
+
+            &:last-child {
+                border-right-width: 1px;
+            }
+        }
+
+
+        /* ******* div display table, table-row and table-cell type table style *********** */
+        .divDisplayTable,
+        .divDisplayTableHeader,
+        .divDisplayTableBody {
+            display: table;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .divDisplayTableRow {
+            display: table-row;
+            min-height: 30px;
+
+            &.none {
+                display: none;
+            }
+
+            &.selected {
+                background-color: #9AD9EA;
+            }
+
+            &:nth-child(even) {
+                .divDisplayTableCell {
+                    background-color: $table_even_cell_background_color;
+                }
+            }
+
+            &:nth-child(odd) {
+                .divDisplayTableCell {
+                    background-color: $table_odd_cell_background_color;
+                }
+            }
+
+            .divDisplayTableCell {
+                display: table-cell;
+                vertical-align: middle;
+                line-height: 28px;
+                padding: 5px;
+                border-width: 0px 1px 1px 0px;
+                border-style: solid;
+                border-color: $table_border_color;
+                color: $table_head_text_color;
+
+                &.head {
+                    font-size: 15px;
+                    font-weight: 500;
+                    padding: 5px;
+                    background-color: $table_head_background_color;
+                    color: $table_head_text_color;
+                    border-top-width: 1px;
+                    border-color: $table_border_color; // if needed we can change different border color here for header
+                }
+
+                &.wrap {
+                    white-space: normal;
+                    text-overflow: clip;
+                    line-height: 18px;
+                }
+
+                &.brdLft {
+                    border-left: 1px solid $table_border_color;
+                }
+
+                &.brdRgt {
+                    border-right: 1px solid $table_border_color;
+                }
+
+                &.brdTop {
+                    border-top: 1px solid $table_border_color;
+                }
+
+                .decimal-percent-badge {
+                    background-color: $decimal_percent_badge_background;
+                    color: $decimal_percent_badge_text_color;
+                    line-height: 25px;
+                    height: 25px;
+                    width: 30px;
+                    padding: 0px 5px;
+                }
+
+                .edit-input-box {
+                    width:90%; height:28px; line-height:28px;
+                    padding: 0px 10px; border: 1px solid $input-border-color;
+                }
+
+                /*.tableCellTextInput {
+                @include normalInputBox(90%, 30px);
+
+                &.invalid {
+                    border-color: $error_input_border_color;
+                }
+            }
+
+            small.error-small {
+                color: $error_input_text_color;
+                font-size: 12px;
+                display: none;
+                height: 10px;
+                line-height: 16px;
+            }
+
+            .rangeChk {
+                @include checkBox(normal, tick);
+
+                [type="checkbox"]:not(:checked)+label.ckbLabel {
+                    height: 20px;
+                }
+
+                [type="checkbox"]:checked+label {
+                    height: 20px;
+
+                    &:after {
+                        background-position: -88px -64px;
+                    }
+                }
+            }*/
+            }
+        }
+
+        .table-footer {
+            background-color: $table_footer_background_color;
+            border-width: 0px 1px 1px 1px;
+            border-style: solid;
+            border-color: $table_border_color;
+        }
+    }
+
+    .badge {
+        padding: 4px 5px;
+        border-radius: 0px;
+
+        &.badge-sky {
+            background-color: $badge_background_color;
+            color: $badge_text_color;
+        }
+    }
+
+    .input_wrapper {
+        width: 55px;
+        height: 30px;
+        position: relative;
+        cursor: pointer;
+    
+        input[type="checkbox"] {
+            width: 55px;
+            height: 26px;
+            top: 4%;
+            cursor: pointer;
+            appearance: none;
+            background: $wrap_checkbox_background_color;
+            border: 1px solid $wrap_checkbox_border_color;
+            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+            border-radius: 2px;
+            position: relative;
+            outline: 0;
+            //Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+            transition: all .2s;
+    
+            &:after {
+                position: absolute;
+                content: "";
+                top: 2px;
+                left: 3px;
+                width: 20px;
+                height: 20px;
+                background: $wrap_checkbox_after_background;
+                z-index: 2;
+                //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+                border-radius: 2px;
+                //Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+                transition: all .35s;
+            }
+    
+            &:checked {
+                background: $wrap_checkbox_checked_background;
+    
+                &:after {
+                    left: calc(100% - 23px);
+                }
+    
+                +.is_checked {
+                    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+                    transform: translateX(0) translateY(-30%) scale(1);
+                }
+    
+                ~.is_unchecked {
+                    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+                    transform: translateX(-190%) translateY(-30%) scale(0);
+                }
+            }
+        }
+    
+        span {
+            position: absolute;
+            top: 10px;
+            //Instead of the line below you could use @include transform-origin($origin-x, $origin-y, $origin-z, $only3d)
+            transform-origin: 50% 50%;
+            fill: $wrap_checkbox_filled_color;
+            //Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+            transition: all .35s;
+            z-index: 1;
+        }
+    
+        .is_checked {
+            line-height: 24px;
+            height: 24px;
+            color: #fff;
+            width: 24px;
+            left: 5px;
+            //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+            transform: translateX(190%) translateY(-30%) scale(0);
+        }
+    
+        .is_unchecked {
+            width: 24px;
+            right: 5px;
+            height: 24px;
+            line-height: 24px;
+            //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+            transform: translateX(0) translateY(-30%) scale(1);
+        }
+    }
+
+    .modal-dialog {
+        .modal-content {
+            .modal-body {
+                .form-group {
+                    margin-bottom: 5px;
+
+                    .input-group {
+                        &.date-cal {
+                            span {
+                                position: absolute;
+                                right: 10px;
+                                top: 6px;
+                                height: 25px;
+                                display: flex;
+                                align-items: center;
+                                z-index: 9;
+                            }
+
+                            input {
+                                &.form-control {
+                                    padding-right: 30px;
+                                    border-top-left-radius: 4px;
+                                    border-bottom-left-radius: 4px;
+                                }
+                            }
+                        }
+                    }
+
+                    .card-holder{
+                        margin-top: 6px;
+                        a {
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -8,12 +8,13 @@ import * as _ from "lodash";
 })
 export class FooterComponent implements OnInit {
 
+  currentFullYear: number;
   constructor() { }
 
   ngOnInit() {
     /*let testLoadAsh = _.partition([1, 2, 3, 4], n => n % 2);
     console.log("loadash: ", testLoadAsh);*/
-    
+    this.currentFullYear = new Date().getFullYear();
   }
 
 }

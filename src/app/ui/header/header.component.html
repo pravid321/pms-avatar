@@ -1,5 +1,5 @@
 <nav id="main-navbar" class="navbar navbar-dark">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" href="/ui/dashboard">
         <img src="./assets/images/tejal-topbar-logo.png" alt="">
     </a>
     <div class="navbar-expand ml-auto navbar-nav">
@@ -14,7 +14,9 @@
                     <i class="fa fa-cog"></i> Settings
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-                    <li><a class="dropdown-item" href="#">About Us</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0)" routerLink="../admin">Admin</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0)" routerLink="./dashboard">Dashboard</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0)" routerLink="./frontdesk">Front Desk</a></li>
                     <li><a class="dropdown-item" href="#" (click)="logout();">Logout</a></li>
                 </ul>
             </li>
@@ -32,7 +34,15 @@
         <a class="nav-link link-fl" href="javascript:void(0);" *ngIf="paramDetails.pageName == 'Dashboard'">
             <i class="fa fa-calendar"></i>&nbsp;&nbsp;{{ now | date : 'dd-MMMM-y | h:mm a' }}
         </a>
+
     </div>
+    <ul class="navbar-nav ml-auto pull-right" *ngIf="paramDetails.pageName == 'Dashboard'">
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fa fa-headphones"></i>&nbsp;Live Support
+            </a>
+        </li>
+    </ul>
 
 
     <div id="navSub" class="collapse navbar-collapse" [style.padding-left.px]="subHeaderPaddingLeft" style="text-align: center" *ngIf="paramDetails.pageName != 'Dashboard'">
@@ -58,9 +68,9 @@
                     <img src="./assets/images/reports-samll-ico.png" alt="">&nbsp;Reports
                 </a>
             </li>
-            <li class="nav-item" routerLinkActive="active" routerLink="./others">
+            <li class="nav-item" routerLinkActive="active" routerLink="./billings">
                 <a class="nav-link" href="javascript:void(0);">
-                    <img src="./assets/images/others-samll-ico.png" alt="">&nbsp;Others
+                    <img src="./assets/images/others-samll-ico.png" alt="">&nbsp;Billings
                 </a>
             </li>
         </ul>
@@ -84,7 +94,7 @@
 </nav>
 
 <!-- sidebar -->
-<nav id="sidebar">
+<nav id="sidebar" *ngIf="paramDetails.pageName=='Frontdesk'" (clickElsewhere)="closeSideSidebar()">
     <!-- <div id="dismiss">
         <i class="fa fa-arrow-left"></i>
     </div>
@@ -149,21 +159,21 @@
                 <img src="./assets/images/room-service-ico.png" alt=""> Room Operations
             </a>
             <ul class="collapse list-unstyled" id="roomSubmenu">
-                <li><a href="#">Check in List</a></li>
-                <li><a href="#">Check out List</a></li>                
-                <li><a href="#">Reservation List</a></li>
-                <li><a href="#">Temp Room List</a></li>
-                <li><a href="#">No Show List</a></li>
-                <li><a href="#">Cancelled Reservation List</a></li>
-                <li><a href="#">Check out pending list</a></li>
-                <li><a href="#">Pending Follo(s)</a></li>
-                <li><a href="#">Guest In-House List</a></li>
-                <li><a href="#">3rd Party Reservation List</a></li>
+                <li><a href="javascript:void(0)" (click)="showFrontDeskPage('CheckedIn')">Check in List</a></li>
+                <li><a href="javascript:void(0)" (click)="showFrontDeskPage('CheckedOut')">Check out List</a></li>
+                <!-- <li><a href="javascript:void(0)" (click)="showFrontDeskPage('inhouse')">Guest In-House List</a></li> -->
+                <li><a href="javascript:void(0)" (click)="showFrontDeskPage('Bookings')">Reservation List</a></li>
+                <!-- <li><a href="javascript:void(0)" (click)="showFrontDeskPage('tempRoom')">Temp Room List</a></li> -->
+                <li><a href="javascript:void(0)" (click)="showFrontDeskPage('NoShow')">No Show List</a></li>
+                <li><a href="javascript:void(0)" (click)="showFrontDeskPage('Cancellations')">Cancelled Reservation List</a></li>
+                <!-- <li><a href="javascript:void(0)" (click)="showFrontDeskPage('checkOutPending')">Check out pending list</a></li>
+                <li><a href="javascript:void(0)" (click)="showFrontDeskPage('')">Pending Follo(s)</a></li>
+                <li><a href="javascript:void(0)" (click)="showFrontDeskPage('checkIn')">3rd Party Reservation List</a></li> -->
             </ul>
-            <a href="#"> <img src="./assets/images/guest-lookup-ico.png" alt=""> Guest Look-up</a>
-            <a href="#"> <img src="./assets/images/house-status-ico.png" alt=""> House Status</a>
-            <a href="#"> <img src="./assets/images/tariffchart-ico.png" alt=""> Tariff Chart</a>
-            <a href="#"> <img src="./assets/images/accounts-ico.png" alt=""> Accounts</a>
+            <a class="blocked" href="#"> <img src="./assets/images/guest-lookup-ico.png" alt=""> Guest Look-up</a>
+            <a class="blocked" href="#"> <img src="./assets/images/house-status-ico.png" alt=""> House Status</a>
+            <a class="blocked" href="#"> <img src="./assets/images/tariffchart-ico.png" alt=""> Tariff Chart</a>
+            <a class="blocked" href="#"> <img src="./assets/images/accounts-ico.png" alt=""> Accounts</a>
         </li>
     </ul>
 

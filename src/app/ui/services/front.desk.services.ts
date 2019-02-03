@@ -1,39 +1,94 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { throwError, forkJoin } from 'rxjs';
+import { throwError, forkJoin, Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+
 import { environment } from '../../../environments/environment';
+import { UserResolver } from '../../shared/user.resolver.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class FrontDeskService {
-    constructor(private _http: HttpClient) { }
 
-    getRoomRateDetails(){
+    userHotelID: String;
+
+    constructor(
+        private _userResolver: UserResolver,
+        private _http: HttpClient
+    ) {
+        this.userHotelID = this._userResolver.getHotelID();
+    }
+
+    errorHandler(errorRes: Response) {
+        console.log("error: ", errorRes, errorRes.status);
+        return throwError(errorRes);
+    }
+
+    getRoomRateDetails() {
         let servUrl = environment.apiUrl;
-        let roomUrl = servUrl+'Rooms/getRooms/1';
-        let rateUrl = servUrl+'Rateplans/getRateplans/1';
-        
-        let roomResponse = this._http.post(roomUrl,{}).pipe(map(res => {
-            return res['rooms'];
-        }));
+        let roomUrl = servUrl + 'Rooms/getRooms/' + this.userHotelID;
+        let rateUrl = servUrl + 'Rateplans/getRateplans/' + this.userHotelID;
 
-        let rateResponse = this._http.post(rateUrl,{}).pipe(map(res => {
-            return res['ratePlans'];
-        }));
-        
+        let roomResponse = this._http.post(roomUrl, {}).pipe(
+            map(res => { return res['rooms']; }),
+            catchError(this.errorHandler)
+        );
+
+        let rateResponse = this._http.post(rateUrl, {}).pipe(
+            map(res => { return res['ratePlans']; }),
+            catchError(this.errorHandler)
+        );
+
         return forkJoin(
             roomResponse,
             rateResponse
         );
     }
-    
+
     getReservationDetails(options) {
         let servUrl = environment.apiUrl;
-        let gridInfoUrl = servUrl + 'gridInfo/1/' + options.startDate + '/' + options.endDate;
+        let gridInfoUrl = servUrl + 'gridInfo/' + this.userHotelID + '/' + options.startDate + '/' + options.endDate;
 
-        return this._http.post(gridInfoUrl,{}).pipe(map(res => res));
+        return this._http.post(gridInfoUrl, {}).pipe(map(res => res), catchError(this.errorHandler));
+    }
 
+    createReservation(options) {
+        let servUrl = environment.apiUrl;
+        let createReservationUrl = servUrl + 'Bookings/createBookings/' + this.userHotelID;
+
+        return this._http.post(createReservationUrl, options).pipe(map(res => res), catchError(this.errorHandler));
+        //console.log("increate rev  function: ", JSON.stringify(options), createReservationUrl);
+    }
+
+    getReservationStatus(options: any) {
+        //console.log("in get Reservation status: ", options);
+        let servUrl = environment.apiUrl;
+        let getReservationStatusUrl = servUrl + 'RoomOperations/getStatusbasedRes';
+        let requestData = {
+            "hotelCode": + this.userHotelID,
+            "startDate": options.start_date,
+            "endDate": options.end_date,
+            "type": options.reqtype
+        }
+        return this._http.post(getReservationStatusUrl, requestData).pipe(map(res => res), catchError(this.errorHandler));
+    }
+
+    assignOrCheckinReservation(options: any): Observable<any> {
+        let servUrl = environment.apiUrl;
+        let assignReservationRoomUrl = servUrl + 'Bookings/BookingOperations/assignNGuestcheckin';
+        let requestData = {
+            "bookingID": options.bookingID,
+            "roomNumber": options.roomNumber,
+            "action": options.action
+        }
+        return this._http.post(assignReservationRoomUrl, requestData).pipe(map(res => res), catchError(this.errorHandler));
+    }
+
+    checkOutReservation(options: any): Observable<any> {
+        let servUrl = environment.apiUrl;
+        let reservationCheckOutUrl = servUrl + 'Bookings/BookingOperations/guestcheckout';
+
+        return this._http.post(reservationCheckOutUrl, options).pipe(map(res => res), catchError(this.errorHandler));
     }
 }

@@ -1,0 +1,107 @@
+<app-admin-header></app-admin-header>
+
+<div class="container-fluid">
+
+    <div class="row admin-container">
+        <div class="col-lg-3 col-md-3 col-sm-3" style="padding-right:0px">
+
+            <!-- Sidebar -->
+            <div class="nav-side-menu">
+
+                <div class="menu-list">
+                    <ul id="menu-content" class="menu-content collapse out">
+
+                        <li data-toggle="collapse" data-target="#guestmanage" class="collapsed" routerLinkActive="active" routerLink="./general">
+                            <a href="javascript:void(0)">General <span class="arrow"></span></a>
+                        </li>
+
+                        <li data-toggle="collapse" data-target="#compinfo" class="collapsed blocked">
+                            <a href="javascript:void(0)">Company Info <span class="arrow"></span></a>
+                        </li>
+                        <ul class="sub-menu collapse" id="compinfo">
+                            <li>Sensorkonfiguration</li>
+                            <li>Betriebsarten</li>
+                        </ul>
+
+                        <li data-toggle="collapse" data-target="#service" class="collapsed">
+                            <!-- <a href="javascript:void(0)"><i class="fa fa-globe fa-lg"></i> Room Manager <span class="arrow"></span></a> -->
+                            <a href="javascript:void(0)">Room Manager <div class="arrow"></div></a>
+                        </li>
+                        <ul class="sub-menu collapse" id="service">
+                            <li routerLinkActive="active" routerLink="./floorsandrooms"><span>Floors</span></li>
+                            <li routerLinkActive="active" routerLink="./roomunits"><span>Rooms</span></li>
+                            <li routerLinkActive="active" routerLink="./roomtypes"><span>Room Types</span></li>
+                            <li routerLinkActive="active" routerLink="./taxes"><span>Room Taxes</span></li>
+                            <li routerLinkActive="active" routerLink="./amenities"><span>Amenities</span></li>
+                            <li><span>Phone Extensions</span></li>
+                            <li class="blocked"><span>Blocks</span></li>
+                            <li class="blocked"><span>Short Rooms</span></li>
+                            <li class="blocked"><span>Display Colours</span></li>
+                            <li class="blocked"><span>Overbooking</span></li>
+                        </ul>
+
+                        <li data-toggle="collapse" data-target="#pricemanager" class="collapsed">
+                            <a href="javascript:void(0)">Price Manager<div class="arrow"></div></a>
+                        </li>
+                        <ul class="sub-menu collapse" id="pricemanager">
+                            <li routerLinkActive="active" routerLink="./rateplans"><span>Rate Plans</span></li>
+                            <li class="blocked"><span>Availability &amp; Restrictions</span></li>
+                        </ul>                        
+                        
+                        <li data-toggle="collapse" data-target="#policies" class="collapsed">
+                            <a href="javascript:void(0)">Policies<div class="arrow"></div></a>
+                        </li>
+                        <ul class="sub-menu collapse" id="policies">
+                            <li routerLinkActive="active" routerLink="./cancellationpolicy"><span>Cancellation Policy</span></li>
+                            <li routerLinkActive="active" routerLink="./checkincheckoutpolicy"><span>Check In &amp; Check Out Policy</span></li>
+                            <li routerLinkActive="active" routerLink="./paymentpolicy"><span>Payment Policy</span></li>
+                            <li routerLinkActive="active" routerLink="./childpolicy"><span>Child Policy</span></li>
+                            <li routerLinkActive="active" routerLink="./noshowpolicy"><span>No Show Policy</span></li>
+                            <li routerLinkActive="active" routerLink="./webpolicy"><span>Web Policy</span></li>
+                            <li routerLinkActive="active" routerLink="./petpolicy"><span>Pet Policy</span></li>
+                            <li routerLinkActive="active" routerLink="./mealplan"><span>Meal Plan</span></li>
+                            <li class="blocked"><span>Other Policies</span></li>
+                        </ul>
+                        
+
+                        <li data-toggle="collapse" data-target="#guestmanage" class="collapsed blocked">
+                            <a href="javascript:void(0)">Guest Manage <span class="arrow"></span></a>
+                        </li>
+
+                        <li data-toggle="collapse" data-target="#guestmanage" class="collapsed blocked">
+                            <a href="javascript:void(0)">Marketing Office <span class="arrow"></span></a>
+                        </li>
+                       
+                        <li data-toggle="collapse" data-target="#guestmanage" class="collapsed blocked">
+                            <a href="javascript:void(0)">POS Manager <span class="arrow"></span></a>
+                        </li>
+
+                        <li data-toggle="collapse" data-target="#guestmanage" class="collapsed blocked">
+                            <a href="javascript:void(0)">User Manager <span class="arrow"></span></a>
+                        </li>
+
+                        <li data-toggle="collapse" data-target="#guestmanage" class="collapsed blocked">
+                            <a href="javascript:void(0)">Console <span class="arrow"></span></a>
+                        </li>
+
+                        <li data-toggle="collapse" data-target="#guestmanage" class="collapsed blocked">
+                            <a href="javascript:void(0)">Reports <span class="arrow"></span></a>
+                        </li>
+
+                        <li data-toggle="collapse" data-target="#guestmanage" class="collapsed blocked">
+                            <a href="javascript:void(0)">Web Manager <span class="arrow"></span></a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col">
+            <!-- Page Content -->
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+
+</div>

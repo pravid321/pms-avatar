@@ -1,0 +1,40 @@
+.table {
+    border: 1px solid #d3d3d3;
+
+    thead th {
+        background-color: #dce2ff;
+        color: #5c6475;
+        text-align: center;
+    }
+
+    tbody tr {
+        &:nth-child(even) {
+            background-color: #fff;
+        }
+
+        &:nth-child(odd) {
+            background-color: #f7f9ff;
+        }
+    }
+}
+
+.badge {
+    padding: 4px 5px;
+    border-radius: 0px;
+
+    &.badge-sky {
+        background-color: #6787bf;
+        color: #fff;
+    }
+}
+
+.btn {
+    padding: 0.2rem 2rem;
+
+    &.btn-normal {
+        border-radius: 0px;
+        background-color: #6787bf;
+        color: #fff;
+        margin-left: 10px;
+    }
+}

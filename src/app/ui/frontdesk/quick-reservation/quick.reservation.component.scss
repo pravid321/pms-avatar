@@ -1,0 +1,44 @@
+/*.quick-reservation {
+    .modal-dialog {
+        .modal-content {
+            .modal-body {
+                .form-group {
+                    margin-bottom: 5px;
+
+                    .input-group {
+                        &.date-cal {
+                            span {
+                                position: absolute;
+                                right: 10px;
+                                top: 6px;
+                                height: 25px;
+                                display: flex;
+                                align-items: center;
+                                z-index: 9;
+                            }
+
+                            input {
+                                &.form-control {
+                                    padding-right: 30px;
+                                    border-top-left-radius: 4px;
+                                    border-bottom-left-radius: 4px;
+                                }
+                            }
+                        }
+                    }
+
+                    .card-holder{
+                        margin-top: 6px;
+                        a {
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+::ng-deep.bs-datepicker {
+    left: 77px;
+    top: 2px;
+}*/

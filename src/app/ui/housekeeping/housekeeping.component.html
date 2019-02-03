@@ -1,4 +1,236 @@
-<div class="row">
+<div class="cust-container">
 
-    in HousekeepingComponent component
+    <div class="head-section">
+        <div class="row head-row">
+            <div class="col-4">
+                <h5>Set Housekeeping Status:</h5>
+            </div>
+            <div class="col-5">
+                <h5>Assign Selected Rooms to:</h5>
+            </div>
+            <div class="col-3">
+                <h5>View by:</h5>
+            </div>
+        </div>
+
+        <div class="row body-row">
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="row">
+                        <div class="col-md-4" [ngClass]="{'blocked': !isAnyRoomSelected()}">
+                            <div class="btn-group" dropdown style="width:70%;">
+                                <button dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle">
+                                    {{topRoomStatus}} <span class="caret"></span>
+                                </button>
+                                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                    <perfect-scrollbar class="position-relative" [style.max-height.px]="250" [scrollIndicators]="true">
+                                        <li role="menuitem" (click)="updateTopRoomStatus('Dirty', hkStatusModal)"><a class="dropdown-item">Dirty</a></li>
+                                        <li role="menuitem" (click)="updateTopRoomStatus('Clean', hkStatusModal)"><a class="dropdown-item">Clean</a></li>
+                                        <li role="menuitem" (click)="updateTopRoomStatus('Inspect', hkStatusModal)"><a class="dropdown-item">Inspect</a></li>
+                                        <li role="menuitem" (click)="updateTopRoomStatus('Out of order', hkStatusModal)"><a class="dropdown-item">Out Of Order</a></li>
+                                    </perfect-scrollbar>
+                                    <!-- <li class="divider dropdown-divider"></li>-->
+                                    <!-- <li role="menuitem"><a class="dropdown-item">Separated link</a></li> -->
+                                </ul>
+                            </div>
+                            <div class="d-inline-block">
+                                <button class="btn btn-normal" type="button" (click)="setHkStatus()">Go</button>
+                            </div>
+                        </div>
+                        <div class="col-md-5" [ngClass]="{'blocked': !isAnyRoomSelected()}">
+                            <div class="btn-group" dropdown style="width:70%;">
+                                <button dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle">
+                                    {{bulkAssignedEmployee}} <span class="caret"></span>
+                                </button>
+                                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                    <perfect-scrollbar class="position-relative" [style.max-height.px]="250" [scrollIndicators]="true">
+                                        <li role="menuitem" *ngFor="let employeeItem of hotelEmployeeData" (click)="bulkAssignedEmployee = employeeItem.empName">
+                                            <a class="dropdown-item">{{employeeItem.empName}}</a>
+                                        </li>
+                                    </perfect-scrollbar>
+                                    <!-- <li class="divider dropdown-divider"></li>-->
+                                    <!-- <li role="menuitem"><a class="dropdown-item">Separated link</a></li> -->
+                                </ul>
+                            </div>
+                            <div class="d-inline-block">
+                                <button class="btn btn-normal" type="button" (click)="assignEmployee()">Assign</button>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="btn-group btn-block " dropdown>
+                                <button dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle">
+                                    All Rooms <span class="caret"></span>
+                                </button>
+                                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                    <!-- <perfect-scrollbar class="position-relative" [style.max-height.px]="250" [scrollIndicators]="true">
+                                                <li role="menuitem" *ngFor="let roomItem of availableRoomListForMap;">
+                                                    
+                                                </li>
+                                            </perfect-scrollbar> -->
+                                    <!-- <li class="divider dropdown-divider"></li>-->
+                                    <li role="menuitem"><a class="dropdown-item">Separated link</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="body-section">
+        <div class="row body-row">
+            <div class="col-12 col-flexible">
+                <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true" class="text-center">
+                    {{alertMessageDetails.message}}
+                </alert>
+            </div>
+
+            <div class="table-responsive">
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:5%;">
+                            <input type="checkbox" name="head" id="headckb" [(ngModel)]="allCkbox" (change)="selectCKBStatus('all')">
+                        </div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Room</div>
+                        <div class="divDisplayTableCell head text-center" style="width:20%;">Room Type</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Status</div>
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">Availability</div>
+                        <div class="divDisplayTableCell head text-center" style="width:20%;">Remarks</div>
+                        <div class="divDisplayTableCell head text-center" style="width:20%;">Name</div>
+                    </div>
+                </div>
+                <!-- <perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight" [scrollIndicators]="true"></perfect-scrollbar> -->
+                <perfect-scrollbar *ngIf="houseKeepingData != null && houseKeepingData.length > 0; else noDataBody" class="scroll-container position-relative" [style.max-height.px]="scrollBarContainerHeight" [scrollIndicators]="true">
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow" *ngFor="let hkItem of houseKeepingData; let i = index;">
+                            <div class="divDisplayTableCell brdLft text-center" style="width:5%;">
+                                <input type="checkbox" name="body" id="bodyckb_{{i}}" [(ngModel)]="hkItem.checked" (change)="selectCKBStatus(hkItem)">
+                            </div>
+                            <div class="divDisplayTableCell brdLft text-center" style="width:10%;">
+                                {{hkItem.roomNumber}}
+                            </div>
+                            <div class="divDisplayTableCell brdLft text-center" style="width:20%;">
+                                {{hkItem.roomCode}}
+                            </div>
+                            <div class="divDisplayTableCell brdLft text-center" style="width:10%; color:#5068F1;text-decoration: underline;" [style.background-color]="hkItem.roomStatus == 'Dirty' ? '#FADBFD' : '#DCFBFF'">
+                                <div class="position-relative" dropdown>
+                                    <a dropdownToggle class="dropdown-toggle point-cursor">
+                                        {{hkItem.roomStatus}}
+                                    </a>
+                                    <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                        <li role="menuitem"><a class="dropdown-item point-cursor" (click)="updateStatus(hkItem, 'roomStatus', 'Dirty', hkStatusModal)">Dirty</a></li>
+                                        <li role="menuitem"><a class="dropdown-item point-cursor" (click)="updateStatus(hkItem, 'roomStatus', 'Clean', hkStatusModal)">Clean</a></li>
+                                        <li role="menuitem"><a class="dropdown-item point-cursor" (click)="updateStatus(hkItem, 'roomStatus', 'Inspect', hkStatusModal)">Inspect</a></li>
+                                        <li role="menuitem"><a class="dropdown-item point-cursor" (click)="updateStatus(hkItem, 'roomStatus', 'Out of order', hkStatusModal)">Out Of Order</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="divDisplayTableCell brdLft text-center" style="width:15%;" [style.background-color]="hkItem.availableToAssign == 0 ? '' : '#D2FCD8'">
+                                {{hkItem.availableToAssign == 0 ? 'Available' : 'Occupied'}}
+                            </div>
+                            <div class="divDisplayTableCell brdLft text-center" style="width:20%;">
+                                {{hkItem.remarks == null ? '-' : hkItem.remarks}}
+                            </div>
+                            <div class="divDisplayTableCell brdLft text-center" style="width:20%;" [style.background-color]="hkItem.assignedHouseStaf == ' ' ? '#E7E8EB' : ''">
+                                <!-- <span class="point-cursor" [popover]="popTemplate" [outsideClick]="true">
+                                    {{hkItem.assignedHouseStaf == " " ? 'Not Assigned' : hkItem.assignedHouseStaf }}
+                                </span> -->
+
+                                <div class="position-relative" dropdown>
+                                    <a dropdownToggle class="dropdown-toggle">
+                                        {{hkItem.assignedHouseStaf == " " ? 'Not Assigned' : hkItem.assignedHouseStaf }}
+                                    </a>
+                                    <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                        <li role="menuitem" *ngFor="let employeeItem of hotelEmployeeData">
+                                            <a class="dropdown-item" (click)="updateStatus(hkItem, 'staff', employeeItem.empName, hkStatusModal)">{{employeeItem.empName}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </perfect-scrollbar>
+
+                <ng-template #noDataBody>
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow" *ngIf="houseKeepingData != null && houseKeepingData.length == 0">
+                            <div class="divDisplayTableCell text-center" style="width:100%">
+                                No Data Found
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+
+            </div>
+        </div>
+        <ng-template #popTemplate>Just another: popover</ng-template>
+        <ng-template #hkStatusModal>
+
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Change Room Status</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row" *ngIf="newHkStatus == 'Out of order'">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Duration</label>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="input-group date-cal">
+                                            <span (click)="arvdate.show()">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="ooo-start-date" #arvdate="bsDatepicker" bsDatepicker [bsConfig]="bsConfigStart" [(ngModel)]="bsValueStart">
+                                        </div>
+                                    </div>
+                                    <div class="col-1 align-self-center text-center">to</div>
+                                    <div class="col">
+                                        <div class="input-group date-cal">
+                                            <span (click)="drpdate.show()">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="ooo-end-date" #drpdate="bsDatepicker" bsDatepicker [bsConfig]="bsConfigEnd" [(ngModel)]="bsValueEnd">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="hkRemarks" class="col-form-label">Remarks</label>
+                                <input type="text" class="form-control" id="hkremarks" name="hkremarks" [(ngModel)]="newHkRemarks" />
+                                <input type="hidden" class="form-control" id="hkstatus" name="hkstatus" [(ngModel)]="newHkStatus" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" (click)="changeRoomStatus('update')" class="btn btn-primary">Save</button>
+            </div>
+
+        </ng-template>
+    </div>
+
+    <div class="body-section">
+        <div class="row body-row">
+            <div class="col" style="padding-right: 0px;">
+                <button class="pull-right btn btn-normal">Print</button>
+            </div>
+        </div>
+    </div>
+
 </div>

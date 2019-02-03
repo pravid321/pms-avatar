@@ -1,0 +1,92 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <h5>Rooms</h5>
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                Room Type Name
+                            </th>
+                            <th scope="col">Base Price</th>
+                            <th scope="col">
+                                Ext.Person Chr.
+                            </th>
+                            <th scope="col">Ext. Bed Chr.</th>
+                            <th scope="col">Map Rate Plan &amp; Weightage</th>
+                            <th scope="col">Map Policies</th>
+                            <th scope="col">No of Rooms</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let tblData of [1,2]">
+                            <td class="text-center">
+                                <div>
+                                    <input type="text" id="blahA" value="1" />
+                                </div>
+                            </td>
+                            <td scope="row">
+                                R <input type="text" id="blahB" value="1" />
+                            </td>
+                            <td class="text-center">
+                                R <input type="text" id="blahB" value="1" />
+                            </td>
+                            <td>
+                                R <input type="text" id="blahB" value="1" />
+                            </td>
+                            <td>
+                                lot more
+                            </td>
+                            <td>
+                                <div>
+                                    <select name="mappolicy2">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <select name="mappolicy1">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <select name="mappolicy3">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <select name="room">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                </select>
+                            </td>
+                            <td>
+                                delete
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <span class="badge badge-sky" style="vertical-align:text-top;"><i class="fa fa-plus"></i></span>
+            <div style="margin-left:6px;display: inline-block;">Add Room Type</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-normal pull-right" type="submit">Reset</button>
+            <button class="btn btn-normal pull-right" type="submit">Save</button>
+        </div>
+    </div>
+</div>

@@ -1,12 +1,12 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { DayPilot, DayPilotSchedulerComponent } from 'daypilot-pro-angular';
-import { QuickReservationComponent } from "./quick-reservation/quick.reservation.component";
+//import { QuickReservationComponent } from "./quick-reservation/quick.reservation.component";
 import { EditComponent } from "./edit.component";
 import { DataService, MoveEventParams } from './data.service';import { log } from 'util';
 import { FormArray } from '@angular/forms';
  { }
 
-export const schedulerSupportComponent = [QuickReservationComponent, EditComponent];
+export const schedulerSupportComponent = [ EditComponent];
 
 @Component({
     selector: 'scheduler-component',
@@ -22,7 +22,7 @@ export const schedulerSupportComponent = [QuickReservationComponent, EditCompone
 export class SchedulerComponent {
 
     @ViewChild('scheduler') scheduler: DayPilotSchedulerComponent;
-    @ViewChild("create") create: QuickReservationComponent;
+    //@ViewChild("create") create: QuickReservationComponent;
     @ViewChild("edit") edit: EditComponent;
 
     events: any[] = [];
@@ -55,8 +55,8 @@ export class SchedulerComponent {
         onBeforeEventRender: args => {
             args.data.backColor = args.data.color;
         }, 
-        onTimeRangeSelected: args => {
-            this.create.show(args);
+       // onTimeRangeSelected: args => {
+            //this.create.show(args);
             /*let name = prompt("New reservation:", "Guest Name");
             this.scheduler.control.clearSelection();
             if (!name) {
@@ -72,7 +72,7 @@ export class SchedulerComponent {
                 this.events.push();
                 this.scheduler.control.message("Event created");
             });*/
-        },
+        //},
         onEventResized: args => {
             console.log("at event resized: ", args);
 

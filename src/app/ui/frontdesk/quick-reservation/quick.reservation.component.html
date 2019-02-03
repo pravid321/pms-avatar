@@ -1,0 +1,266 @@
+<daypilot-modal #modal class="quick-reservation">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="fa fa-lock"></i>&nbsp;Add Quick Reservation: <small>{{selectedRoomName}}</small></h4>
+                <button type="button" class="close" (click)="cancel()">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form [formGroup]="form">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Duration</label>
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <div class="input-group date-cal">
+                                                <span (click)="arvdate.show()">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                                <input type="text" class="form-control" id="recipient-start-date" #arvdate="bsDatepicker" bsDatepicker [bsConfig]="bsConfigStart" formControlName="start">
+                                            </div>
+                                        </div>
+                                        <div class="col-1 align-self-center text-center">to</div>
+                                        <div class="col">
+                                            <div class="input-group date-cal">
+                                                <span (click)="drpdate.show()">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                                <input type="text" class="form-control" id="recipient-end-date" #drpdate="bsDatepicker" bsDatepicker [bsConfig]="bsConfigEnd" formControlName="end">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="rateType" class="col-form-label">Rate Plan Type</label>
+                                    <select class="form-control" id="rateType" formControlName="rateType">
+                                        <option value="slcRate">Select Rate</option>
+                                        <option *ngFor="let ratePlan of ratePlanList" value="{{ratePlan.ratePlanCode}}">{{ratePlan.ratePlanName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="form-row">
+                                        <div class="col-3">
+                                            <label for="nameInitial" class="col-form-label">Title</label>
+                                            <select class="form-control" id="nameInitial" formControlName="guestTitle">
+                                                <option value="Mr.">Mr.</option>
+                                                <option value="Mrs.">Mrs.</option>
+                                                <option value="Miss.">Miss.</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col">
+                                            <label for="recipient-name" class="col-form-label">First Name</label>
+                                            <input type="text" class="form-control" id="recipient-name" formControlName="guestFname">
+                                        </div>
+
+                                        <div class="col">
+                                            <label for="recipient-name" class="col-form-label">Last Name</label>
+                                            <input type="text" class="form-control" id="recipient-name" formControlName="guestLname">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label for="recipient-name" class="col-form-label">Phone</label>
+                                            <input type="text" class="form-control" id="recipient-phone" formControlName="guestPhone">
+                                        </div>
+
+                                        <div class="col">
+                                            <label for="recipient-name" class="col-form-label">Email</label>
+                                            <input type="text" class="form-control" id="recipient-email" formControlName="guestEmail">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label for="adultCount" class="col-form-label">Adult(s)</label>
+                                            <select class="form-control" id="adultCount" formControlName="adultCount">
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col">
+                                            <label for="childCount" class="col-form-label">Children(s)</label>
+                                            <select class="form-control" id="childCount" formControlName="childCount">
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col">
+                                            <label for="roomCount" class="col-form-label">Room(s)</label>
+                                            <select class="form-control" id="roomCount" formControlName="roomCount">
+                                                <option value="1">1</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label for="recipient-name" class="col-form-label">Deposit</label>
+                                            <input type="text" class="form-control" id="recipient-name">
+                                        </div>
+
+                                        <div class="col">
+                                            <label for="recipient-name" class="col-form-label">Payment Due</label>
+                                            <input type="text" class="form-control" id="recipient-name">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label for="recipient-name" class="col-form-label">Credit Card Accepted</label>
+                                        </div>
+                                        <div class="col">
+                                            <div class="card-holder">
+                                                <a href="javascript:void(0);" data-toggle="collapse" data-target="#cardDetails" class="collapsed">
+                                                    <img src="https://cdn0.iconfinder.com/static/img/cards/visa.svg?0ebb52d964" width="32">
+                                                </a>
+                                                <a href="javascript:void(0);" data-toggle="collapse" data-target="#cardDetails" class="collapsed">
+                                                    <img src="https://cdn0.iconfinder.com/static/img/cards/mastercard.svg?063b13c064" width="32">
+                                                </a>
+                                                <a href="javascript:void(0);" data-toggle="collapse" data-target="#cardDetails" class="collapsed">
+                                                    <img src="https://cdn0.iconfinder.com/static/img/cards/amex.svg?444731bb95" width="32">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group" style="margin-top: 10px;">
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <span class="font-weight-normal">Price: {{ 1000 | currency:'INR':true }} <small style="margin-left:6px;"><sup>*</sup> Tax excluded price</small></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="collapse" id="cardDetails">
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label for="text3" class="control-label">Cardholder's Name</label>
+                                                <input id="text3" name="text3" type="text" class="form-control" formControlName="cardHolderName">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label for="text3" class="control-label">Card Number</label>
+                                                <input id="text3" name="text3" type="text" class="form-control" formControlName="cardNumber" placeholder="16-digit card number">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label for="text3" class="control-label">Card Type</label>
+                                                <select class="form-control" id="cardType" formControlName="cardCode">
+                                                    <option value="visa">Visa</option>
+                                                    <option value="mastercard">Master</option>
+                                                    <option value="RuPay">RuPay</option>
+                                                </select>
+                                            </div>
+                                            <div class="col">
+                                                <label for="text3" class="control-label">Expiration Date</label>
+                                                <input id="text3" name="text3" type="text" class="form-control" formControlName="expireDate" placeholder="MM/YYYY">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label for="text3" class="control-label">CVV</label>
+                                                <input id="text3" name="text3" type="text" class="form-control" formControlName="seriesCode" placeholder="CVV">
+                                                <small for="text3" class="control-label pull-right">(Last 3 digits on the back)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <span class="align-middle mr-auto">Single | Group | Agent/Corporate</span>
+
+                <div class="custom-control custom-checkbox blocked">
+                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                    <label class="custom-control-label" for="customCheck1">Hold Till</label>
+                </div>
+                <button type="button" class="btn btn-primary blocked">Temp Reserve</button>
+                <button type="button" (click)="submit()" class="btn btn-primary">Reserve</button>
+
+            </div>
+
+        </div>
+    </div>
+</daypilot-modal>

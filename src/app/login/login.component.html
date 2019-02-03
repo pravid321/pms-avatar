@@ -1,12 +1,10 @@
-<div class="container">
-    <div class="row login-row">
-        <div class="col-md-4 offset-md-4 offset-lg-4 col-lg-4 text-center">
-            <h2>
+<div class="container h-100">
+    <div class="row align-items-center h-100">
+        <div class="col-sm-6 col-md-4 offset-md-4 offset-lg-4 col-lg-4">
+            <h2 class="text-center">
                 <img class="profile-img" src="./assets/images/tejal-login-logo.png" alt="">
             </h2>
-        </div>        
-        <div class="col-sm-6 col-md-4 offset-md-4 offset-lg-4 col-lg-4">
-            <div class="account-wall">
+            <div class="account-wall" *ngIf="!existingLoginCrediantials; else logCheck">
                 <div class="login-title text-center">
                     <h5>Login to your Account</h5>
                 </div>
@@ -20,15 +18,27 @@
                             </div>
                             <div class="input-wrapper">
                                 <i class="fa fa-lock"></i>
-                                <input type="password" class="form-control" placeholder="Password"  id="password" required>
+                                <input type="password" class="form-control" placeholder="Password" id="password" required>
                             </div>
                             <label class="checkbox pull-left">
-                                <input type="checkbox" value="save-password">Save Password
+                                <input type="checkbox" name="saveLoginCredentials" id="saveLoginCredentials" [(ngModel)]="saveLoginCredentials">Save Password
                             </label>
-                            <a href="#" class="pull-right need-help">Forgot Password? </a><span class="clearfix"></span>
-                            <input type="submit" class="btn btn-lg btn-primary btn-block" value="Login" />
+                            <a href="javascript:void(0)" class="pull-right need-help collapsed" data-toggle="collapse" data-target="#frgtPass">
+                                Forgot Password? 
+                            </a>
+                            <span class="clearfix"></span>
+                            <div class="collapse" id="frgtPass">
+                                <div class="input-wrapper pull-left" style="width:80%;">
+                                    <i class="fa fa-envelope"></i>
+                                    <input type="email" class="form-control" placeholder="Enter email id" id="frgtemail" #frgtemail (keyup)="onKey(frgtemail.value)">
+                                </div>
+                                <div class="pull-right">
+                                    <button class="btn btn-sm btn-success btn-go" [class.blocked]="frgtBtnBlocked">Go</button>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-lg btn-block login-btn" value="Login" />
                         </form>
-                        <div id="tabs" data-tabs="tabs">
+                        <div class="blocked" id="tabs" data-tabs="tabs">
                             <p class="text-center">Don't have an account?&nbsp;<a href="#register" data-toggle="tab">Sign up</a></p>
                         </div>
                     </div>
@@ -94,6 +104,12 @@
                     </div>
                 </div>
             </div>
+
+            <ng-template #logCheck>
+                <div class="account-wall text-center" style="padding-top:20px;">
+                    <img src="./assets/images/login_spinner.gif" alt="">                    
+                </div>
+            </ng-template>
         </div>
     </div>
 </div>

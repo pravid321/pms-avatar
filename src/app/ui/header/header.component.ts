@@ -1,7 +1,8 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 
 import { AuthService } from '../../services/auth/auth.service';
-import { RouteParameterService } from '../../shared/route.parameter.service';
+import { UserResolver } from '../../shared/user.resolver.service';
+import { DataEventService } from '../../shared/data.event.service';
 
 @Component({
   selector: 'app-header',
@@ -17,10 +18,8 @@ export class HeaderComponent implements OnInit, OnChanges {
   @Input()
   paramDetails: any;
 
-  constructor(private routeParamService: RouteParameterService, private _auth: AuthService) {
-    this.userData = {
-      userName: ''
-    }
+  constructor(private _userResolver: UserResolver, private _auth: AuthService, private _des: DataEventService) {
+    //this.userData 
     this.now = Date.now();
     setInterval(() => {
       this.now = Date.now();
@@ -28,15 +27,14 @@ export class HeaderComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() { 
-    this._auth.fetchUserDetails()
-      .subscribe(userResponse => {        
-        this.userData = userResponse
-      });
+    this.userData = this._userResolver.getUserData();
   }
 
   ngAfterViewInit(): void {
 
-    $('#sidebarCollapse').on('click', function () {
+    $('#sidebarCollapse').on('click', function (event) {
+      event.stopImmediatePropagation();
+      event.stopPropagation();
       if ($('#sidebar').hasClass('active')) {
         $('#sidebar').removeClass('active');
         $('.overlay').removeClass('active');
@@ -51,26 +49,40 @@ export class HeaderComponent implements OnInit, OnChanges {
     $('#dismiss, .overlay, .side-link').on('click', function () {
       $('#sidebar').removeClass('active');
       $('.overlay').removeClass('active');
-    });  
-
+    });
 
     setTimeout(() => {
       let excessWidth = $("#sub-navbar").outerWidth() - $("#sub-menu1").outerWidth();
       this.subHeaderPaddingLeft = (excessWidth / 2) - $(".nav-item").outerWidth();
     }, 0);
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    //console.log("in changes: ", this.paramDetails);
-
+    console.log("in home component change: ", this.paramDetails);
+    
     setTimeout(() => {
       let excessWidth = $("#sub-navbar").outerWidth() - $("#sub-menu1").outerWidth();
       this.subHeaderPaddingLeft = (excessWidth / 2) - $(".nav-item").outerWidth();
     }, 0);
   }
 
+  closeSideSidebar(){
+    $('#sidebar').removeClass('active');
+    $('.overlay').removeClass('active');
+  }
+
+  showFrontDeskPage(pageType: any) {
+    this._des.newEvent(pageType);
+    $('#sidebar').removeClass('active');
+    $('.overlay').removeClass('active');
+  }
+
   logout() {
-    this._auth.removeToken();
+    this._auth.removeLoginCredentialsInCookie();
+    setTimeout(() => {
+      this._auth.removeToken();      
+    }, 100);
   }
 
 }
