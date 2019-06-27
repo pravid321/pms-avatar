@@ -1,8 +1,11 @@
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import { Component, OnInit, ViewChild, ModuleWithComponentFactories } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService, ModalDirective } from 'ngx-bootstrap/modal';
+import { Component, OnDestroy, OnInit, ViewChild, ModuleWithComponentFactories } from '@angular/core';
 import { DayPilot, DayPilotSchedulerComponent } from 'daypilot-pro-angular';
 import { OwlCarousel } from 'ngx-owl-carousel';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 //import { DaterangePickerComponent } from 'ng2-daterangepicker';
 
 import moment from 'moment';
@@ -10,8 +13,11 @@ import * as $ from 'jquery';
 import _ from 'lodash';
 
 import { BookingDetailsComponent } from './booking-details/booking.details.component';
+import { CheckInCardComponent } from './check-in-card/checkin.card.component';
+import { CheckOutCardComponent } from './check-out-card/checkout.card.component';
 import { DataEventService } from '../../shared/data.event.service';
 import { DataService, CreateEventParams, MoveEventParams } from '../scheduler/data.service';
+import { FrontdeskLeftSidebarComponent } from './left-sidebar-panel/frontdesk.left.sidebar.panel.component';
 import { FrontDeskService } from '../services/front.desk.services';
 import { IRoom, IRatePlan, IReservationData } from './Frontdesk';
 import { QuickReservationComponent } from './quick-reservation/quick.reservation.component';
@@ -19,15 +25,16 @@ import { RouteParameterService } from '../../shared/route.parameter.service';
 import { ReportDetailsComponent } from './report-details/report.details.component';
 
 
-export const frontDeskChildComponents = [BookingDetailsComponent, QuickReservationComponent, ReportDetailsComponent];
+export const frontDeskChildComponents = [BookingDetailsComponent, QuickReservationComponent, ReportDetailsComponent, FrontdeskLeftSidebarComponent, CheckInCardComponent, CheckOutCardComponent];
 
 @Component({
   selector: 'app-ui-frontdesk',
   templateUrl: './frontdesk.component.html',
   styleUrls: ['./frontdesk.component.scss']
 })
-export class FrontdeskComponent implements OnInit {
+export class FrontdeskComponent implements OnInit, OnDestroy {
 
+  modalRef: BsModalRef;
   bsConfig: Partial<BsDatepickerConfig>;
   minDate: Date;
   selectedStartDate: Date;
@@ -36,6 +43,7 @@ export class FrontdeskComponent implements OnInit {
 
   roomList: IRoom[];
   ratePlanList: IRatePlan[];
+  mappedRatePlanList: any;
 
   showPicker: boolean = false;
   dateTab: string = 'custom';
@@ -43,7 +51,9 @@ export class FrontdeskComponent implements OnInit {
   blockedRoomCountCellWidth: number;
   schedulerHeight: number;
 
+  eventBookingOption: any;
   eventBookingData: any;
+  eventSubscription: Subscription;
 
   public daterange: any = {};
   public fdPageView: string = 'console';
@@ -51,7 +61,8 @@ export class FrontdeskComponent implements OnInit {
   reservationStatusReportType: string;
   detailReservationList: any = [];
 
-
+  @ViewChild('checkInModal') checkInModal: ModalDirective;
+  @ViewChild('checkOutModal') checkOutModal: ModalDirective;
   @ViewChild('owlElement') owlElement: OwlCarousel;
 
   @ViewChild('scheduler') scheduler: DayPilotSchedulerComponent;
@@ -91,11 +102,12 @@ export class FrontdeskComponent implements OnInit {
   };
 
   constructor(
-    private router: Router,
-    private routeParamService: RouteParameterService,
     private ds: DataService,
     private dateData: DataEventService,
-    private fdData: FrontDeskService
+    private fdData: FrontDeskService,
+    private modalService: BsModalService,
+    private router: Router,
+    private routeParamService: RouteParameterService
   ) {
     //this.minDate = new Date();
     this.bsConfig = Object.assign({}, {
@@ -134,7 +146,7 @@ export class FrontdeskComponent implements OnInit {
 
     //console.log("in in it: ", requestOption);
 
-    this.dateData.currentEvent.subscribe(eventData => {
+    this.eventSubscription = this.dateData.currentEvent.subscribe(eventData => {
       //console.log("in frontdesk: ", eventData);
       switch (eventData) {
         case 'CheckedIn':
@@ -159,6 +171,14 @@ export class FrontdeskComponent implements OnInit {
           break;
         case 'Cancellations':
           this.fdPageView = 'reservationReports';
+          this.reservationStatusReportType = eventData;
+          break;
+        case 'TraiffChart':
+          this.fdPageView = 'traiffChart';
+          this.reservationStatusReportType = eventData;
+          break;
+        case 'GuestLookUp':
+          this.fdPageView = 'guestLookUp';
           this.reservationStatusReportType = eventData;
           break;
       }
@@ -187,76 +207,139 @@ export class FrontdeskComponent implements OnInit {
     heightSpec: "Fixed",
     treePreventParentUsage: true,
     cellWidthSpec: 'Auto',
+    rowHeaderWidthAutoFit: true,
     //contextMenu: ,
     onBeforeTimeHeaderRender: args => {
-      if (args.header.start.getDayOfWeek() === 0) {
+      if (args.header.start.getDayOfWeek() === 0 || args.header.start.getDayOfWeek() === 6) {
         args.header.cssClass = "suncss";
       }
       let fromatArray = args.header.html.split(',');
       args.header.html = fromatArray[0] + '<br>' + ("" + fromatArray[1]).substring(0, 3).toUpperCase();
     },
-    onBeforeRowHeaderRender: args => {
+    onBeforeRowHeaderRender: (args: any) => {
       args.row.backColor = (args.row.index % 2) ? "#F1F1F1" : "#F9F9F9";
+      setTimeout(() => {
+        $('.scheduler_default_tree_image_collapse, .scheduler_default_tree_image_expand').css({ 'top': '18px', 'left': '6px' });
+      }, 10);
+      if (args.row.level != 0) {
+        args.row.cssClass = "roomStat";
+      }
+      //console.log("args on before render: ", args);
     },
-    onBeforeResHeaderRender: args => {
-      /*if (args.resource.level == 0){
-        args.resource.cssClass = "levelParent";
-      }*/
-    },
+
+    /*onBeforeResHeaderRender:args => {
+      if (args.resource.level != 0) {
+        console.log("inner resource: ", args.resource);
+        args.resource.html += "<span></span>";
+      }
+    },*/
     onBeforeCellRender: args => {
       //      
     },
     onBeforeEventRender: args => {
-      //args.data.backColor = args.data.color;
-      //console.log("on before render event argument: ", args);
+      //args.data.top = '2px';
+      //console.log("on before render event argument: ", args, moment(args['data'].start).diff(moment().format('YYYY-MM-DD 00:00:00.0'), 'days'));
       let contextMenu = new DayPilot.Menu({
         items: [
           {
+            text: "Add Quick Reservation",
+            image: "./assets/images/view-details-ico.png",
+            disabled: this.menuDisabledStatus(args['data'], 'quickReservation'),
+            onClick: eventArgs => {
+              let roomDetail = this.getSelectedRoomDetails(eventArgs.source.data.resource);
+              //console.log("add quick reservations: ", eventArgs, roomDetail);
+              args['roomID'] = roomDetail.roomID;
+              args['roomCode'] = roomDetail.roomCode;
+              args['roomName'] = roomDetail.roomName;
+              args['roomDesc'] = roomDetail.roomDesc;
+              args['resource'] = eventArgs.source.data.resource;
+              args['start'] = moment(eventArgs.source.data.start).format('DD-MMM-YYYY');
+              args['end'] = moment(eventArgs.source.data.end).add(1, 'd').format('DD-MMM-YYYY');
+              this.fdData.getMappedRoomRateList(roomDetail.roomID).subscribe(rateListRes => {
+                this.mappedRatePlanList = rateListRes['RTRPMappings'];
+                this.create.show(args);
+              });
+            }
+          },
+          { text: "-" },   // separator
+          {
+            text: "Cancel Reservation",
+            image: "./assets/images/cancel-checkin-ico.png",
+            disabled: this.menuDisabledStatus(args['data'], 'cancelReservation')
+          },
+          {
             text: "Cancel Check In",
-            image: "./assets/images/guest-lookup-ico.png",
-            disabled: true,
+            image: "./assets/images/cancel-checkin-ico.png",
+            disabled: this.menuDisabledStatus(args['data'], 'cancelCheckIn'),
+            onClick: eventArgs => {
+              this.changeBookingStatus(args['data'].otherData, 'cancelCheckIn');
+            },
           },
           {
             text: "Check In",
-            image: "./assets/images/guest-lookup-ico.png",
+            image: "./assets/images/checkin-ico.png",
+            disabled: this.menuDisabledStatus(args['data'], 'checkIn'),
             onClick: eventArgs => {
               this.changeBookingStatus(args['data'].otherData, 'Checkin');
-            }
+            },
+            //moment(args['data'].start).diff(moment().format('YYYY-MM-DD 00:00:00.0'), 'days') > 0 ? true : false
           },
           {
             text: "Check Out",
-            image: "./assets/images/guest-lookup-ico.png",
-            disabled: true,
+            image: "./assets/images/checkout-ico.png",
+            disabled: this.menuDisabledStatus(args['data'], 'checkOut'),
             onClick: eventArgs => {
               this.changeBookingStatus(args['data'].otherData, 'Checkout');
             }
           },
           {
             text: "Cancel Check Out",
-            image: "./assets/images/guest-lookup-ico.png",
-            disabled: true,
+            image: "./assets/images/checkout-cancel-ico.png",
+            disabled: this.menuDisabledStatus(args['data'], 'cancelCheckOut'),
           },
+          { text: "-" },   // separator
           {
             text: "Assign",
-            image: "./assets/images/guest-lookup-ico.png",
+            image: "./assets/images/assign-ico.png",
             disabled: true,
           },
           {
             text: "Un Assign",
-            image: "./assets/images/guest-lookup-ico.png",
+            image: "./assets/images/unassign-ico.png",
             disabled: true,
           },
+          { text: "-" },   // separator
           {
             text: "Payments",
-            image: "./assets/images/guest-lookup-ico.png",
+            image: "./assets/images/payment-ico.png",
+            disabled: this.menuDisabledStatus(args['data'], 'payments'),
+            onClick: args => {
+              setTimeout(() => {
+                let existsBooking = this.detailReservationList.find(bookingData => bookingData.bookingID == args.source.data.otherData.bookingID);
+                //console.log("on args click: ", args, existsBooking);
+                if (typeof existsBooking === 'undefined') {
+                  /*this.detailReservationList.push({
+                    'bookingID': args.source.data.otherData.bookingID,
+                    'givenName': args.source.data.otherData.guestDetails.guestDetail[0].givenName + ' ' + args.source.data.otherData.guestDetails.guestDetail[0].surName,
+                    'otherData': args.source.data.otherData
+                  });*/
+                  this.eventBookingData = args.source.data.otherData;
+                } else {
+                  this.eventBookingData = args.source.data.otherData;
+                }
+                this.fdPageView = 'paymentsDetails';
+              }, 10);
+            }
           },
           {
             text: "Split Reservation",
-            image: "./assets/images/guest-lookup-ico.png",
+            image: "./assets/images/reservation-split-ico.png",
+            disabled: true
           },
           {
             text: "View Details",
-            image: "./assets/images/guest-lookup-ico.png",
+            image: "./assets/images/view-details-ico.png",
+            disabled: this.menuDisabledStatus(args['data'], 'viewDetails'),
             onClick: args => {
               let existsBooking = this.detailReservationList.find(bookingData => bookingData.bookingID == args.source.data.otherData.bookingID);
               //console.log("on args click: ", args, existsBooking);
@@ -272,19 +355,20 @@ export class FrontdeskComponent implements OnInit {
               }
             }
           },
+          { text: "-" },   // separator
           {
             text: "Group Check In",
-            image: "./assets/images/guest-lookup-ico.png",
+            image: "./assets/images/group-checkin-ico.png",
             disabled: true,
           },
           {
             text: "Group Check Out",
-            image: "./assets/images/guest-lookup-ico.png",
+            image: "./assets/images/group-checkout-ico.png",
             disabled: true,
           },
           {
             text: "Messages/Task",
-            image: "./assets/images/guest-lookup-ico.png",
+            image: "./assets/images/message-ico.png",
           }
         ]
       });
@@ -301,37 +385,87 @@ export class FrontdeskComponent implements OnInit {
     },
     onTimeRangeSelected: args => {
       let roomDetail = this.getSelectedRoomDetails(args.resource);
+      //console.log("roomDetail: ", args, roomDetail);
+      args['roomID'] = roomDetail.roomID;
       args['roomCode'] = roomDetail.roomCode;
       args['roomName'] = roomDetail.roomName;
       args['roomDesc'] = roomDetail.roomDesc;
-      this.create.show(args);
+      args['ruid'] = roomDetail.ruid;
+      args['roomNumber'] = roomDetail.roomNumber;
+      args['roomStatus'] = roomDetail.roomStatus;
+      args['availableToAssign'] = roomDetail.availableToAssign;
+      this.fdData.getMappedRoomRateList(roomDetail.roomID).subscribe(rateListRes => {
+        this.mappedRatePlanList = rateListRes['RTRPMappings'];
+        this.create.show(args);
+      });
     },
     onEventResized: args => {
       console.log("at event resized: ", args);
     },
     onEventMove: args => {
-      /*let params: MoveEventParams = {
-        id: args.e.id(),
-        start: args.newStart.toString(),
-        end: args.newEnd.toString(),
-        resource: args.newResource
-      };
-      console.log("on move: ", params);*/
-
-      let moveEventOption = {
-        "bookingID": args.e.id(),
-        "roomNumber": args.newResource,
-        "action": "Assign"
+      args.preventDefault();
+      let oldRoomObject = this.getSelectedRoomDetails(args.e.data.resource);
+      let newRoomObject = this.getSelectedRoomDetails(args.newResource);
+      //console.log("on event move: ", oldRoomObject, newRoomObject);
+      if (oldRoomObject.roomCode == newRoomObject.roomCode) {
+        let moveEventOption = {
+          "bookingID": args.e.id(),
+          "roomNumber": args.newResource,
+          "action": "Assign"
+        }
+        this.fdData.assignOrCheckinReservation(moveEventOption).subscribe(result => {
+          this.scheduler.control.message(result['successList'][0]['message']);
+          if (result['successList'][0]['status'].toLowerCase() == 'failed') {
+            return false;
+          } else {
+            let revEvent = this.events.find(revData => revData.id == moveEventOption.bookingID);
+            revEvent.resource = moveEventOption.roomNumber;
+            revEvent.otherData.assignedRoomNumber = moveEventOption.roomNumber;
+            let requestOption = {
+              startDate: moment(this.scheduler.control.visibleStart()['value']).format('YYYY-MM-DD'),
+              endDate: moment(this.scheduler.control.visibleEnd()['value']).format('YYYY-MM-DD')
+            }
+            this.getReservationDetailList(requestOption);
+            return true;
+          }
+        });
+      } else {
+        this.scheduler.control.message('Room Type Move Not possible');
       }
-      this.fdData.assignOrCheckinReservation(moveEventOption).subscribe(result => {
-        this.scheduler.control.message(result['message']);
-        let revEvent = this.events.find(revData => revData.id == moveEventOption.bookingID);
-        revEvent.resource = moveEventOption.roomNumber;
-        revEvent.otherData.assignedRoomNumber = moveEventOption.roomNumber;
-      });
-
     }
   };
+
+  menuDisabledStatus(argsData, menuType): boolean {
+    //console.log("argsData, menuType: ", argsData, menuType);
+    let returnType: boolean = true;
+    switch (menuType) {
+      case 'quickReservation':
+        returnType = argsData['otherData']['bookingStatus'] == "CheckedOut" ? false : true;
+        break;
+      case 'cancelReservation':
+        returnType = argsData['otherData']['bookingStatus'] == "New" ? false : true;
+        break;
+      case 'cancelCheckIn':
+        returnType = argsData['otherData']['bookingStatus'] == "CheckedIn" ? false : true;
+        break;
+      case 'checkIn':
+        returnType = moment(argsData.start).diff(moment().format('YYYY-MM-DD 00:00:00.0'), 'days') <= 0 && argsData['otherData']['bookingStatus'] == "New" ? false : true
+        break;
+      case 'checkOut':
+        returnType = argsData['otherData']['bookingStatus'] == "CheckedIn" ? false : true;
+        break;
+      case 'cancelCheckOut':
+        returnType = argsData['otherData']['bookingStatus'] == "CheckedOut" ? false : true;
+        break;
+      case 'payments':
+        returnType = false;
+        break;
+      case 'viewDetails':
+        returnType = false;
+        break;
+    }
+    return returnType;
+  }
 
   get durationBarNotSupported(): boolean {
     return this.themes.find(item => item.value === this.config.theme).noDurationBarSupport;
@@ -360,17 +494,20 @@ export class FrontdeskComponent implements OnInit {
 
     this.fdData.getRoomRateDetails().subscribe(roomRateResponse => {
 
-      console.log("in room rate details response: ", roomRateResponse);
+      //console.log("in room rate details response: ", roomRateResponse);
 
       this.roomList = roomRateResponse[0];
       this.ratePlanList = roomRateResponse[1];
-
-      for (let roomResIndex = 0; roomResIndex < this.roomList.length; roomResIndex++) {
+      let roomListSize = this.roomList.length;
+      for (let roomResIndex = 0; roomResIndex < roomListSize; roomResIndex++) {
         let childRoomList = [];
-        for (let roomNumbIndex = 0; roomNumbIndex < this.roomList[roomResIndex].roomNumbers.length; roomNumbIndex++) {
+        let roomUnitSize = this.roomList[roomResIndex].roomDetails.length
+        for (let roomNumbIndex = 0; roomNumbIndex < roomUnitSize; roomNumbIndex++) {
           childRoomList.push({
-            name: this.roomList[roomResIndex].roomNumbers[roomNumbIndex],
-            id: this.roomList[roomResIndex].roomNumbers[roomNumbIndex]
+            id: this.roomList[roomResIndex].roomDetails[roomNumbIndex].roomNumber,
+            name: this.roomList[roomResIndex].roomDetails[roomNumbIndex].roomNumber,
+            roomStatus: this.roomList[roomResIndex].roomDetails[roomNumbIndex].roomStatus,
+            availableToAssign: this.roomList[roomResIndex].roomDetails[roomNumbIndex].availableToAssign
           });
         }
 
@@ -393,7 +530,7 @@ export class FrontdeskComponent implements OnInit {
 
   }
 
-  getReservationDetailList(requestOption: any) {
+  getEventColor(bookingStatus: string, colorType: string) {
     let eventColorList = {
       'CheckedIn': {
         'backColor': '#f286ea',
@@ -415,7 +552,13 @@ export class FrontdeskComponent implements OnInit {
         'borderColor': '#5c99bf',
         'fontColor': '#fff'
       }
-    }
+    };
+
+    return eventColorList[bookingStatus][colorType];
+  }
+
+  getReservationDetailList(requestOption: any) {
+
     //console.log("response-->: ", requestOption);
 
     this.fdData.getReservationDetails(requestOption).subscribe(res => {
@@ -427,16 +570,16 @@ export class FrontdeskComponent implements OnInit {
 
 
       for (let eventIndex = 0; eventIndex < eventList.length; eventIndex++) {
-        //console.log('in loop: ', eventColorList[eventList[eventIndex].bookingStatus]);
+        //console.log('in loop: ', eventList[eventIndex].bookingStatus);
         this.events.push({
           id: eventList[eventIndex].bookingID,
           resource: eventList[eventIndex].assignedRoomNumber,
           start: eventList[eventIndex].arrivalDate,
           end: eventList[eventIndex].departureDate,
           text: eventList[eventIndex].guestDetails.guestDetail[0].namePrefix + ' ' + eventList[eventIndex].guestDetails.guestDetail[0].givenName + ' ' + eventList[eventIndex].guestDetails.guestDetail[0].surName,
-          backColor: eventColorList[eventList[eventIndex].bookingStatus].backColor,
-          borderColor: eventColorList[eventList[eventIndex].bookingStatus].borderColor,
-          fontColor: eventColorList[eventList[eventIndex].bookingStatus].fontColor,
+          backColor: this.getEventColor(eventList[eventIndex].bookingStatus, 'backColor'),
+          borderColor: this.getEventColor(eventList[eventIndex].bookingStatus, 'borderColor'),
+          fontColor: this.getEventColor(eventList[eventIndex].bookingStatus, 'fontColor'),
           otherData: eventList[eventIndex]
         })
       }
@@ -460,7 +603,7 @@ export class FrontdeskComponent implements OnInit {
 
   /*   This method wil call on date range calender setting   */
   onCalenderValueChange() {
-    console.log("dt change: ", this.bsRangeValue);
+    //console.log("dt change: ", this.bsRangeValue);
     this.selectedStartDate = this.bsRangeValue[0];
     this.selectedEndDate = this.bsRangeValue[1];
 
@@ -482,28 +625,69 @@ export class FrontdeskComponent implements OnInit {
 
   }
 
-  datePickerRangeSet(dt){
+  /*datePickerRangeSet(dt){
     console.log("on datepicker change: ", dt);
     console.log("dt change: ", this.bsRangeValue);
-  }
+  }*/
 
   /* ***** This method will change the booking status ******* */
   public changeBookingStatus(eventArgs: any, expectedStatus: string) {
-    console.log("in change booking status: ", eventArgs, expectedStatus);
-    let eventCheckinOption = {
-      "bookingID": eventArgs.bookingID
-    }
-    if (expectedStatus == 'Checkin') {
-      eventCheckinOption["roomNumber"] = eventArgs.assignedRoomNumber;
-      eventCheckinOption["action"] = 'Checkin';
 
-      this.fdData.assignOrCheckinReservation(eventCheckinOption).subscribe(result => {
-        this.scheduler.control.message(result['message']);
+    let self = this;
+    //console.log("in change booking status: ", eventArgs, expectedStatus);
+
+    this.eventBookingOption = {
+      "bookingID": eventArgs.bookingID,
+      "roomTypeName": this.roomList.find(roomItem => roomItem.roomCode == eventArgs.roomtype).roomName,
+      "roomNumber": eventArgs.assignedRoomNumber
+    }
+    //this.eventBookingOption["roomTypeName"] = ;
+    if (expectedStatus == 'Checkin') {
+      this.eventBookingOption["action"] = 'Checkin';
+
+      this.fdData.assignOrCheckinReservation(this.eventBookingOption).subscribe(result => {
+        this.scheduler.control.message(result['successList'][0]['message']);
+        if (result['successList'][0]['status'].toLowerCase() == 'success') {
+          //checkInModal
+          self.modalRef = self.modalService.show(
+            self.checkInModal,
+            Object.assign({}, { class: 'gray modal-dialog-centered modal-lg' })
+          );
+          let requestOption = {
+            startDate: moment(this.scheduler.control.visibleStart()['value']).format('YYYY-MM-DD'),
+            endDate: moment(this.scheduler.control.visibleEnd()['value']).format('YYYY-MM-DD')
+          }
+          this.getReservationDetailList(requestOption);
+        }
       });
+
     } else if (expectedStatus == 'Checkout') {
-      this.fdData.checkOutReservation(eventCheckinOption).subscribe(result => {
-        this.scheduler.control.message(result['message']);
+
+      this.eventBookingOption["roomNumber"] = eventArgs.assignedRoomNumber;
+      this.fdData.checkOutReservation(this.eventBookingOption).subscribe(result => {
+
+        this.scheduler.control.message(result['successList'][0]['message']);
+        
+        if (result['successList'][0]['status'].toLowerCase() == 'success') {
+          //checkOutModal
+          self.modalRef = self.modalService.show(
+            self.checkOutModal,
+            Object.assign({}, { class: 'gray modal-dialog-centered modal-lg' })
+          );
+          let requestOption = {
+            startDate: moment(this.scheduler.control.visibleStart()['value']).format('YYYY-MM-DD'),
+            endDate: moment(this.scheduler.control.visibleEnd()['value']).format('YYYY-MM-DD')
+          }
+          this.getReservationDetailList(requestOption);
+        }
+
       });
+    } else if (expectedStatus == 'cancelCheckIn') {
+      let requestOption = {
+        startDate: moment(this.scheduler.control.visibleStart()['value']).format('YYYY-MM-DD'),
+        endDate: moment(this.scheduler.control.visibleEnd()['value']).format('YYYY-MM-DD')
+      }
+      this.getReservationDetailList(requestOption);
     }
   }
 
@@ -564,25 +748,58 @@ export class FrontdeskComponent implements OnInit {
       endDate: moment().add(this.config.days, 'd').format('YYYY-MM-DD')
     }
 
+    this.routeParamService.changeRoute({
+      url: this.router.url,
+      pageName: 'Frontdesk'
+    });
+
     this.getReservationDetailList(requestOption);
 
   }
 
   /*   This method will call on date select for quick reservation to get selected room details   */
-  getSelectedRoomDetails(roomNo: any) {
+  getSelectedRoomDetails(roomNumber: any) {
+    //console.log("in getSelectedRoomDetails: ", roomUnitID);
     let selectedRoomObj: any;
-    this.roomList.map(roomObj => {
-      if (typeof roomObj.roomNumbers.find(roomListNo => roomListNo == roomNo) !== 'undefined') {
-        selectedRoomObj = roomObj;
+    let roomListLength = this.roomList.length;
+    for(let roomIndex = 0; roomIndex < roomListLength; roomIndex++){
+      let roomUnitItem = this.roomList[roomIndex].roomDetails.find(roomUnitItem => roomUnitItem.roomNumber == roomNumber);
+      if (typeof roomUnitItem !== 'undefined') {
+        selectedRoomObj = this.roomList[roomIndex];
+        selectedRoomObj['ruid'] = roomUnitItem.ruid;
+        selectedRoomObj['roomNumber'] = roomUnitItem.roomNumber;
+        selectedRoomObj['roomStatus'] = roomUnitItem.roomStatus;
+        selectedRoomObj['availableToAssign'] = roomUnitItem.availableToAssign;
+        break;
       }
-    });
+    }
+    /*this.roomList.map(roomObj => {
+      let roomUnitItem = roomObj.roomDetails.find(roomUnitItem => roomUnitItem.roomNumber == roomNumber);
+      if (typeof roomUnitItem !== 'undefined') {
+        selectedRoomObj = roomObj;
+        selectedRoomObj['ruid'] = roomUnitItem.ruid;
+        selectedRoomObj['roomNumber'] = roomUnitItem.roomNumber;
+        selectedRoomObj['roomStatus'] = roomUnitItem.roomStatus;
+        selectedRoomObj['availableToAssign'] = roomUnitItem.availableToAssign;
+      }
+    });*/
     return selectedRoomObj;
   }
 
   createClosed(eventData: any) {
+    //console.log("event data: ", eventData);
     if (eventData) {
+      eventData['backColor'] = this.getEventColor(eventData['otherData'].bookingStatus, 'backColor');
+      eventData['borderColor'] = this.getEventColor(eventData['otherData'].bookingStatus, 'borderColor');
+      eventData['fontColor'] = this.getEventColor(eventData['otherData'].bookingStatus, 'fontColor');
       this.events.push(eventData);
       this.scheduler.control.message("Reservation created successfully.");
+
+      let requestOption = {
+        startDate: moment(this.scheduler.control.visibleStart()['value']).format('YYYY-MM-DD'),
+        endDate: moment(this.scheduler.control.visibleEnd()['value']).format('YYYY-MM-DD')
+      }
+      this.getReservationDetailList(requestOption);
     }
     this.scheduler.control.clearSelection();
   }
@@ -593,7 +810,8 @@ export class FrontdeskComponent implements OnInit {
     if (dateModification) {
       this.eventBookingData.arrivalDate = moment(this.eventBookingData.arrivalDate, 'YYYY-MM-DD HH:mm:ss.S').format('DD-MMM-YYYY');
       this.eventBookingData.departureDate = moment(this.eventBookingData.departureDate, 'YYYY-MM-DD HH:mm:ss.S').format('DD-MMM-YYYY');
-      this.owlElement.reInit();
+      if (typeof this.owlElement !== 'undefined')
+        this.owlElement.reInit();
     }
 
     setTimeout(() => {
@@ -609,5 +827,13 @@ export class FrontdeskComponent implements OnInit {
     this.owlElement.next([200]);
   }
 
+  closeCheckInOut(type: string) {
+    console.log("in close check in-out: ", type);
+    this.modalRef.hide();
+  }
+
+  ngOnDestroy() {
+    this.eventSubscription.unsubscribe();
+  }
 
 }

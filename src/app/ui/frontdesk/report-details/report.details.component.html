@@ -21,38 +21,36 @@
 
                 <perfect-scrollbar *ngIf="reservationList != null && reservationList.length > 0; else noDataBody" class="scroll-container" [scrollIndicators]="true">
                     <div class="rTableRow" *ngFor="let revItem of reservationList; let i = index;">
-                        <div class="rTableCell" style="width:3%">{{i+1}}</div>
-                        <div class="rTableCell" style="width:8%">-</div>
-                        <div class="rTableCell" style="width:7%">{{revItem.bookingID}}</div>
-                        <div class="rTableCell" style="width:15%">
+                        <div class="rTableCell text-center" style="width:3%">{{i+1}}</div>
+                        <div class="rTableCell text-center" style="width:8%">-</div>
+                        <div class="rTableCell text-center" style="width:7%">{{revItem.bookingID}}</div>
+                        <div class="rTableCell text-center" style="width:15%">
                             {{revItem.guestDetails.guestDetail[0].namePrefix +' '+ revItem.guestDetails.guestDetail[0].givenName +' '+ revItem.guestDetails.guestDetail[0].surName}}
                         </div>                        
 
-                        <div class="rTableCell" style="width:10%">{{revItem.los}}</div>
-                        <div class="rTableCell" style="width:12%">{{revItem.assignedRoomNumber}}</div>
-                        <div class="rTableCell" style="width:5%">{{revItem.adult}}</div>
-                        <div class="rTableCell" style="width:8%">{{revItem.bookingStatus}}</div>
+                        <div class="rTableCell text-center" style="width:10%">{{revItem.los}}</div>
+                        <div class="rTableCell text-center" style="width:12%">{{revItem.assignedRoomNumber}}</div>
+                        <div class="rTableCell text-center" style="width:5%">{{revItem.adult}}</div>
+                        <div class="rTableCell text-center" style="width:8%">{{revItem.bookingStatus}}</div>
 
-                        <div class="rTableCell" style="width:8%"> -&nbsp;</div>
-                        <div class="rTableCell" style="width:8%">{{revItem.totalAmount}}</div>
-                        <div class="rTableCell" style="width:8%">Cancel</div>
-                        <div class="rTableCell" style="width:8%">-&nbsp;</div>
+                        <div class="rTableCell text-center" style="width:8%"> -&nbsp;</div>
+                        <div class="rTableCell text-center" style="width:8%">{{revItem.totalAmount}}</div>
+                        <div class="rTableCell text-center" style="width:8%">Cancel</div>
+                        <div class="rTableCell text-center" style="width:8%">-&nbsp;</div>
                     </div>
                 </perfect-scrollbar>
 
                 <ng-template #noDataBody>
-
                     <div class="rTableRow" *ngIf="reservationList != null && reservationList.length == 0">
-                            <div class="rTableCell text-center" style="width:100%">
-                                    No Data Found
-                            </div>
+                        <div class="rTableCell text-center" style="width:100%">
+                                No Data Found
+                        </div>
                     </div>
                 </ng-template>
             </div>
 
         </div>
     </div>
-
 
 </div>
 

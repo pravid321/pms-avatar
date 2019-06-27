@@ -3,8 +3,9 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 
-import { AdminService } from '../../../services/admin.service';
+import { AdminPolicyService } from '../../../services/admin.policy.service';
 import { ConfirmPopupComponent } from '../../../../shared/components/confirm.popup.component';
+import { ICheckInOutPolicy } from './CheckInOutPolicy';
 
 @Component({
     selector: 'app-admin-layout-checkin-chekout-policy',
@@ -17,13 +18,14 @@ export class AdminCheckinCheckoutPolicyComponent implements OnInit {
         type: null,
         message: null
     };
-    public checkInCheckOutPolicyList: any;
+    public checkInCheckOutPolicyList: ICheckInOutPolicy[];
+    public newCheckInOutPolicyObj: ICheckInOutPolicy;
     public config: PerfectScrollbarConfigInterface = {};
     public scrollBarContainerHeight: number;
 
     constructor(
         private modalService: BsModalService,
-        private _adminData: AdminService
+        private _adminData: AdminPolicyService
     ) { }
 
     ngOnInit() {
@@ -33,16 +35,10 @@ export class AdminCheckinCheckoutPolicyComponent implements OnInit {
         this.getCiCoPolicyList();
     }
 
-    public getCiCoPolicyList() {
-        this.checkInCheckOutPolicyList = [
-            {
-                id: 1,
-                name: 'For early check in',
-                dayhour: true,
-                description: 'details',
-                isPercentage: true,
-                editable: false,
-            }
-        ];
+    public getCiCoPolicyList() {        
+        this._adminData.getCheckInCheckOutPolicyList().subscribe(checkInOutPolicyRes => {
+            console.log("checkINOutPolicyRes: ", checkInOutPolicyRes);
+            this.checkInCheckOutPolicyList = checkInOutPolicyRes;
+        });
     }
 }

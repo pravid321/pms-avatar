@@ -46,6 +46,12 @@ export class FrontDeskService {
         );
     }
 
+    getMappedRoomRateList(roomId: number) {
+        let servUrl = environment.apiUrl;
+        let rateListUrl = servUrl + 'RatePlans/QuickRes/getRoomRateMappings/' + roomId + '/' + this.userHotelID;
+        return this._http.post(rateListUrl, {}).pipe(map(res => res), catchError(this.errorHandler));
+    }
+
     getReservationDetails(options) {
         let servUrl = environment.apiUrl;
         let gridInfoUrl = servUrl + 'gridInfo/' + this.userHotelID + '/' + options.startDate + '/' + options.endDate;
@@ -90,5 +96,12 @@ export class FrontDeskService {
         let reservationCheckOutUrl = servUrl + 'Bookings/BookingOperations/guestcheckout';
 
         return this._http.post(reservationCheckOutUrl, options).pipe(map(res => res), catchError(this.errorHandler));
+    }
+    
+    getBookingDetails(bookingID: any) {
+        let servUrl = environment.apiUrl;
+        let bookingDetailsUrl = servUrl + 'Bookings/getBookingDetails/' + this.userHotelID + '/' + bookingID;
+
+        return this._http.post(bookingDetailsUrl, {}).pipe(map(res => res), catchError(this.errorHandler));
     }
 }

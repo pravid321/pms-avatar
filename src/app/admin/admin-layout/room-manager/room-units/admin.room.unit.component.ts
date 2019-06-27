@@ -4,7 +4,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 
 
-import { AdminService } from '../../../services/admin.service';
+import { AdminRoomUnitService } from './admin.room.unit.service';
 import { ConfirmPopupComponent } from '../../../../shared/components/confirm.popup.component';
 import { IRoomUnit } from './RoomUnit';
 
@@ -33,22 +33,21 @@ export class AdminRoomUnitComponent implements OnInit {
   public spRoomName: string;
 
   @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
-  //@ViewChild('childModal') childModal: ConfirmPopupComponent;
 
   constructor(
     private modalService: BsModalService,
-    private _adminData: AdminService
+    private _adminData: AdminRoomUnitService
   ) { }
 
   ngOnInit() {
-    let headerBuffer = 60;
-    this.scrollBarContainerHeight = $(document).height() - ($("#main-navbar").outerHeight() + $("#sub-navbar").outerHeight() + $("#footerButtonContainer").outerHeight() + $("#pageHeading").outerHeight() + headerBuffer + 155);
+    let headerBuffer = 65;
+    this.scrollBarContainerHeight = $(document).height() - ($("#main-navbar").outerHeight() + $("#sub-navbar").outerHeight() + $("#footerButtonContainer").outerHeight() + $("#pageHeading").outerHeight() + headerBuffer + 100);
     //console.log("in ng on in it: ", $(document).height(), $("#main-navbar").outerHeight(), $("#sub-navbar").outerHeight(), $("#footerButtonContainer").outerHeight(), $("#pageHeading").outerHeight(), headerBuffer, this.scrollBarContainerHeight);      
     this.getRoomUnitList();
   }
 
   public getRoomUnitList() {
-    this._adminData.getRoomUnitList().subscribe(roomUnitListRes => {
+    this._adminData.getDataList('Config/RoomUnits/getRoomUnits/', 'roomUnits').subscribe(roomUnitListRes => {
       this.roomUnitList = roomUnitListRes;
     });
   }
@@ -67,14 +66,19 @@ export class AdminRoomUnitComponent implements OnInit {
     this.modalRef.content.event.subscribe(data => {
       this.modalRef.hide();
       if (data.confirm == true) {
-        this._adminData.removeRoomUnit({
-          ruid: this.roomUnitList[indx].ruid
-        }).subscribe(res => {
+        this._adminData.removeData(
+          'Config/RoomUnits/removeRoomUnit/',
+          {
+            dataID: this.roomUnitList[indx].ruid
+          }
+        ).subscribe(res => {
           this.alertMessageDetails.response = true;
-          if (res['message'].toLowerCase() == 'success') {
+          //{"successList":[{"status":"Success","message":"roomUnitMapping deleted successfully for ruid: 6037","rowsUpdated":1,"bookingId":0,"folioId":0}]}
+          if (res['successList'][0]['status'].toLowerCase() == 'success') {
             this.roomUnitList.splice(indx, 1);
             this.alertMessageDetails.type = 'success';
             this.alertMessageDetails.message = "Room unit deleted successfully";
+            this.getRoomUnitList();
           } else {
             this.alertMessageDetails.type = 'danger';
             this.alertMessageDetails.message = "Room unit details not deleted! Please try again.";
@@ -122,8 +126,8 @@ export class AdminRoomUnitComponent implements OnInit {
       });
     }
 
-    
-    this._adminData.createRoomUnit(roomCreationObj).subscribe(res => {
+
+    this._adminData.addData('Config/RoomUnits/createRoomUnit/', roomCreationObj).subscribe(res => {
       console.log("before send: ", roomCreationObj, res);
 
       this.modalRef.hide();

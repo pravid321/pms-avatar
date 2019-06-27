@@ -6,7 +6,9 @@ import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent } from 'ngx-
 import { Router } from '@angular/router';
 
 import moment from 'moment';
+import _ from 'lodash';
 
+import { IHKRoom } from './Housekeeping';
 import { HousekeepingService } from '../services/housekeeping.services';
 import { RouteParameterService } from '../../shared/route.parameter.service';
 
@@ -14,7 +16,7 @@ import { RouteParameterService } from '../../shared/route.parameter.service';
   selector: 'app-ui-housekeeping',
   templateUrl: './housekeeping.component.html'
 })
-export class HousekeepingComponent implements OnInit {
+export class HousekeepingComponent implements OnInit{
 
   @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
   public config: PerfectScrollbarConfigInterface = {};
@@ -29,12 +31,15 @@ export class HousekeepingComponent implements OnInit {
   public modalRef: BsModalRef;
   public bsConfigStart: Partial<BsDatepickerConfig>;
   public bsConfigEnd: Partial<BsDatepickerConfig>;
-  public houseKeepingData: any = null;
+  public rawHouseKeepingData: IHKRoom[] = null;
+  public houseKeepingData: IHKRoom[] = null;
   public hotelEmployeeData: any = null;
   public allCkbox: boolean;
   public topRoomStatus: string;
+  public selectedRoomTypeValue: string;
   public bulkAssignedEmployee: string;
   public updateHkObject: any;
+  public roomTypeList: any
 
   public bsValueStart: Date;
   public bsValueEnd: Date;
@@ -73,15 +78,17 @@ export class HousekeepingComponent implements OnInit {
 
     this.bulkAssignedEmployee = 'Select';
     this.topRoomStatus = 'Select';
-
+    this.selectedRoomTypeValue = 'All Room Types';
     this.housekeepingService.getHousekeepingDetails().subscribe(res => {
-      this.houseKeepingData = res;
-      //console.log("housekeeping data: ", this.houseKeepingData);
+      this.rawHouseKeepingData = res;
+      this.roomTypeList = _.uniq(res.map(({ roomCode }) => roomCode));
+      //console.log("housekeeping data: ", this.houseKeepingData, this.roomTypeList);
+      this.selectedRoomType('All Room Types');
     });
 
     this.housekeepingService.getAllHousekeepingEmployeeList().subscribe(res => {
       this.hotelEmployeeData = res['employees'];
-    });
+    });    
 
     /*this.housekeepingService.getAllHotelEmployeeList().subscribe(res => {      
       console.log("employee list: ", this.hotelEmployeeData);
@@ -97,6 +104,11 @@ export class HousekeepingComponent implements OnInit {
     } else {
       this.allCkbox = this.houseKeepingData.every(hkItem => hkItem.checked);
     }
+  }
+
+  public selectedRoomType(roomType: string) {
+    this.selectedRoomTypeValue = roomType;
+    this.houseKeepingData = (roomType == 'All Room Types') ? JSON.parse(JSON.stringify(this.rawHouseKeepingData)) : this.rawHouseKeepingData.filter((hkItem:IHKRoom) => { return hkItem.roomCode == roomType });
   }
 
   public isAnyRoomSelected() {    
@@ -119,11 +131,15 @@ export class HousekeepingComponent implements OnInit {
           Object.assign({}, { class: 'gray modal-md' })
         );
         this.newHkStatus = objectValue;
+
       } else {
 
         this.updateHkObject['hkRoomUnits'].map((updateHkItem: any) => {
           updateHkItem.roomStatus = objectValue;
           updateHkItem.remarks = null;
+          updateHkItem.sartDate = null;
+          updateHkItem.enddate = null;
+          delete updateHkItem.checked;
         });
         this.changeRoomStatus('updated');
       }
@@ -145,14 +161,15 @@ export class HousekeepingComponent implements OnInit {
       //console.log("in change room status: ", this.bsValueStart,      this.bsValueEnd);
       this.updateHkObject['hkRoomUnits'].map((updateHkItem: any) => {
         updateHkItem.roomStatus = this.newHkStatus;
-        updateHkItem.remarks = this.newHkRemarks + moment(this.bsValueStart).format("DD-MMM-YYYY") + moment(this.bsValueEnd).format("DD-MMM-YYYY");
+        updateHkItem.remarks = this.newHkRemarks;
+        updateHkItem.sartDate = moment(this.bsValueStart).format("YYYY-MM-DD");
+        updateHkItem.enddate = moment(this.bsValueEnd).format("YYYY-MM-DD");
         delete updateHkItem.checked;
       });
     }
     
     this.housekeepingService.updateHousekeepingDetails(this.updateHkObject).subscribe(res => {
       this.topRoomStatus = 'Select';
-      console.log("response: ", res);
       this.showUpdateResponse(res);
     });
   }
@@ -162,7 +179,7 @@ export class HousekeepingComponent implements OnInit {
     this.topRoomStatus = roomStatus;
 
     if (roomStatus == "Inspect" || roomStatus == "Out of order") {
-      //console.log("in update top room tatus: ", roomStatus);
+      
       this.modalRef = this.modalService.show(
         template,
         Object.assign({}, { class: 'gray modal-md' })
@@ -206,7 +223,7 @@ export class HousekeepingComponent implements OnInit {
     });
 
     this.housekeepingService.updateHousekeepingDetails(this.updateHkObject).subscribe(res => {
-      console.log("response: ", res);
+      //console.log("response: ", res);
       this.bulkAssignedEmployee = 'Select';
       this.showUpdateResponse(res);
     });
@@ -217,7 +234,7 @@ export class HousekeepingComponent implements OnInit {
     this.houseKeepingData.map((hkItem: any) => {
       hkItem.checked = false;
     });
-
+    this.allCkbox = false;
     this.alertMessageDetails.response = true;
     
     if (res['message'].toLowerCase() == 'success') {

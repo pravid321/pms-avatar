@@ -105,7 +105,7 @@
                     <div class="col-4">
                         <!-- <ngx-multiselect [(ngModel)]="model" [options]="array" [displayName]="'name'" [trackBy]="'id'" [multiple]="true"></ngx-multiselect> -->
                         <!-- <ss-multiselect-dropdown [options]="availableRoomList" [(ngModel)]="mappedFloor.mapprdRoomList" (ngModelChange)="mappedRooms($event)"></ss-multiselect-dropdown> -->
-                        <div class="btn-group" dropdown [autoClose]="false">
+                        <div class="btn-group w-75" dropdown [autoClose]="false">
                             <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
                                 <span [ngPlural]="selectedFloorMappedRoomLength">
                                     <ng-template ngPluralCase="=0">No room selected</ng-template>
@@ -118,7 +118,11 @@
                                 <perfect-scrollbar class="position-relative" [style.max-height.px]="250" [scrollIndicators]="true">
                                     <li role="menuitem" *ngFor="let roomItem of availableRoomListForMap;">
                                         <label class="dropdown-item" data-value="option1">
-                                            <input type="checkbox" [(ngModel)]="roomItem.mapped" (change)="floorMapSelectionUpdate()"  />&nbsp;{{roomItem.roomNumber}}
+                                            <div class="chiller_cb">
+                                                <input type="checkbox" id="roomitem_{{roomItem.ruid}}" [(ngModel)]="roomItem.mapped" (change)="floorMapSelectionUpdate()" />
+                                                <label for="roomitem_{{roomItem.ruid}}">&nbsp;{{roomItem.roomNumber}}</label>
+                                                <span></span>
+                                            </div>
                                         </label>
                                     </li>
                                 </perfect-scrollbar>

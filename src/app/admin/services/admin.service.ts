@@ -26,14 +26,15 @@ export class AdminService {
     return throwError(errorRes);
   }
 
-  createAminity(options) {
+  /* *********** Room Amenity related services ******************* */
+  
+  /*createAminity(options) {
     let servUrl = environment.apiUrl;
     let createAmenityUrl = servUrl + 'Config/Aminities/createAminity/' + this.userHotelID;
 
     return this._http.post(createAmenityUrl, options).pipe(map(res => res));
   }
 
-  /* *********** Room Amenity related services ******************* */
   getAllAmenities() {
     let servUrl = environment.apiUrl;
     let amenityUrl = servUrl + 'Config/Aminities/getAminities/' + this.userHotelID;
@@ -67,19 +68,19 @@ export class AdminService {
       map(res => res),
       catchError(this.errorHandler)
     );
-  }
+  }*/
 
 
   /* ********* Room Unit related services ********* */
-  getRoomUnitList() {
+  /*getRoomUnitList() {
     let servUrl = environment.apiUrl;
     let roomUnitUrl = servUrl + 'Config/RoomUnits/getRoomUnits/' + this.userHotelID;
 
     return this._http.post(roomUnitUrl, {}).pipe(map(res => res['roomUnits']),
       catchError(this.errorHandler));
-  }
+  }*/
 
-  createRoomUnit(options: any) {
+  /*createRoomUnit(options: any) {
     let servUrl = environment.apiUrl;
     let createRoomUnitUrl = servUrl + 'Config/RoomUnits/createRoomUnit/' + this.userHotelID;
 
@@ -95,10 +96,10 @@ export class AdminService {
       map(res => res),
       catchError(this.errorHandler)
     );
-  }
+  }*/
 
   /* ********** Floor Management related services *********** */
-  getFloorList(){
+  /*getFloorList(){
     let servUrl = environment.apiUrl;
     let floorListUrl = servUrl + 'Config/Floors/getFloors/' + this.userHotelID;
     
@@ -149,10 +150,10 @@ export class AdminService {
 
     return this._http.post(createFloorRoomMapUrl, options).pipe(map(res => res),
       catchError(this.errorHandler));
-  }
+  }*/
 
 
-  getTaxesList(): Observable<any> {
+  /*getTaxesList(): Observable<any> {
     let servUrl = environment.apiUrl;
     let getTaxListUrl = servUrl + 'Config/Taxes/getTaxes/' + this.userHotelID;
 
@@ -191,6 +192,23 @@ export class AdminService {
 
     return this._http.delete(removeTaxUrl).pipe(map(res => res),
       catchError(this.errorHandler));
-  }
+  }*/
+
+  /*************admin department services  ************* */
+  /*getDepartmentList(): Observable<any> {
+    let servUrl = environment.apiUrl;
+    let getDepartmentListUrl = servUrl + 'Config/Departments/getDepartments/' + this.userHotelID;
+
+    return this._http.post(getDepartmentListUrl, {}).pipe(map(res => {
+      return res['departments'].map(
+        (item: any) => {
+          item['editable'] = false;
+          return item;
+        }
+      )
+    }),
+      catchError(this.errorHandler));
+  }*/
+
 
 }

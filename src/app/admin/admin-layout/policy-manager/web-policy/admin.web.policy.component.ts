@@ -3,7 +3,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 
-import { AdminService } from '../../../services/admin.service';
+import { AdminWebPolicyService } from './admin.web.policy.service';
 import { ConfirmPopupComponent } from '../../../../shared/components/confirm.popup.component';
 
 @Component({
@@ -23,7 +23,7 @@ export class AdminWebPolicyComponent implements OnInit {
 
     constructor(
         private modalService: BsModalService,
-        private _adminData: AdminService
+        private _adminData: AdminWebPolicyService
     ) { }
 
     ngOnInit() {

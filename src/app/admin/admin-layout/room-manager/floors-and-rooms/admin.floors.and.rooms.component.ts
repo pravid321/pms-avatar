@@ -1,10 +1,9 @@
 import { AfterViewInit, Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { ModalDirective } from 'ngx-bootstrap/modal';
+import { BsModalService, ModalDirective } from 'ngx-bootstrap/modal';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 
-import { AdminService } from '../../../services/admin.service';
+import { AdminFloorsAndRoomsService } from './admin.floors.and.rooms.service';
 import { ConfirmPopupComponent } from '../../../../shared/components/confirm.popup.component';
 import { IRoomUnit } from '../room-units/RoomUnit';
 import { IFloor } from './Floors';
@@ -32,6 +31,7 @@ export class AdminFloorsAndRoomsComponent implements OnInit {
   private newFloorNumber: number;
   private newNoOfRooms: number;
   private newFloorName: string;
+  
   mappedFloor: IFloor = {
     "floorID": null,
     "floorNumber": null,
@@ -50,14 +50,15 @@ export class AdminFloorsAndRoomsComponent implements OnInit {
 
   constructor(
     private modalService: BsModalService,
-    private _adminData: AdminService
+    private _adminData: AdminFloorsAndRoomsService
   ) { }
 
   ngOnInit() {
-    let headerBuffer = 60;
+    let headerBuffer = 65;
     this.scrollBarContainerHeight = $(document).height() - ($("#main-navbar").outerHeight() + $("#sub-navbar").outerHeight() + $("#footerButtonContainer").outerHeight() + $("#pageHeading").outerHeight() + headerBuffer + 155);
 
-    this._adminData.getRoomUnitList().subscribe(roomList => {
+    // first getting the available room list then calling the floor component
+    this._adminData.getDataList('Config/RoomUnits/getRoomUnits/', 'roomUnits').subscribe(roomList => {
       this.roomList = roomList;
       this.getFloorList();
     });
@@ -80,7 +81,6 @@ export class AdminFloorsAndRoomsComponent implements OnInit {
       }
       //console.log("ultimatet floor list: ", this.floorList);
     });
-
   }
 
   public addFloor() {
@@ -105,7 +105,7 @@ export class AdminFloorsAndRoomsComponent implements OnInit {
       ]
     };
 
-    this._adminData.createFloor(createFloorObject).subscribe(res => {
+    this._adminData.addData('Config/floors/', createFloorObject).subscribe(res => {
       this.alertMessageDetails.response = true;
 
       if (res['message'].toLowerCase() == 'success') {
@@ -134,9 +134,12 @@ export class AdminFloorsAndRoomsComponent implements OnInit {
     this.modalRef.content.event.subscribe(data => {
       this.modalRef.hide();
       if (data.confirm == true) {
-        this._adminData.removeFloor({
-          floorID: this.floorList[indx].floorID
-        }).subscribe(res => {
+        this._adminData.removeData(
+          'Config/floors/removefloors/',
+          {
+            dataID: this.floorList[indx].floorID
+          }
+        ).subscribe(res => {
           this.alertMessageDetails.response = true;
           if (res['message'].toLowerCase() == 'success') {
             this.floorList.splice(indx, 1);
@@ -194,7 +197,7 @@ export class AdminFloorsAndRoomsComponent implements OnInit {
 
   public floorMapSelectionUpdate() {
     this.selectedFloorMappedRoomLength = _.size(this.availableRoomListForMap.filter(floorRoom => floorRoom.mapped));
-  } 
+  }
 
   public saveFloorRoomMapping() {
 
@@ -212,15 +215,15 @@ export class AdminFloorsAndRoomsComponent implements OnInit {
       }
     }
 
-    this._adminData.createFloorRoomMap(this.floorRoomMapReqObj).subscribe(res => {
+    this._adminData.addData('Config/FloorRoomMap/', this.floorRoomMapReqObj).subscribe(res => {
 
       this.modalRef.hide();
       this.alertMessageDetails.response = true;
 
-      if (res['message'].toLowerCase() == 'success') {
+      if (res['successList'][0]['status'].toLowerCase() == 'success') {
         this.alertMessageDetails.type = 'success';
-        this.alertMessageDetails.message = "Room(s) mapped with the floor successfully";
-        this._adminData.getFloorRoomMapDetails().subscribe(floorMapDetailsRes => {
+        this.alertMessageDetails.message = res['successList'][0]['message'];
+        this._adminData.getDataList('Config/FloorRoomMap/getFloorRoomMap/', 'floorRoomMap').subscribe(floorMapDetailsRes => {
           this.mappedFloorRoomList = floorMapDetailsRes;
         });
       } else {

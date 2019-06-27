@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   frgtBtnBlocked: boolean = true;
   saveLoginCredentials: boolean;
   existingLoginCrediantials: boolean;
+  alertMsg: string;
 
   constructor(private _auth: AuthService, private _router: Router) { }
 
@@ -48,13 +49,14 @@ export class LoginComponent implements OnInit {
   callResponse(user: string, pass: string){
     this._auth.getUserDetails(user, pass)
       .subscribe((result) => {
-        //console.log("--->", result.headers, result.headers.get('Content-Type'), result.headers.get('authToken'));
+        console.log("--->", result, result.headers.get('Content-Type'), result.headers.get('authToken'));
         this.globalResponse = result.body;
         this.authHeaders = result.headers;
       },
         error => {
           //console.log(error.message, "invalid username or password");
           this.invalidLogin = true;
+          this.alertMsg = "Invalid username or password";
           $(".alert-danger").fadeTo(2000, 500).slideUp(500, function () {
             $(".alert-danger").slideUp(500);
           });
@@ -62,14 +64,25 @@ export class LoginComponent implements OnInit {
         },
         () => {
           // this is the sueccessful login part
-          this._auth.storeToken(this.authHeaders.get('authToken'));
-          this._auth.setAllowedModules(this.globalResponse.modulesAllowed.modules);
-          this.invalidLogin = false;
-          this.isLoggedin = true;
-          if(this.saveLoginCredentials){
-            this._auth.saveLoginCredentialsInCookie(btoa(user), btoa(pass));
+          if(this.globalResponse.is_Valid == false && this.globalResponse.subsStatus.toLowerCase() == 'expired'){
+            this.invalidLogin = true;
+            this.isLoggedin = false;
+            this.existingLoginCrediantials = false;
+            this.alertMsg = "Your subscription has expired";
+            $(".alert-danger").fadeTo(2000, 500).slideUp(500, function () {
+              $(".alert-danger").slideUp(500);
+            });
+          } else { 
+            this.alertMsg = "";
+            this._auth.storeToken(this.authHeaders.get('authToken'));
+            this._auth.setAllowedModules(this.globalResponse.modulesAllowed.modules);
+            this.invalidLogin = false;
+            this.isLoggedin = true;
+            if(this.saveLoginCredentials){
+              this._auth.saveLoginCredentialsInCookie(btoa(user), btoa(pass));
+            }
+            this._router.navigateByUrl('/ui/dashboard');
           }
-          this._router.navigateByUrl('/ui/dashboard');
         }
       );
   }

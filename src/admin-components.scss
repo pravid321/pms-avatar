@@ -27,7 +27,10 @@
 	list-style: none;
 	padding: 0;
 	margin: 0;
-	line-height: 31px;
+	height: 40px;
+	line-height: 40px;
+	border: 2px solid $nav_menu_border_color;
+    border-radius: 5px;
 	cursor: pointer;
 	clear: both;
 }
@@ -35,31 +38,28 @@
 //original selectors
 //.nav-side-menu ul .collapsed .arrow:before, .nav-side-menu li .collapsed .arrow:before
 %side_menu_collapsed_arrow_before {
-	font-family: $font_awesome;
-	content: "\f054";
-	display: inline-block;
-	padding-left: 10px;
-	padding-right: 10px;
-	vertical-align: middle;
+	background-image: url(./assets/images/right-arrow.png);
+	background-repeat: no-repeat;
+	background-position: 5px 10px;
 }
 
 //original selectors
 //.nav-side-menu ul :not(collapsed) .arrow:before, .nav-side-menu li :not(collapsed) .arrow:before
 %slide_menu_not_collapsed_arrow_before {
-	font-family: $font_awesome;
-	content: "\f078";
-	display: inline-block;
-	padding-left: 10px;
-	padding-right: 10px;
-	vertical-align: middle;
+	background-image: url(./assets/images/down-arrow.png);
+	background-repeat: no-repeat;
+	background-position: 5px 10px;
 }
 
 //original selectors
 //.nav-side-menu ul .active, .nav-side-menu li .active
 %slide_menu_active_ul_li {
-	border-left: 3px solid $active_menu_border_color;
-	background-color: $color_scarpa_flow_approx;
+	border: 2px solid $active_menu_border_color;
+	border-radius: 5px;
 	color: $active_menu_text_color;
+	height: 40px;
+	line-height: 40px;
+	outline: none;
 }
 
 //original selectors
@@ -74,10 +74,11 @@
 //original selectors
 //.nav-side-menu ul .sub-menu li, .nav-side-menu li .sub-menu li
 %sub_menu_ui_li_extention {
-	background-color: $active_menu_text_color;
+	background-color: $nav_menu_border_color;
 	border: none;
-	line-height: 28px;
-	border-bottom: 1px solid $active_menu_text_color;
+	line-height: 35px;
+	height: 35px;
+	border-bottom: 1px solid $nav_menu_border_color;
 	margin-left: 0;
 	padding-left: 40px;
 }

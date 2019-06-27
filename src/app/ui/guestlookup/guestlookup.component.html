@@ -1,0 +1,285 @@
+<div class="cust-container" style="padding:0px;margin: 10px 0px">
+
+    <div class="head-section ">
+        <div class="row head-row">
+            <div class="col inner-col-right-reduce">
+                <h5>Basic Information</h5>
+            </div>
+            <!-- <div class="col-6 inner-col-left-reduce">
+                <h5>Add Reservation</h5>
+            </div> -->
+        </div>
+
+        <div class="row body-row">
+            <div class="col ">
+                <div class="card" style="padding: 10px 20px;">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="exampleInputName">First Name</label>
+                                <input type="name" class="form-control" id="exampleInputName" placeholder="First Name"
+                                    [(ngModel)]="guestLookupObject.givenName">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="exampleInputName">Last Name</label>
+                                <input type="name" class="form-control" id="exampleInputName" placeholder="Last Name"
+                                    [(ngModel)]="guestLookupObject.surName">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="exampleInputEmail">Email</label>
+                                <input type="email" class="form-control" id="exampleInputEmail" placeholder="Email"
+                                    [(ngModel)]="guestLookupObject.email">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="exampleInputPhone">Phone</label>
+                                <input type="text" class="form-control" id="exampleInputPhone" placeholder="Phone"
+                                    [(ngModel)]="guestLookupObject.phoneNumber">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="exampleBookingsource">Booking Source</label>
+                                <input type="text" class="form-control" id="exampleBookingsource"
+                                    placeholder="Booking Source" [(ngModel)]="guestLookupObject.bookingSource">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-end">
+                        <div class="col-auto text-right">
+                            <div class="form-group">
+                                <!-- <div class="d-lg-none d-md-block mt-1" style="height:0rem">&nbsp;</div> -->
+                                <label class="d-lg-block d-md-none" style="height:0.6rem">&nbsp;</label>
+                                <button class="btn btn-normal ml-0" type="button"
+                                    (click)="clearSearch();">Clear</button>
+                            </div>
+                        </div>
+                        <div class="col-auto text-right">
+                            <div class="form-group">
+                                <!-- <div class="d-lg-none d-md-block mt-1" style="height:0.6rem">&nbsp;</div> -->
+                                <label class="d-lg-block d-md-none" style="height:0.6rem">&nbsp;</label>
+                                <button class="btn btn-normal ml-0" type="button"
+                                    (click)="guestSearch();">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-8 inner-col-left-reduce">
+                <div class="card" style="padding: 10px 20px;">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="duration">Duration</label>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="input-group date-cal">
+                                            <!-- (click)="dpsrt.show()" -- >
+                                            <span>
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="arrival-date">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group date-cal">
+                                            <!-- (click)="dpsrt.show()" -- >
+                                            <span>
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="arrival-date">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="refid">Reference ID</label>
+                                <input type="email" class="form-control" id="refid">
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="diposit">Deposit</label>
+                                <input type="text" class="form-control" id="diposit">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="room">Room</label>
+                                <div class="btn-group btn-block" dropdown>
+                                    <button dropdownToggle type="button"
+                                        class="btn btn-block btn-default dropdown-toggle">
+                                        1 <span class="caret"></span>
+                                    </button>
+                                    <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                        <li role="roomtypeitem" *ngFor="let roomNo of [1,2,3,4,5,6];">
+                                            <a class="dropdown-item point-cursor">{{roomNo}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="adult">Adult</label>
+                                <div class="btn-group btn-block" dropdown>
+                                    <button dropdownToggle type="button"
+                                        class="btn btn-block btn-default dropdown-toggle">
+                                        1 <span class="caret"></span>
+                                    </button>
+                                    <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                        <li role="roomtypeitem" *ngFor="let roomNo of [1,2,3,4,5,6];">
+                                            <a class="dropdown-item point-cursor">{{roomNo}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="child">Child</label>
+                                <div class="btn-group btn-block" dropdown>
+                                    <button dropdownToggle type="button"
+                                        class="btn btn-block btn-default dropdown-toggle">
+                                        1 <span class="caret"></span>
+                                    </button>
+                                    <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                        <li role="roomtypeitem" *ngFor="let roomNo of [1,2,3,4,5,6];">
+                                            <a class="dropdown-item point-cursor">{{roomNo}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3 text-right">
+                            <div class="form-group">
+                                <div class="d-lg-none d-md-block mt-1" style="height:0.6rem">&nbsp;</div>
+                                <label class="d-lg-block d-md-none">&nbsp;</label>
+                                <button class="btn btn-normal ml-0" type="button">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+    <div class="body-section no-padding">
+
+        <!-- <div class="row body-row no-gutters" style="margin-bottom:8px;"> -->
+        <!-- <div class="col">
+                <button type="button" class="btn btn-round-xs btn-xs" *ngIf="billingPageView=='details'" (click)="showPaymentDetails('list')">Back to list</button>
+            </div> -->
+        <!-- <div class="col-6 text-center">
+                <span class="h4">Reservation List</span>
+            </div>
+            <div class="col">
+                <input type="text" class="pull-right form-control" style="width:60%;" placeholder="Search">
+            </div> -->
+        <!-- </div> -->
+
+        <div class="row body-row mt-3">
+            <div class="table-responsive">
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:5%;">#</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Date</div>
+                        <div class="divDisplayTableCell head text-center" style="width:5%;">Room No.</div>
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">Guest Name</div>
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">Email</div>
+                        <div class="divDisplayTableCell head text-center" style="width:8%;">Phone No</div>
+                        <div class="divDisplayTableCell head text-center" style="width:12%;">Reservation No</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Booking No</div>
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">Booking Source</div>
+                        <div class="divDisplayTableCell head text-center" style="width:5%;">Details</div>
+                    </div>
+                </div>
+
+                <perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight"
+                    [scrollIndicators]="true">
+
+
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow" *ngFor="let item of guestList; let i = index;">
+                            <div class="divDisplayTableCell brdLft text-center" style="width:5%;">
+                                <span>{{i+1}}</span>
+                            </div>
+                            <div class="divDisplayTableCell brdLft text-center" style="width:10%;">
+                                {{item.checkinDate}}
+                            </div>
+                            <div class="divDisplayTableCell brdLft text-center" style="width:5%;">
+                                {{item.roomNumber}}
+                            </div>
+                            <div class="divDisplayTableCell brdLft text-center" style="width:15%;">
+                                {{item.guestGivenName}} {{item.guestSurName}}
+                            </div>
+                            <div class="divDisplayTableCell brdLft text-center" style="width:15%;">
+                                {{item.guestEmail}}
+                            </div>
+                            <div class="divDisplayTableCell brdLft text-center" style="width:8%;">
+                                {{item.guestPhone}}
+                            </div>
+                            <div class="divDisplayTableCell brdLft text-center" style="width:12%;">
+                                {{item.bookingId}}
+                            </div>
+                            <div class="divDisplayTableCell brdLft text-center" style="width:10%;">
+                                {{item.channelRefNumber}}
+                            </div>
+                            <div class="divDisplayTableCell brdLft text-center" style="width:15%;">
+                                {{item.bookingSource}}
+                            </div>
+                            <div class="divDisplayTableCell brdLft text-center" style="width:5%;">
+                                <!-- (click)="showPaymentDetails('details')" -->
+                                <div [popover]="popEventTemplate" placement="left"
+                                    (onShown)="generatePopoverContent(i, item)" container="body" [outsideClick]="true">
+                                    <i class="point-cursor fa fa-search"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </perfect-scrollbar>
+
+            </div>
+
+            <!-- <payment-details *ngIf="billingPageView=='details'" style="margin:auto; width:100%;"></payment-details> -->
+
+            <ng-template #popEventTemplate>
+                <div class="table-responsive" style="width:200px;">
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow">
+                            <div class="divDisplayTableCell text-center brdLft brdTop">
+                                View Details
+                            </div>
+                        </div>
+                        <div class="divDisplayTableRow">
+                            <div class="divDisplayTableCell text-center brdLft brdTop">
+                                Quick Reservation
+                            </div>
+                        </div>
+                        <div class="divDisplayTableRow">
+                            <div class="divDisplayTableCell text-center brdLft">
+                                Payment History
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+
+    </div>
+</div>

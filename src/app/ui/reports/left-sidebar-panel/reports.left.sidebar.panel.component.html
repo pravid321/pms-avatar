@@ -1,0 +1,185 @@
+<nav id="sidebar" (clickElsewhere)="closeSideSidebar()">
+    <perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight" [scrollIndicators]="true">
+        <ul class="list-unstyled components">
+            <li>
+                <a href="#revenuereport" data-toggle="collapse" aria-expanded="false">Revenue Report</a>
+                <ul class="collapse list-unstyled" id="revenuereport">
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('revenue_cashier')">Cashier Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('revenue_pay_type')">Pay Type Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('revenue_counter_collection')">Counter Revenue Collection Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('revenue_monthly_credit_card')">Monthly Credit Card Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('revenue_daily_credit_card')">Daily Credit Card Collection</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#reservationreport" data-toggle="collapse" aria-expanded="false">Reservation Report</a>
+                <ul class="collapse list-unstyled" id="reservationreport">
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('reservation_no_show')">No Show Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('resevation_stay_summary')">Group Stay Summary</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('reservation_summary')">Reservation Summary</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('reservation_web_summary')">Web Reservation Summary</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('reservation_income_summary')">Income Summary Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('reservation_ADR')">Reservation(ADR) Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('reservation_cancelled')">Cancelled Reservations</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('reservation_temp')">Temp Reservations</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('reservation_by_source_per_date')">Reservation by Source per date</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('reservation_summary_by_source_per_date')">Reservation Summary by Source per date</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('reservation_complimentary_room_report')">Complimentary Room Report</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#financialreport" data-toggle="collapse" aria-expanded="false">Financial Report</a>
+                <ul class="collapse list-unstyled" id="financialreport">
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('financial_monthly_summary')">Monthly Summary Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('financial_revpar_room_report')">RevPAR Room Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('reservation_close_out_balance')">Close Out Balance</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('financial_report')">Financial Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('financial_deposite_report')">Deposit Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('financial_advance_deposite_report')">Advance Deposit Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('financial_revenue_itemized_report')">Revenue Itemized Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('financial_journal_report')">Journal Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('financial_daily_revenue_report')">Daily Revenue Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('financial_posting_audit_report')">Posting Audit Report</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#discountreport" data-toggle="collapse" aria-expanded="false">Discount Report</a>
+                <ul class="collapse list-unstyled" id="discountreport">
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('discount_allowance_given')">Discounts/Allowance Given</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('discount_allowance_posted')">Discounts/Allowance Posted</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('discount_promo_code')">Promo Code Report</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#posreport" data-toggle="collapse" aria-expanded="false">POS Report</a>
+                <ul class="collapse list-unstyled" id="posreport">
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('posreport_daily_sales')">Daily Sales Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('posreport_refund')">Refund Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('posreport_room_purchases')">Room POS Purchases</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('posreport_inventory_list_view')">Inventory Report List View</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('posreport_reservation_wise_inclusion_report')">Reservation Wise Inclusion Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('posreport_inclusion')">Inclusion Report</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#guestreport" data-toggle="collapse" aria-expanded="false">Guest Report</a>
+                <ul class="collapse list-unstyled" id="guestreport">
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('guestreport_contact')">Guest Contact Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('guestreport_history')">Guest History Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('guestreport_sales_by_guest')">Sales by Guest</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('guestreport_guest_type')">Guest Type Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('guestreport_VIP_guest')">VIP Guest Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('guestreport_trial_balance')">Guest Trial Balance</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#occupancyreport" data-toggle="collapse" aria-expanded="false">Occupancy Report</a>
+                <ul class="collapse list-unstyled" id="occupancyreport">
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('occupancyreport_house_count')">House Count Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('occupancyreport_history_forecast')">History and Forecast Report</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#activityreport" data-toggle="collapse" aria-expanded="false">Activity Log</a>
+                <ul class="collapse list-unstyled" id="activityreport">
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('activityreport_reservation_report')">Reservation Activity Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('activityreport_employee_wise_reservation_list')">Employee wise Reservation List</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('activityreport_employee_wise_activity_log')">Employee wise Activity Log</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('activityreport_reservations_created')">Reservations created</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('activityreport_arrival')">Arrival Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('activityreport_departure')">Departure Report</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#ratepackage" data-toggle="collapse" aria-expanded="false">Rate/Packages</a>
+                <ul class="collapse list-unstyled" id="ratepackage">
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('ratepackage_reservation')">Reservation Rate/Packages</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('ratepackage_rate_variation')">Rate Variation Report</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#taxreport" data-toggle="collapse" aria-expanded="false">Tax Report</a>
+                <ul class="collapse list-unstyled" id="taxreport">
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('taxreport_lodging_tax_detail')">Lodging Tax Detail Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('taxreport_tax')">Tax Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('taxreport_monthly_tax')">Monthly Tax Report</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#sourcereport" data-toggle="collapse" aria-expanded="false">Source Report</a>
+                <ul class="collapse list-unstyled" id="sourcereport">
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('sourcereport_source_business')">Source of Business Report</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#directbillingreport" data-toggle="collapse" aria-expanded="false">Direct Billing Report</a>
+                <ul class="collapse list-unstyled" id="directbillingreport">
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('directbillingreport_company_report')">Direct Billing Company Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('directbillingreport_travel_agent_report')">Direct Billing Travel Agent Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('directbillingreport_agency_report')">Agency Report</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#folioreport" data-toggle="collapse" aria-expanded="false">Folio Report</a>
+                <ul class="collapse list-unstyled" id="folioreport">
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('folioreport_list_report(FD)')">Folio List Report(FD)</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('folioreport_void_list_report(FD)')">Folio Void List Report(FD)</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('folioreport_list_report(POS)')">Folio List Report(POS)</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#fundsoperations" data-toggle="collapse" aria-expanded="false">Funds Operations</a>
+                <ul class="collapse list-unstyled" id="fundsoperations">
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('fundsoperations_add_withdrawal_funds')">Add/Withdrawal Funds</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#housekeepingreport" data-toggle="collapse" aria-expanded="false">Housekeeping Report</a>
+                <ul class="collapse list-unstyled" id="housekeepingreport">
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('housekeepingreport_housekeeping')">Housekeeping Report</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#nightauditreport" data-toggle="collapse" aria-expanded="false">Night Audit Reports</a>
+                <ul class="collapse list-unstyled" id="nightauditreport">
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('nightauditreport_room_details')">Night Audit Room Details</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('nightauditreport_counter_report')">Night Audit Counter Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('nightauditreport_revenue_report')">Night Audit Revenue Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('nightauditreport_tax_report')">Night Audit Tax Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('nightauditreport_MTD_YTD')">MTD & YTD Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('nightauditreport_rooms_book')">Rooms On Book Report</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#analyticalreport" data-toggle="collapse" aria-expanded="false">Analytical Reports</a>
+                <ul class="collapse list-unstyled" id="analyticalreport">
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('analyticalreport_no_show_summary_report')">No Show Summary Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('analyticalreport_occupancy_analysis_report')">Occupancy Analysis Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('analyticalreport_market_analysis_report')">Market Analysis Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('analyticalreport_company_contribution_analysis_report')">Company Contribution Analysis Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('analyticalreport_business_analysis_report')">Business Analysis Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('analyticalreport_forecast_report')">Forecast Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('analyticalreport_group_business_report')">Group Business Report</a></li>
+                    <li><a href="javascript:void(0)" (click)="showReportDetails('analyticalreport_manager_flash_report')">Manager Flash Report</a></li>
+                </ul>
+            </li>
+
+        </ul>
+    </perfect-scrollbar>
+</nav>

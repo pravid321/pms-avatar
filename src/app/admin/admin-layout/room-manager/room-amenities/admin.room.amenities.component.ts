@@ -4,7 +4,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 
 
-import { AdminService } from '../../../services/admin.service';
+import { AdminRoomAmenitiesService } from './admin.room.amenities.service';
 import { ConfirmPopupComponent } from '../../../../shared/components/confirm.popup.component';
 import { IAminity } from './Aminities';
 
@@ -37,19 +37,19 @@ export class AdminRoomAmenitiesComponent implements OnInit {
 
   constructor(
     private modalService: BsModalService,
-    private _adminData: AdminService
+    private _adminData: AdminRoomAmenitiesService
   ) { }
 
   ngOnInit() {
-    let headerBuffer = 60;
+    let headerBuffer = 65;
     this.scrollBarContainerHeight = $(document).height() - ($("#main-navbar").outerHeight() + $("#sub-navbar").outerHeight() + $("#footerButtonContainer").outerHeight() + $("#pageHeading").outerHeight() + headerBuffer + 155);
     //console.log("in ng on in it: ", $(document).height(), $("#main-navbar").outerHeight(), $("#sub-navbar").outerHeight(), $("#footerButtonContainer").outerHeight(), $("#pageHeading").outerHeight(), headerBuffer, this.scrollBarContainerHeight);      
     this.getAminittyList();
   }
 
   public getAminittyList() {
-    this._adminData.getAllAmenities().subscribe(aminityRes => {
-      console.log("aminityList: ", aminityRes);
+    this._adminData.getDataList('Config/Aminities/getAminities/', 'aminity').subscribe(aminityRes => {
+      //console.log("aminityList: ", aminityRes);
       this.aminityList = aminityRes;
     });
   }
@@ -123,7 +123,7 @@ export class AdminRoomAmenitiesComponent implements OnInit {
       ]
     };
 
-    this._adminData.createAminity(createAmimnityObject).subscribe(res => {
+    this._adminData.addData('Config/Aminities/createAminity/', createAmimnityObject).subscribe(res => {
       this.alertMessageDetails.response = true;
 
       if (res['message'].toLowerCase() == 'success') {
@@ -144,23 +144,19 @@ export class AdminRoomAmenitiesComponent implements OnInit {
     })
   }
 
-  private editAminity(indx) {
+  public editAminity(indx: number) {
     let updateAmimnityObject = {
       'aminity': [
-        {
-          "aminityName": this.aminityList[indx].aminityName,
-          "aminityDesc": this.aminityList[indx].aminityDesc,
-          "aminityID": this.aminityList[indx].aminityID,
-        }
+        this.aminityList[indx]
       ]
     };
 
-    this._adminData.updateAminity(updateAmimnityObject).subscribe(res => {
+    this._adminData.updateData('Config/Aminities/updateAminity/', updateAmimnityObject).subscribe(res => {
       this.alertMessageDetails.response = true;
 
       if (res['message'].toLowerCase() == 'success') {
-            this.alertMessageDetails.type = 'success';
-            this.alertMessageDetails.message = "Amenity updated successfully";
+        this.alertMessageDetails.type = 'success';
+        this.alertMessageDetails.message = "Amenity updated successfully";
       } else {
         this.alertMessageDetails.type = 'danger';
         this.alertMessageDetails.message = "Amenity details not updated! Please try again.";
@@ -178,14 +174,19 @@ export class AdminRoomAmenitiesComponent implements OnInit {
     this.modalRef.content.event.subscribe(data => {
       this.modalRef.hide();
       if (data.confirm == true) {
-        this._adminData.removeAminity({
-          aminityId: this.aminityList[indx].aminityID
-        }).subscribe(res => {
+        this._adminData.removeData(
+          'Config/Aminities/removeAminity/',
+          {
+            dataID: this.aminityList[indx].aminityID
+          }
+        ).subscribe(res => {
           this.alertMessageDetails.response = true;
-          if (res['message'].toLowerCase() == 'success') {
+          //{"successList":[{"status":"Success","message":"Aminity Deleted successfuly for AmenityID: 5002","rowsUpdated":1,"bookingId":0,"folioId":0}]}
+          if (res['successList'][0]['status'].toLowerCase() == 'success') {
             this.aminityList.splice(indx, 1);
             this.alertMessageDetails.type = 'success';
             this.alertMessageDetails.message = "Amenity deleted successfully";
+            this.getAminittyList();
           } else {
             this.alertMessageDetails.type = 'danger';
             this.alertMessageDetails.message = "Amenity details not deleted! Please try again.";

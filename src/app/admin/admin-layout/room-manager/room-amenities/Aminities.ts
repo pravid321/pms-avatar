@@ -6,5 +6,6 @@ export interface IAminity {
     "aminityID"?: number,
     "aminityName"?: string,
     "aminityDesc"?: string,
-    "editable"?: boolean
+    "editable"?: boolean,
+    "checked"?: boolean
 }

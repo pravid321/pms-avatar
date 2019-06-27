@@ -1,13 +1,16 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { Component, Input, OnInit, OnChanges, TemplateRef, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth/auth.service';
 import { UserResolver } from '../../shared/user.resolver.service';
-import { DataEventService } from '../../shared/data.event.service';
+
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  templateUrl: './header.component.html'
 })
 export class HeaderComponent implements OnInit, OnChanges {
 
@@ -15,10 +18,21 @@ export class HeaderComponent implements OnInit, OnChanges {
   subHeaderPaddingLeft: number;
   userData: any;
 
+  public modalRef: BsModalRef;
+
   @Input()
   paramDetails: any;
 
-  constructor(private _userResolver: UserResolver, private _auth: AuthService, private _des: DataEventService) {
+  /** *********** For night audit customization ******* **/
+  public nightAuditPercent: number;
+  
+  constructor(
+    private _auth: AuthService,
+    //private _des: DataEventService,
+    private modalService: BsModalService, 
+    private _router: Router,
+    private _userResolver: UserResolver
+  ) {
     //this.userData 
     this.now = Date.now();
     setInterval(() => {
@@ -26,7 +40,7 @@ export class HeaderComponent implements OnInit, OnChanges {
     }, 10000);
   }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.userData = this._userResolver.getUserData();
   }
 
@@ -56,32 +70,57 @@ export class HeaderComponent implements OnInit, OnChanges {
       this.subHeaderPaddingLeft = (excessWidth / 2) - $(".nav-item").outerWidth();
     }, 0);
 
+    var $myGroup = $('.list-unstyled');
+    $myGroup.on('show.bs.collapse', '.collapse', function () {
+      $myGroup.find('.collapse.show').removeClass('show');
+    });
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log("in home component change: ", this.paramDetails);
-    
+    //console.log("in home component change: ", this.paramDetails);
     setTimeout(() => {
       let excessWidth = $("#sub-navbar").outerWidth() - $("#sub-menu1").outerWidth();
       this.subHeaderPaddingLeft = (excessWidth / 2) - $(".nav-item").outerWidth();
     }, 0);
   }
 
-  closeSideSidebar(){
+  closeSideSidebar() {
     $('#sidebar').removeClass('active');
     $('.overlay').removeClass('active');
   }
 
-  showFrontDeskPage(pageType: any) {
+  /*showFrontDeskPage(pageType: any) {
     this._des.newEvent(pageType);
     $('#sidebar').removeClass('active');
     $('.overlay').removeClass('active');
+  }*/
+
+  openNightAudit(template: TemplateRef<any>) {
+
+    this.modalRef = this.modalService.show(
+      template,
+      Object.assign({}, { class: 'gray night-audit-modal modal-dialog-centered' })
+    );
+
+    this.nightAuditPercent = 0;
   }
 
+  hideNightAuditModal() {
+    this.modalRef.hide();
+  }
+
+  cancelNightAudit() {
+    console.log("in night audit cancel");
+  }
+
+  
   logout() {
+    console.log("in logout");
     this._auth.removeLoginCredentialsInCookie();
     setTimeout(() => {
-      this._auth.removeToken();      
+      this._auth.removeToken();
+      this._router.navigate(['/login']);
     }, 100);
   }
 

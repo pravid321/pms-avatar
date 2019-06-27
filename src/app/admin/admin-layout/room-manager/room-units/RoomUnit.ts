@@ -4,4 +4,5 @@ export interface IRoomUnit {
     "roomStatus": string,
     "hotelId": number,
     "availableToAssign": number,
+    "editable"?: boolean
 }

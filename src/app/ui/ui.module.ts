@@ -9,6 +9,8 @@ import { NgModule } from '@angular/core';
 import { OwlModule } from 'ngx-owl-carousel';
 import { PerfectScrollbarModule, PerfectScrollbarConfigInterface, PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 import { ClickElsewhereDirective } from '../shared/directives/click.elsewhere.directive';
 import { DataService } from './scheduler/data.service';
@@ -19,6 +21,7 @@ import { HeaderComponent } from './header/header.component';
 import { HousekeepingService } from './services/housekeeping.services';
 import { LayoutComponent } from './layout/layout.component';
 import { SchedulerComponent, schedulerSupportComponent } from './scheduler/scheduler.component';
+import { SharedModule } from '../shared/shared.module';
 import { UiRoutingModule, uiRoutingComponent } from './ui.routing.module';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -38,7 +41,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     OwlModule,
     PerfectScrollbarModule,
     PopoverModule.forRoot(),
+    ProgressbarModule.forRoot(),
     ReactiveFormsModule,
+    SharedModule,
+    TabsModule.forRoot(),
     UiRoutingModule
   ],
   declarations: [

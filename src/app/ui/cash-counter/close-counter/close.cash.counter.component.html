@@ -1,0 +1,175 @@
+<div class="cust-container" style="padding:0px;margin: 10px 0px">
+    <div class="body-section no-padding">
+
+        <div class="row body-row no-gutters" style="margin-bottom:8px;">
+            <!-- <div class="col">
+                    <button type="button" class="btn btn-round-xs btn-xs" *ngIf="billingPageView=='details'" (click)="showPaymentDetails('list')">Back to list</button>
+                </div> -->
+            <div class="col text-center">
+                <span class="h4">Close Counter: <small>Morning Sales</small></span>
+            </div>
+            <!-- <div class="col">
+                    <input *ngIf="billingPageView=='list'" type="text" class="pull-right form-control" style="width:60%;" placeholder="Search">
+                </div> -->
+        </div>
+
+        <div class="row justify-content-center align-items-center mt-3">
+            <div class="col col-md-5 col-sm-12">
+                <div class="form-group row justify-content-between">
+                    <label for="counter" class="col-4 col-form-label text-right pr-2">Select Your Counter</label>
+                    <div class="col-3">
+                        <div class="btn-group" dropdown style="width:155px;">
+                            <button id="dropdown-counter" dropdownToggle type="button" class="btn dropdown-toggle"
+                                aria-controls="dropdown-counter">
+                                {{selectedCounter.counterName}} <span class="caret"></span>
+                            </button>
+                            <ul id="dropdown-counter" *dropdownMenu class="dropdown-menu" role="menu"
+                                aria-labelledby="dropdown-counter">
+                                <li role="menuitem" *ngFor="let counterItem of counterList"
+                                    (click)="selectedCounter = counterItem">
+                                    <a class="dropdown-item" href="javascript:void(0);">{{counterItem.counterName}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-normal" (click)="showCounterList();">Show List</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row body-row">
+            <div class="table-responsive"
+                *ngIf="closeCounterList != null && closeCounterList.length > 0; else noDataBody">
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:22%;">Funds</div>
+                        <div class="divDisplayTableCell head text-center" style="width:16%;">Last Opening Balance</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Collections</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Widrawals</div>
+                        <div class="divDisplayTableCell head text-center" style="width:8%;">Added</div>
+                        <div class="divDisplayTableCell head text-center" style="width:12%;">Closing Amount</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Descrepencies</div>
+                        <div class="divDisplayTableCell head text-center" style="width:12%;">Balance On-hand</div>
+                    </div>
+                </div>
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" *ngFor="let counterItem of closeCounterList">
+                        <div class="divDisplayTableCell brdLft text-left" style="width:22%;">
+                            {{counterItem.transactionMode}}
+                        </div>
+                        <div class="divDisplayTableCell text-right" style="width:16%;">
+                            {{counterItem.openingbalance}}
+                        </div>
+                        <div class="divDisplayTableCell text-right" style="width:10%;">
+                            {{counterItem.collection}}
+                        </div>
+                        <div class="divDisplayTableCell text-right" style="width:10%;">
+                            {{counterItem.widrawals}}
+                        </div>
+                        <div class="divDisplayTableCell text-right" style="width:8%;">
+                            {{counterItem.added}}
+                        </div>
+                        <div class="divDisplayTableCell text-right" style="width:12%;">
+                            <span *ngIf="counterItem.transactionMode != 'Cash'">{{counterItem.closingAmount}}</span>
+                            <input *ngIf="counterItem.transactionMode == 'Cash'" type="text"
+                                [(ngModel)]="counterItem.closingAmount">
+                        </div>
+                        <div class="divDisplayTableCell text-right" style="width:10%;">
+                            <span *ngIf="counterItem.transactionMode != 'Cash'">{{counterItem.descripency}}</span>
+                            <input *ngIf="counterItem.transactionMode == 'Cash'" type="text"
+                                [(ngModel)]="counterItem.descripency">
+                        </div>
+                        <div class="divDisplayTableCell text-right" style="width:12%;">
+                            {{counterItem.balanceInHand}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell footer brdLft text-right" style="width:22%;">Total</div>
+                        <div class="divDisplayTableCell footer text-right" style="width:16%;">
+                            {{totalSalesDetails.openingbalance}}
+                        </div>
+                        <div class="divDisplayTableCell footer text-right" style="width:10%;">
+                            {{totalSalesDetails.collection}}
+                        </div>
+                        <div class="divDisplayTableCell footer text-right" style="width:10%;">
+                            {{totalSalesDetails.widrawals}}
+                        </div>
+                        <div class="divDisplayTableCell footer text-right" style="width:8%;">
+                            {{totalSalesDetails.added}}
+                        </div>
+                        <div class="divDisplayTableCell footer text-right" style="width:12%;">
+                            {{totalSalesDetails.closingAmount}}
+
+                        </div>
+                        <div class="divDisplayTableCell footer text-right" style="width:10%;">
+                            {{totalSalesDetails.descripency}}
+
+                        </div>
+                        <div class="divDisplayTableCell footer text-right" style="width:12%;">
+                            {{totalSalesDetails.balanceInHand}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <ng-template #noDataBody>
+                <div class="table-responsive" *ngIf="closeCounterList != null && closeCounterList.length == 0">
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow">
+                            <div class="divDisplayTableCell text-center" style="width:100%;border-width:1px;">
+                                No Data Found
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+
+
+        </div>
+
+        <br>
+
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-md-auto text-right">
+                    <label for="openingcash" class="col-form-label ">Next day opening amount in Cash</label>
+                </div>
+                <div class="col-md-auto">
+                    <input type="text" class="form-control" id="openingcash" [(ngModel)]="openingCashAmt">
+                </div>
+                <div class="col-md-auto">
+                    <label class="col-form-label">Rs.</label>
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center">
+                <div class="col-md-auto">
+                    <div class="form-group text-center">
+                        <label for="propertyName">Reason for Discrepancy</label>
+                        <div style="width:100%;">
+                            <textarea class="form-control" cols="80" [(ngModel)]="disrepancyReason" name="discrepancy"
+                                id="" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center mt-1">
+                <div class="col-md-auto">
+                    <button class="btn btn-normal" (click)="closeCounter();">Close & Withdraw</button>
+                    <!-- <button class="btn btn-normal">Cancel</button>
+                    <button class="btn btn-normal">Print</button> -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

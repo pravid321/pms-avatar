@@ -1,4 +1,79 @@
-<div class="row">
+<div class="container">
 
-    in report desk component
+    <div class="row" style="margin-top:5%">
+        <div class="col text-center">
+            <header>
+                <h5><Small>Arrival Report</Small></h5>
+                <h5><Small>Hotel Imperial Resort Kolkata</Small></h5>
+                <h5><Small>37, Park Avenue, Opposite Cooler Mall At 700265</Small></h5>
+            </header>
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center" style="margin-top:5%;">
+        <div class="col-md-6 col-offset-md-3 text-center">
+            <div class="form-group row">
+                <label for="startDate" class="col-4 col-form-label">Select Date Range</label>
+                <div class="col">
+                    <div class="input-group date-cal">
+                        <span (click)="dpsrt.show()"><i class="fa fa-calendar"></i></span>
+                        <input bsDatepicker class="form-control" id="startDate" #dpsrt="bsDatepicker" type="text" [bsConfig]="tariffChartConfigStart" [(ngModel)]="tcDatePickerStart" (onHidden)="onReportDateChange($event, 'start')">
+                    </div>
+                </div>
+                <div class="col-1 text-center pt-1">to</div>
+                <div class="col">
+                    <div class="input-group date-cal">
+                        <span (click)="dpend.show()"><i class="fa fa-calendar"></i></span>
+                        <input bsDatepicker class="form-control" id="endDate" #dpend="bsDatepicker" type="text" [bsConfig]="tariffChartConfigEnd" [(ngModel)]="tcDatePickerEnd" (onHidden)="onReportDateChange($event, 'end')">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center" style="margin-top:2%;">
+        <div class="col-md-6 col-offset-md-3 text-center">
+            <div class="form-group row">
+                <label for="startDate" class="col-4 col-form-label">Select Report Type</label>
+                <div class="col">
+                    <div class="form-check form-check-inline">
+                        <label class="radio" for="inlineRadio1">PDF
+                            <input type="radio" checked="checked" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                            <span class="checkround"></span>
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="radio" for="inlineRadio2">XML
+                            <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                            <span class="checkround"></span>
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <!-- <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                        <label class="form-check-label" for="inlineRadio3">CSV</label> -->
+                        <label class="radio" for="inlineRadio3">CSV
+                            <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                            <span class="checkround"></span>
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center" style="margin-top:2%;">
+        <div class="col-md-6 col-offset-md-3 text-center">
+            <div class="form-group row">
+                <div class="col text-center">
+                    <button class="btn btn-normal">Fetch Report</button>
+                </div>
+                <div class="col text-center">
+                    <button class="btn btn-normal">Download Report</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

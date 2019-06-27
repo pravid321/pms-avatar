@@ -9,7 +9,7 @@ export interface IRoom {
     "maxPax"?: number,
     "extraBedsAllowed"?: number,
     "isBaseRoom"?: boolean,
-    "roomNumbers"?: [String]
+    "roomDetails"?: IRoomDetails[]
 }
 
 export interface IRatePlan {
@@ -23,6 +23,14 @@ export interface IRatePlan {
     "isBaseRate": number,
     "hotelId": number,
     "weight": number
+}
+
+export interface IRoomDetails {
+    "ruid": number,
+    "roomNumber": string,
+    "roomStatus": string,
+    "hotelId": number,
+    "availableToAssign": number
 }
 
 export interface IReservationData {

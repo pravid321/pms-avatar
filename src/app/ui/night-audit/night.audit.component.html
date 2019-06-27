@@ -1,0 +1,349 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">
+        <img style="margin-top: -4px;" src="./assets/images/reports-samll-ico.png" alt="Night Audit"
+            title="Night Audit">
+        Night Audit
+    </h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-4 border-right">
+                <img class="rounded mx-auto d-block" src="./assets/images/night-audit.png" alt="">
+            </div>
+            <div class="col text-center">
+                <div *ngIf="this.nightAuditPercent == 0; else percentageDiv">
+                    <h4 class="point-cursor" (click)="startNightAudit();">Click here to start
+                        <span class="ml-2"><img src="./assets/images/button-play.png" alt=""></span>
+                    </h4>
+                </div>
+                <ng-template #percentageDiv>
+                    <p class="night-audit-percentage text-success">{{nightAuditPercent}}%</p>
+                    <div class="mx-2 my-2">
+                        <progressbar [max]="progressBarMax" [value]="nightAuditPercent">
+                            <!-- <span class="text-nowrap">{{dynamic}} / {{max}}</span> -->
+                        </progressbar>
+                    </div>
+                    <p class="mt-2">{{nightAuditMessage}}</p>
+                </ng-template>
+            </div>
+        </div>
+
+
+        <div class="row align-items-center"
+            *ngIf="this.nightAuditPercent > 9 && this.nightAuditPercent < 20 && nightAuditStatus == true">
+            <h5>Logged User List</h5>
+            <div class="table-responsive">
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:8%;">Sl. No</div>
+                        <div class="divDisplayTableCell head text-center" style="width:17%;">User name</div>
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">User type</div>
+                        <div class="divDisplayTableCell head text-center" style="width:25%;">Chain user</div>
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">
+                            Login ID
+                        </div>
+                    </div>
+                    <div class="divDisplayTableRow" *ngFor="let item of loggedUserList; let indx = index;">
+                        <div class="divDisplayTableCell brdLft text-center" style="width:8%;">{{indx + 1}}</div>
+                        <div class="divDisplayTableCell text-center" style="width:17%;">{{item.userName}}</div>
+                        <div class="divDisplayTableCell text-center" style="width:15%;">{{item.userType}}</div>
+                        <div class="divDisplayTableCell text-center" style="width:25%;">
+                            {{item.isChainUser ? 'Yes' : 'No'}}</div>
+                        <div class="divDisplayTableCell text-center" style="width:15%;">{{item.loginId}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-center"
+            *ngIf="this.nightAuditPercent > 29 && this.nightAuditPercent < 40 && nightAuditStatus == true">
+            <h5>Today's Arrival List</h5>
+            <div class="table-responsive">
+                <div class="divDisplayTable"
+                    *ngIf="dueInArrivalList != null && dueInArrivalList.length > 0; else noArrivalDataBody">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:10%;">#</div>
+                        <!-- <div class="divDisplayTableCell head text-center" style="width:15%;">Booking Number</div> -->
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">Booking Date</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Room No</div>
+                        <div class="divDisplayTableCell head text-center" style="width:30%;">Guest Name</div>
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">
+                            <div class="form-check form-check-inline mr-0 text-center">
+                                <label class="form-check-label mr-1" for="headNoShowCkb">No Show</label>
+                                <div class="chiller_cb">
+                                    <input type="checkbox" name="body" id="headNoShowCkb" [(ngModel)]="allNoShowCkbox"
+                                        (change)="selectNoShowCKBStatus('all')">
+                                    <label class="form-check-label" for="headNoShowCkb">&nbsp;</label>
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">
+                            <div class="form-check form-check-inline mr-0 text-center">
+                                <label class="form-check-label mr-1" for="headAllArrivalCkb">Next Day Arrival</label>
+                                <div class="chiller_cb">
+                                    <input class="form-check-input ml-2" type="checkbox" id="headAllArrivalCkb"
+                                        [(ngModel)]="allNextDayArrivalCkbox"
+                                        (change)="selectNextDayArrivalCKBStatus('all')">
+                                    <label class="form-check-label" for="headAllArrivalCkb">&nbsp;</label>
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divDisplayTableRow" *ngFor="let item of dueInArrivalList; let indx = index;">
+                        <div class="divDisplayTableCell brdLft text-center" style="width:10%;">{{indx + 1}}</div>
+                        <!-- <div class="divDisplayTableCell text-center" style="width:15%;">{{item.bookingID}}</div> -->
+                        <div class="divDisplayTableCell text-center" style="width:15%;">{{item.bookingDate}}</div>
+                        <div class="divDisplayTableCell text-center" style="width:10%;">{{item.assignedRoomNumber}}
+                        </div>
+                        <div class="divDisplayTableCell text-center" style="width:30%;">
+                            {{item.guestNames.guestNames[0].namePrefix + ' ' + item.guestNames.guestNames[0].givenName + ' ' + item.guestNames.guestNames[0].surName}}
+                        </div>
+                        <div class="divDisplayTableCell text-center" style="width: 15%">
+                            <div class="chiller_cb">
+                                <input type="checkbox" name="no-show" id="noshowcell_{{indx}}" [(ngModel)]="item.noShow"
+                                    (change)="selectNoShowCKBStatus(indx)">
+                                <label for="noshowcell_{{indx}}">&nbsp;</label>
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="divDisplayTableCell text-center" style="width: 15%">
+                            <div class="chiller_cb">
+                                <input type="checkbox" name="no-show" id="newDayArrival_{{indx}}"
+                                    [(ngModel)]="item.nextDayArrival" (change)="selectNextDayArrivalCKBStatus(indx)">
+                                <label for="newDayArrival_{{indx}}">&nbsp;</label>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <ng-template #noArrivalDataBody>
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow"
+                            *ngIf="dueInArrivalList != null && dueInArrivalList.length == 0">
+                            <div class="divDisplayTableCell brdLft brdTop text-center" style="width:100%">
+                                {{apiStatusMessage}}
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+
+            </div>
+
+        </div>
+
+
+        <div class="row align-items-center"
+            *ngIf="this.nightAuditPercent > 39 && this.nightAuditPercent < 50 && nightAuditStatus == true">
+            <h5>Today's Departure List</h5>
+            <div class="table-responsive">
+                <div class="divDisplayTable"
+                    *ngIf="dueOutDepartureList != null && dueOutDepartureList.length > 0; else noDepartureDataBody">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:10%;">#</div>
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">Date</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Room No.</div>
+                        <div class="divDisplayTableCell head text-center" style="width:30%;">Guest Name</div>
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">
+                            <div class="form-check form-check-inline mr-0 text-center">
+                                <label class="form-check-label mr-1" for="headCheckOutCkb">Check Out</label>
+                                <div class="chiller_cb">
+                                    <label for="headCheckOutCkb">&nbsp;</label>
+                                    <input class="form-check-input ml-2" type="checkbox" id="headCheckOutCkb"
+                                        [(ngModel)]="allCheckOutCkbox" (change)="selectCheckoutCKBStatus('all')">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">
+                            <div class="form-check form-check-inline mr-0 text-center">
+                                <label class="form-check-label mr-1" for="headExtendStayCkb">Extend Stay</label>
+                                <div class="chiller_cb">
+                                    <label for="headExtendStayCkb">&nbsp;</label>
+                                    <input class="form-check-input ml-2" type="checkbox" id="headExtendStayCkb"
+                                        [(ngModel)]="allExtendStayCkbox" (change)="selectextendStayCKBStatus('all')">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divDisplayTableRow" *ngFor="let item of dueOutDepartureList; let indx = index;">
+                        <div class="divDisplayTableCell brdLft text-center" style="width:10%;">{{indx + 1}}</div>
+                        <div class="divDisplayTableCell text-center" style="width:15%;">{{item.bookingDate}}</div>
+                        <div class="divDisplayTableCell text-center" style="width:15%;">{{item.assignedRoomNumber}}
+                        </div>
+                        <div class="divDisplayTableCell text-center" style="width:30%;">
+                            {{item.guestDetails.guestDetail[0].namePrefix}}
+                            {{item.guestDetails.guestDetail[0].givenName}} {{item.guestDetails.guestDetail[0].surName}}
+                        </div>
+                        <div class="divDisplayTableCell text-center" style="width:15%;">
+                            <div class="chiller_cb">
+                                <input type="checkbox" name="no-show" id="isCheckOut_{{indx}}"
+                                    [(ngModel)]="item.isCheckOut" (change)="selectCheckoutCKBStatus(indx)">
+                                <label for="isCheckOut_{{indx}}">&nbsp;</label>
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="divDisplayTableCell text-center" style="width:15%;">
+                            <div class="chiller_cb">
+                                <input type="checkbox" name="no-show" id="extendStay_{{indx}}"
+                                    [(ngModel)]="item.extendStay" (change)="selectextendStayCKBStatus(indx)">
+                                <label for="extendStay_{{indx}}">&nbsp;</label>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <ng-template #noDepartureDataBody>
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow"
+                            *ngIf="dueInArrivalList != null && dueInArrivalList.length == 0">
+                            <div class="divDisplayTableCell brdLft brdTop text-center" style="width:100%">
+                                {{apiStatusMessage}}
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+
+            </div>
+        </div>
+
+        <ng-container *ngIf="this.nightAuditPercent > 49 && this.nightAuditPercent < 80 && nightAuditStatus == true">
+            <div class="row justify-content-center align-items-center mt-3">
+                <div class="col-8">
+                    <div class="form-group row justify-content-between">
+                        <label for="counter" class="col-4 col-form-label text-right pr-2">Select Your Counter</label>
+                        <div class="col text-center">
+                            <div class="btn-group" dropdown style="width:155px;">
+                                <button id="dropdown-counter" dropdownToggle type="button" class="btn dropdown-toggle"
+                                    aria-controls="dropdown-counter">
+                                    {{selectedCounter.counterName}} <span class="caret"></span>
+                                </button>
+                                <ul id="dropdown-counter" *dropdownMenu class="dropdown-menu" role="menu"
+                                    aria-labelledby="dropdown-counter">
+                                    <li role="menuitem" *ngFor="let counterItem of counterList"
+                                        (click)="selectedCounter = counterItem">
+                                        <a class="dropdown-item"
+                                            href="javascript:void(0);">{{counterItem.counterName}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-normal" (click)="showCounterList();">Show List</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row body-row">
+                <div class="table-responsive" *ngIf="counterItem != null">
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow">
+                            <div class="divDisplayTableCell head brdLft text-center" style="width:22%;">Funds</div>
+                            <div class="divDisplayTableCell head text-center" style="width:16%;">Last Opening Balance
+                            </div>
+                            <div class="divDisplayTableCell head text-center" style="width:10%;">Collections</div>
+                            <div class="divDisplayTableCell head text-center" style="width:10%;">Widrawals</div>
+                            <div class="divDisplayTableCell head text-center" style="width:8%;">Added</div>
+                            <div class="divDisplayTableCell head text-center" style="width:12%;">Closing Amount</div>
+                            <div class="divDisplayTableCell head text-center" style="width:10%;">Descrepencies</div>
+                            <div class="divDisplayTableCell head text-center" style="width:12%;">Balance On-hand</div>
+                        </div>
+
+                        <div class="divDisplayTableRow">
+                            <div class="divDisplayTableCell brdLft text-left" style="width:22%;">
+                                {{counterItem.transactionMode}}
+                            </div>
+                            <div class="divDisplayTableCell text-right" style="width:16%;">
+                                {{counterItem.openingbalance}}
+                            </div>
+                            <div class="divDisplayTableCell text-right" style="width:10%;">
+                                {{counterItem.collection}}
+                            </div>
+                            <div class="divDisplayTableCell text-right" style="width:10%;">
+                                {{counterItem.widrawals}}
+                            </div>
+                            <div class="divDisplayTableCell text-right" style="width:8%;">
+                                {{counterItem.added}}
+                            </div>
+                            <div class="divDisplayTableCell text-right" style="width:12%;">
+                                <!-- {{counterItem.closingAmount}} -->
+                                <input type="text" [(ngModel)]="counterItem.closingAmount">
+                            </div>
+                            <div class="divDisplayTableCell text-right" style="width:10%;">
+                                <!-- {{counterItem.descripency}} -->
+                                <input type="text" [(ngModel)]="counterItem.descripency">
+                            </div>
+                            <div class="divDisplayTableCell text-right" style="width:12%;">
+                                {{counterItem.balanceInHand}}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center mt-3">
+                <div class="col-md-auto text-right">
+                    <label for="openingcash" class="col-form-label ">Next day opening amount in Cash</label>
+                </div>
+                <div class="col-md-auto">
+                    <input type="text" class="form-control" id="openingcash" [(ngModel)]="openingCashAmt">
+                </div>
+                <div class="col-md-auto">
+                    <label class="col-form-label">Rs.</label>
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center">
+                <div class="col-md-auto">
+                    <div class="form-group text-center">
+                        <label for="propertyName">Reason for Discrepancy</label>
+                        <div style="width:100%;">
+                            <textarea class="form-control" cols="80" [(ngModel)]="disrepancyReason" name="discrepancy"
+                                id="" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </ng-container>
+
+        <ng-container *ngIf="nightAuditStatus == false">
+            <div class="divDisplayTable">
+                <div class="divDisplayTableRow">
+                    <div class="divDisplayTableCell brdLft brdTop text-center" style="width:100%">
+                        {{apiStatusMessage}}
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <div class="row align-items-center" *ngIf="this.nightAuditPercent == 100 ">
+            <div class="divDisplayTable">
+                <div class="divDisplayTableRow">
+                    <div class="divDisplayTableCell brdLft brdTop text-center" style="width:100%">
+                        Night Audit Complete
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-normal" *ngIf="this.nightAuditPercent < 90 && nightAuditStatus == true"
+        (click)="prceedAudit()">Proceed</button>
+    <button type="button" (click)="cancelNightAudit()" class="btn btn-normal">Cancel Audit</button>
+    <button type="button" *ngIf="this.nightAuditPercent == 100 || nightAuditStatus == false" (click)="closeModal()"
+        class="btn btn-normal">Close</button>
+</div>

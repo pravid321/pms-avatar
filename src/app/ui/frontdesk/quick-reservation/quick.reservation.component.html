@@ -40,9 +40,22 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="rateType" class="col-form-label">Rate Plan Type</label>
-                                    <select class="form-control" id="rateType" formControlName="rateType">
+                                    <!-- <div class="btn-group btn-block" dropdown>
+                                            <button dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle">
+                                                Select Rate<span class="caret"></span>
+                                            </button>
+                                            <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                                <perfect-scrollbar class="position-relative" [style.max-height.px]="250" [scrollIndicators]="true">
+                                                    
+                                                    <li role="roomtypeitem" *ngFor="let ratePlan of ratePlanList" (click)="selectedRoomType(roomTypeItem)">
+                                                        <a class="dropdown-item point-cursor">{{ratePlan.ratePlanName}}</a>
+                                                    </li>
+                                                </perfect-scrollbar>
+                                            </ul>
+                                        </div> -->
+                                    <select class="form-control" id="rateType" (change)="onItemChange()" formControlName="rateType">
                                         <option value="slcRate">Select Rate</option>
-                                        <option *ngFor="let ratePlan of ratePlanList" value="{{ratePlan.ratePlanCode}}">{{ratePlan.ratePlanName}}</option>
+                                        <option *ngFor="let ratePlan of ratePlanList" value="{{ratePlan.rateCode}}">{{ratePlan.ratePlanName}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -135,12 +148,12 @@
                                     <div class="form-row">
                                         <div class="col">
                                             <label for="recipient-name" class="col-form-label">Deposit</label>
-                                            <input type="text" class="form-control" id="recipient-name">
+                                            <input type="text" class="form-control" id="recipient-name" (input)="duePaymentCalculation()" (change)="duePaymentCalculation()" formControlName="depositAmt">
                                         </div>
 
                                         <div class="col">
                                             <label for="recipient-name" class="col-form-label">Payment Due</label>
-                                            <input type="text" class="form-control" id="recipient-name">
+                                            <input type="text" class="form-control" id="recipient-name" formControlName="duePayment">
                                         </div>
                                     </div>
                                 </div>
@@ -163,7 +176,7 @@
                                                     <img src="https://cdn0.iconfinder.com/static/img/cards/mastercard.svg?063b13c064" width="32">
                                                 </a>
                                                 <a href="javascript:void(0);" data-toggle="collapse" data-target="#cardDetails" class="collapsed">
-                                                    <img src="https://cdn0.iconfinder.com/static/img/cards/amex.svg?444731bb95" width="32">
+                                                    <img src="./assets/images/american-express-ico.png" width="32">
                                                 </a>
                                             </div>
                                         </div>
@@ -175,7 +188,7 @@
                                 <div class="form-group" style="margin-top: 10px;">
                                     <div class="form-row">
                                         <div class="col">
-                                            <span class="font-weight-normal">Price: {{ 1000 | currency:'INR':true }} <small style="margin-left:6px;"><sup>*</sup> Tax excluded price</small></span>
+                                            <span class="font-weight-normal">Price: {{ reservationPrice | currency:'INR':'symbol-narrow' }} <small style="margin-left:6px;"><sup>*</sup> Tax excluded price</small></span>
                                         </div>
                                     </div>
                                 </div>
@@ -256,8 +269,8 @@
                     <input type="checkbox" class="custom-control-input" id="customCheck1">
                     <label class="custom-control-label" for="customCheck1">Hold Till</label>
                 </div>
-                <button type="button" class="btn btn-primary blocked">Temp Reserve</button>
-                <button type="button" (click)="submit()" class="btn btn-primary">Reserve</button>
+                <button type="button" class="btn btn-normal blocked">Temp Reserve</button>
+                <button type="button" (click)="submit()" class="btn btn-normal">Reserve</button>
 
             </div>
 

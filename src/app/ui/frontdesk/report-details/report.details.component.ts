@@ -7,8 +7,7 @@ import { FrontDeskService } from '../../services/front.desk.services';
 
 @Component({
   selector: 'app-ui-frontdesk-report-details',
-  templateUrl: './report.details.component.html',
-  styleUrls: ['./report.details.component.scss']
+  templateUrl: './report.details.component.html'
 })
 export class ReportDetailsComponent implements OnInit, OnChanges {
 

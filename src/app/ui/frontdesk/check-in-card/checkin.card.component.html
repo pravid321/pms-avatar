@@ -1,0 +1,157 @@
+<div class="container checkinout-card">
+
+    <div class="row">
+        <div class="col">
+            &nbsp;
+        </div>
+        <div class="col">
+            &nbsp;
+        </div>
+        <div class="col">
+            <section class="checkinout-card-header">
+                <div class="row">
+                    <div class="col" *ngIf="checkinCardData.hotelDetails != null">
+                        <div class="header-heading">{{checkinCardData.hotelDetails.hotelName}}</div>
+                        <div class="header-data">{{checkinCardData.hotelDetails.address}}</div>
+                        <div class="header-data">{{checkinCardData.hotelDetails.city}} - {{checkinCardData.hotelDetails.zipCode}}</div>
+                        <!-- <div class="header-data">{{checkinCardData.hotelDetails.hotelName}}</div> -->
+                        <div class="header-data"><strong>Phone:</strong> {{checkinCardData.hotelDetails.phone}}</div>
+                        <div class="header-data"><strong>Email:</strong> {{checkinCardData.hotelDetails.email}}</div>
+                        <div class="header-data"><strong>Website:</strong> {{checkinCardData.hotelDetails.website}}</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="checkinCardData.resData">
+        <div class="col text-left checkinout-card-middle-header">
+            Check-in Card
+        </div>
+        <div class="col text-center checkinout-card-middle-header">
+            Group ID #G 07143
+        </div>
+        <div class="col text-center checkinout-card-middle-header">
+            Reservation ID # {{checkinCardData.resData.bookingID}}
+        </div>
+    </div>
+
+    <div class="row room-rate-type-details mt-2">
+        <div class="col">
+            Room Type: {{bookingData.roomTypeName}}
+        </div>
+        <div class="col">
+            Room Number: {{bookingData.roomNumber}}
+        </div>
+    </div>
+
+    <div class="row reservation-details mt-3" *ngIf="checkinCardData.resData != null">
+        <div class="col">
+            <div class="row rev-data-row">
+                <div class="col form-group">
+                    <div class="form-row mt-2">
+                        <div class="col-3"><i>Owner:</i></div>
+                        <div class="col"><strong>{{loggedUserData.userName}}</strong>(Id:P9)</div>
+                    </div>
+                    <div class="form-row mt-1">
+                        <div class="col-3"><i>Guest Id:</i></div>
+                        <div class="col"><strong>{{checkinCardData.resData.guestDetail.guestDetail[0].guestID}}</strong></div>
+                    </div>
+                    <div class="form-row mt-1">
+                        <div class="col-3"><i>Name:</i></div>
+                        <div class="col"><strong>{{checkinCardData.resData.guestDetail.guestDetail[0].namePrefix + ' ' + checkinCardData.resData.guestDetail.guestDetail[0].givenName + ' ' + checkinCardData.resData.guestDetail.guestDetail[0].surName}}</strong></div>
+                    </div>
+                    <div class="form-row mt-2">
+                        <div class="col-3"><i>Phone:</i></div>
+                        <div class="col"><strong>{{checkinCardData.resData.guestDetail.guestDetail[0].phone}}</strong></div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-row mt-2">
+                        <div class="col-3"><i>Date(s):</i></div>
+                        <div class="col"><strong>{{checkinCardData.resData.arrivalDate}} - {{checkinCardData.resData.departureDate}}</strong></div>
+                    </div>
+                    <div class="form-row mt-1">
+                        <div class="col-3"><i>Night(s):</i></div>
+                        <div class="col"><strong>{{checkinCardData.resData.los}}</strong>(Id:P9)</div>
+                    </div>
+                    <div class="form-row mt-1">
+                        <div class="col-3"><i>Person(s):</i></div>
+                        <div class="col"><strong>{{checkinCardData.resData.adult}} Adults, {{checkinCardData.resData.child}} Child </strong></div>
+                    </div>
+                    <div class="form-row my-2 billing-section no-gutters">
+                        <div class="col">
+                            <div class="form-row">
+                                <div class="col">
+                                    <span class="bill-label">Booking Charges</span>
+                                    <small class="d-block">(Seasonal Rate)</small>
+                                </div>
+                                <div class="col text-right">
+                                    Rs {{checkinCardData.totalbill.roomCharge}}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <span class="bill-label">Total Tax</span>
+                                </div>
+                                <div class="col text-right">
+                                    Rs {{checkinCardData.totalbill.taxAmount}}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <span class="bill-label">Total Amount</span>
+                                </div>
+                                <div class="col text-right">
+                                    Rs {{checkinCardData.totalbill.bookingTotal}}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <span class="bill-label">Amount Paid</span>
+                                </div>
+                                <div class="col text-right">
+                                    Rs {{checkinCardData.totalbill.totalPaidAmount}}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <span class="bill-label">Balance</span>
+                                </div>
+                                <div class="col text-right">
+                                    Rs {{checkinCardData.totalbill.balanceAmount }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="border-bottom:2px solid #cccccc;line-height: 20px;">&nbsp;</div>
+
+    <div class="row date-sig-row">
+        <div class="col">
+            <div class="form-row no-gutters">
+                <div class="col-3 row-label">Date:</div>
+                <div class="col">{{curDate}}</div>
+            </div>
+        </div>
+        <div class="col">&nbsp;</div>
+        <div class="col row-label">
+            Signature:
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col text-center">
+            <button class="btn btn-xs btn-normal" (click)="closeCheckInModal('checkIn')">Close</button>
+            <button class="btn btn-xs btn-normal">Print</button>
+            <button class="btn btn-xs btn-normal">Hide Price</button>
+        </div>
+    </div>
+
+    <br><br>
+
+</div>

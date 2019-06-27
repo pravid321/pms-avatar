@@ -78,7 +78,7 @@ export class AuthService {
 
   isAccessableModule(routeModule: any): boolean {
     let allowedModules = JSON.parse(localStorage.getItem("allowedModules"));
-    console.log("in isAccessable module: ", allowedModules, routeModule);//, allowedModules.find(moduleObj =>  moduleObj.moduleID == routeModule.moduleID && moduleObj.moduleName == routeModule.moduleName));//this.allowedModules.find(moduleObj => { moduleObj.moduleID == routeModule.moduleID && moduleObj.moduleName == routeModule.moduleName }));
+    //console.log("in isAccessable module: ", allowedModules, routeModule);//, allowedModules.find(moduleObj =>  moduleObj.moduleID == routeModule.moduleID && moduleObj.moduleName == routeModule.moduleName));//this.allowedModules.find(moduleObj => { moduleObj.moduleID == routeModule.moduleID && moduleObj.moduleName == routeModule.moduleName }));
     if (typeof allowedModules !== 'undefined' && allowedModules !== null) {
       let isModuleExists = allowedModules.find(moduleObj => moduleObj.moduleID == routeModule.moduleID && moduleObj.moduleName == routeModule.moduleName);
       return typeof isModuleExists !== 'undefined' ? true : false;

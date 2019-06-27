@@ -3,10 +3,12 @@ import { Router } from '@angular/router';
 import { RouteParameterService } from '../../shared/route.parameter.service';
 
 @Component({
-  templateUrl: './billings.component.html',
-  styleUrls: ['./billings.component.scss']
+  selector: 'billing-details',
+  templateUrl: './billings.component.html'
 })
 export class BillingsComponent implements OnInit {
+
+  public billingPageView: string = 'list';
 
   constructor(private router: Router, private routeParamService: RouteParameterService) { }
 
@@ -15,6 +17,11 @@ export class BillingsComponent implements OnInit {
       url: this.router.url,
       pageName: 'billings'
     });
+  }
+
+  showPaymentDetails(pageType: string) {
+
+    this.billingPageView = pageType;    
   }
 
 }

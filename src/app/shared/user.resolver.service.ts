@@ -32,18 +32,18 @@ export class UserResolver implements Resolve<any> {
     }
 
     private getSavedUserDetails() {
-        console.log('Getting saved user details');
+        //console.log('Getting saved user details');
         return of(this.userDetails);
     }
 
     private getUserDetailsFromApi() {
-        console.log('Getting api user details');
+        //console.log('Getting api user details');
         let servUrl = environment.apiUrl;
         let userDataUrl = servUrl + 'getLoginData';
 
         return this._http.post(userDataUrl, {}).pipe(
             tap((userDataFromApi) => {
-                console.log("userDataFromApi: ", userDataFromApi);
+                //console.log("userDataFromApi: ", userDataFromApi);
                 this.userDetails = userDataFromApi
             }),
             map((userDataFromApi) => userDataFromApi),

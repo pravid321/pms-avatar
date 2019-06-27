@@ -1,0 +1,102 @@
+<div class="cust-container" style="padding:0px;margin: 10px 0px">
+    <div class="counter open-counter">
+        <div class="row justify-content-center" style="margin-top:2%;">
+            <div class="col-2 text-center">
+                <!--  routerLink="../frontdesk">-->
+                <div class="route-thumbnail">
+                    <img src="./assets/images/front-desk-ico.png" alt="front-desk" title="Front Desk"
+                        class="rounded-circle">
+                </div>
+                <p class="h5">Front Desk</p>
+            </div>
+            <div class="col-2 text-center">
+                <!--  routerLink="../housekeeping">-->
+                <div class="route-thumbnail">
+                    <img src="./assets/images/house-keeping-ico.png" alt="housekeeping" class="rounded-circle"
+                        title="Housekeeping">
+                </div>
+                <p class="h5">House Keeping</p>
+            </div>
+            <div class="col-2 text-center">
+                <!-- routerLink="../restaurant" -->
+                <div class="route-thumbnail">
+                    <img src="./assets/images/restaurant-ico.png" alt="restaurant" class="rounded-circle"
+                        title="Restaurant">
+                </div>
+                <p class="h5">Restaurant</p>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-6 col-flexible">
+                <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true" class="text-center">
+                    {{alertMessageDetails.message}}
+                </alert>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:1.4rem;">
+            <div class="col text-center">
+                <span class="h3">Open New Cash Counter?</span>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt-3">
+            <div class="col text-center">
+                <div class="form-check form-check-inline">
+                    <label class="radio" for="openCash">Yes
+                        <input class="form-check-input" type="radio" checked name="openCashCounterGroup" id="openCash" (checked)="isOpenCounter" (input)="isOpenCounter = true"
+                            value="yes">
+                        <span class="checkround"></span>
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label class="radio" for="closeCash">No
+                        <input class="form-check-input" type="radio" name="openCashCounterGroup" id="closeCash" (checked)="isOpenCounter" (input)="isOpenCounter = false"
+                            value="no">
+                        <span class="checkround"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center align-items-center mt-3">
+            <div class="col col-md-4 col-sm-6 text-center">
+                <label>To continue with the current shift click on "No"</label>
+            </div>
+        </div>
+
+        <div class="row justify-content-center align-items-center mt-3">
+            <div class="col col-md-6 col-sm-12">
+                <div class="form-group row no-gutters">
+                    <label for="counter" class="col-3 col-form-label text-right pr-2">Select Your Counter</label>
+                    <div class="col-3">
+                        <div class="btn-group" dropdown style="width:155px;" [class.blocked]="!isOpenCounter">
+                            <button id="dropdown-counter" dropdownToggle type="button" class="btn dropdown-toggle"
+                                aria-controls="dropdown-counter">
+                                {{selectedCounter.counterName}} <span class="caret"></span>
+                            </button>
+                            <ul id="dropdown-counter" *dropdownMenu class="dropdown-menu" role="menu"
+                                aria-labelledby="dropdown-counter">
+                                <li role="menuitem" *ngFor="let counterItem of counterList" (click)="selectedCounter = counterItem">
+                                    <a class="dropdown-item" href="javascript:void(0);">{{counterItem.counterName}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <label for="openCash" class="col-3 col-form-label text-right pr-2">Opening Cash</label>
+                    <div class="col-3">
+                        <input type="text" class="form-control" [class.blocked]="!isOpenCounter" id="openingcash" [(ngModel)]="openingCashAmt">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center align-items-center mt-2">
+            <div class="col col-md-4 col-sm-6 text-center">
+                <button class="btn btn-normal" (click)="openCounter()">Continue</button>
+            </div>
+        </div>
+
+    </div>
+</div>

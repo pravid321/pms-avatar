@@ -1,19 +1,31 @@
-
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-//import { LoginModule } from './login/login.module';
-import { UiModule } from './ui/ui.module';
+import { AuthGuard } from './shared/guards/auth.guard';
+import { LoginComponent } from './login/login.component';
+
+export const appRoutingComponent = [
+  LoginComponent
+];
 
 const appRoutes: Routes = [
-    { path: '**', component: PageNotFoundComponent }
-  ]
+  {
+    /* leading slash should not be given in the path */
+    path: '',
+    redirectTo: '/login', /* in redirectTo the leading slash is required */
+    pathMatch: 'full',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  }
+]
 @NgModule({
-  
   imports: [
-      RouterModule.forRoot(appRoutes)    
+    RouterModule.forRoot(appRoutes)
   ],
-  exports:[RouterModule]
+  exports: [RouterModule]
 })
+
 export class AppRoutingModule { }

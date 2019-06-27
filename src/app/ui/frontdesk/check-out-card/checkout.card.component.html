@@ -1,0 +1,181 @@
+<div class="container checkinout-card">
+
+    <div class="row" style="border-bottom: 2px solid #cccccc">
+        <div class="col text-center checkinout-card-middle-header pb-2">
+            Check-out Card
+        </div>
+    </div>
+
+    <div class="row no-gutters">
+        <div class="col-9">
+            &nbsp;
+        </div>
+        
+        <div class="col">
+            <section class="checkinout-card-header">
+                <div class="row">
+                    <div class="col" *ngIf="checkOutCardData.hotelDetails != null">
+                        <div class="header-heading">{{checkOutCardData.hotelDetails.hotelName}}</div>
+                        <div class="header-data">{{checkOutCardData.hotelDetails.address}}</div>
+                        <div class="header-data">{{checkOutCardData.hotelDetails.city}} - {{checkOutCardData.hotelDetails.zipCode}}</div>
+                        <!-- <div class="header-data">Rajasthan, India</div> -->
+                        <div class="header-data"><strong>Phone:</strong> {{checkOutCardData.hotelDetails.phone}}</div>
+                        <div class="header-data"><strong>Email:</strong> {{checkOutCardData.hotelDetails.email}}</div>
+                        <div class="header-data"><strong>Website:</strong> {{checkOutCardData.hotelDetails.website}}</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="row rev-data-row" *ngIf="checkOutCardData.resData != null">
+        <div class="col-6">
+            <div class="form-row">
+                <div class="col">
+                    <strong>Reservation ID# {{checkOutCardData.resData.bookingID}}</strong>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <strong>Folio # {{checkOutCardData.billDetails.totalBill.billId}}</strong>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <strong>{{loggedUserData.userName}} (ID# P7)</strong>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="col-2">&nbsp;</div> -->
+        <div class="col-6">
+            <div class="form-row">
+                <div class="col">
+                    <strong>Room Type</strong>
+                </div>
+                <div class="col">
+                    {{bookingData.roomTypeName}}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <strong>Room</strong>
+                </div>
+                <div class="col">
+                    {{bookingData.roomNumber}}<small>({{checkOutCardData.resData.los}}N)</small>
+                </div>
+            </div>            
+            <div class="form-row">
+                <div class="col">
+                    <strong>Arrival Date</strong>
+                </div>
+                <div class="col">
+                    {{checkOutCardData.resData.arrivalDate | date: 'MMM dd, yyyy hh:mm a'}}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <strong>Departure Date</strong>
+                </div>
+                <div class="col">
+                    {{checkOutCardData.resData.departureDate | date: 'MMM dd, yyyy hh:mm a'}}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <strong>Night(s)</strong>
+                </div>
+                <div class="col">
+                    {{checkOutCardData.resData.los}}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <strong>Person(s)</strong>
+                </div>
+                <div class="col">
+                    {{checkOutCardData.resData.adult}} Adult(s), {{checkOutCardData.resData.child}} <span [ngPlural]="checkOutCardData.resData.child">
+                        <ng-template ngPluralCase="=0"></ng-template>
+                        <ng-template ngPluralCase="=1">Child</ng-template>
+                        <ng-template ngPluralCase="other">Children</ng-template>
+                    </span> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="table-responsive">
+            <div class="divDisplayTable">
+                <div class="divDisplayTableRow" id="tableHeaderRow">
+                    <div class="divDisplayTableCell head text-center" style="width:15%;">Date(s)</div>
+                    <div class="divDisplayTableCell head text-center" style="width:40%;">Description</div>
+                    <div class="divDisplayTableCell head text-center" style="width:25%;">References</div>
+                    <div class="divDisplayTableCell head text-center" style="width:20%;">Amount</div>
+                </div>
+                <div class="divDisplayTableRow" *ngFor="let transItem of checkOutCardData.dayWiseTransaction; let i = index;">
+                    <div class="divDisplayTableCell text-center" style="width:15%;">{{transItem.date | date: 'MMM dd, yyyy'}}</div>
+                    <div class="divDisplayTableCell text-center" style="width:40%;">{{transItem.description}}</div>
+                    <div class="divDisplayTableCell text-center" style="width:25%;">&nbsp;</div>
+                    <div class="divDisplayTableCell text-right" style="width:20%;">{{transItem.tranxAmount}}</div>
+                </div>
+                <div class="divDisplayTableRow">
+                    <div class="divDisplayTableCell" style="width:15%; border-top-width: 1px;">&nbsp;</div>
+                    <div class="divDisplayTableCell" style="width:40%; border-top-width: 1px;">&nbsp;</div>
+                    <div class="divDisplayTableCell text-right" style="width:25%; border-top-width: 1px;"><strong>Total
+                            Amount</strong></div>
+                    <div class="divDisplayTableCell text-right" style="width:20%; border-top-width: 1px;">Rs {{checkOutCardData.billDetails.totalBill.bookingTotal}}
+                    </div>
+                </div>
+                <div class="divDisplayTableRow">
+                    <div class="divDisplayTableCell" style="width:15%; border-top-width: 2px;">&nbsp;</div>
+                    <div class="divDisplayTableCell" style="width:40%; border-top-width: 2px;">&nbsp;</div>
+                    <div class="divDisplayTableCell text-right" style="width:25%; border-top-width: 2px;">Includes Tax
+                    </div>
+                    <div class="divDisplayTableCell text-right" style="width:20%; border-top-width: 2px;">Rs {{checkOutCardData.billDetails.totalBill.taxAmount}}</div>
+                </div>
+                <div class="divDisplayTableRow">
+                    <div class="divDisplayTableCell" style="width:15%; border-top-width: 2px;">&nbsp;</div>
+                    <div class="divDisplayTableCell" style="width:40%; border-top-width: 2px;">&nbsp;</div>
+                    <div class="divDisplayTableCell text-right" style="width:25%; border-top-width: 2px;"><strong>Amount
+                            Paid</strong></div>
+                    <div class="divDisplayTableCell text-right" style="width:20%; border-top-width: 2px;">Rs {{checkOutCardData.billDetails.totalBill.totalPaidAmount}}
+                    </div>
+                </div>
+                <div class="divDisplayTableRow">
+                    <div class="divDisplayTableCell" style="width:15%; border-top-width: 2px;">&nbsp;</div>
+                    <div class="divDisplayTableCell" style="width:40%; border-top-width: 2px;">&nbsp;</div>
+                    <div class="divDisplayTableCell text-right" style="width:25%; border-top-width: 2px;">
+                        <strong>Balance</strong></div>
+                    <div class="divDisplayTableCell text-right" style="width:20%; border-top-width: 2px;">Rs {{checkOutCardData.billDetails.totalBill.balanceAmount}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="border-bottom:2px solid #cccccc;line-height: 20px;">&nbsp;</div>
+
+    <div class="row date-sig-row">
+        <div class="col">
+            <div class="form-row no-gutters">
+                <div class="col row-label" style="border-top: 1px solid #000000;">
+                    Guest's Signature:
+                    <small class="d-block">(Please collect the receipt when paying by cash)</small>
+                    Date: {{curDate}}
+                </div>
+            </div>
+        </div>
+        <div class="col">&nbsp;</div>
+        <div class="col row-label" style="border-top: 1px solid #000000;">
+            Casher's Signature:
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col text-center">
+            <button class="btn btn-xs btn-normal" (click)="closeCheckOutModal('checkOut')">Close</button>
+            <button class="btn btn-xs btn-normal">Print</button>
+        </div>
+    </div>
+
+</div>

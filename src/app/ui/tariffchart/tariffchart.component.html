@@ -1,0 +1,212 @@
+<div class="row tariff-chart-row">
+    <div class="col-12 col-flexible">
+        <div class="form-container">
+            <header> Hotel Hilton Internationational Rate Chart - 2019 </header>
+
+            <section>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group row">
+                            <div class="col">
+                                <label for="daterange">Select Date Range</label>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="input-group date-cal">
+                                            <span (click)="dpsrt.show()"><i class="fa fa-calendar"></i></span>
+                                            <input bsDatepicker class="form-control" id="startDate" #dpsrt="bsDatepicker" type="text" [bsConfig]="tariffChartConfigStart" [(ngModel)]="tcDatePickerStart" (onHidden)="onTariffChartDateChange($event, 'start')">
+                                        </div>
+                                    </div>
+                                    <div class="col-1 text-center pt-1">to</div>
+                                    <div class="col">
+                                        <div class="input-group date-cal">
+                                            <span (click)="dpend.show()"><i class="fa fa-calendar"></i></span>
+                                            <input bsDatepicker class="form-control" id="endDate" #dpend="bsDatepicker" type="text" [bsConfig]="tariffChartConfigEnd" [(ngModel)]="tcDatePickerEnd" (onHidden)="onTariffChartDateChange($event, 'end')">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label for="selectDays">Days</label>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-normal">Show</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group row">
+                            <div class="col">
+                                <label for="propertyName">Select Rate Plan</label>
+                                <div>
+                                    <div class="btn-group" dropdown>
+                                        <button id="button-rate" dropdownToggle type="button" class="btn dropdown-toggle" aria-controls="dropdown-rate">
+                                            Select <span class="caret"></span>
+                                        </button>
+                                        <ul id="dropdown-rate" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-rate">
+                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">ABS</a></li>
+                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">BAR</a></li>
+                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">NR</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <label for="propertyName">Select Room</label>
+                                <div>
+                                    <div class="btn-group" dropdown>
+                                        <button id="button-room" dropdownToggle type="button" class="btn dropdown-toggle" aria-controls="dropdown-room">
+                                            Select <span class="caret"></span>
+                                        </button>
+                                        <ul id="dropdown-room" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-room">
+                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">Delux Room</a></li>
+                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">Standard Room</a></li>
+                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">Maharaja Room</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <label for="propertyName">Options</label>
+                                <div>
+                                    <div class="btn-group" dropdown>
+                                        <button id="button-option" dropdownToggle type="button" class="btn dropdown-toggle" aria-controls="dropdown-option">
+                                            Select <span class="caret"></span>
+                                        </button>
+                                        <ul id="dropdown-option" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-option">
+                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">Option 1</a></li>
+                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">Option 2</a></li>
+                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">Option 3</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <label for="propertyName">Currency</label>                                
+                                <input type="text" class="form-control" value="INR">                                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="table-responsive">
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell brdLft head text-center" style="width:18%;">&nbsp;</div>
+                        <div class="divDisplayTableCell head text-center" [ngStyle]="{'width.%':dayCellPercentage}" *ngFor="let dateItem of tariffChartDateList;">
+                            <div class="week-day">{{dateItem | date: 'EEE'}}</div>
+                            <div>{{dateItem | date: 'dd-MMM-yyyy'}}</div>
+                        </div>
+                    </div>
+
+                    <ng-container>
+                        <div class="divDisplayTableRow">
+                            <div class="divDisplayTableCell brdLft text-left" style="width:18%;">Promotional Rate</div>
+                            <div class="divDisplayTableCell text-center" (click)="getNightlyRate(nightRateModal, dataItem)" [ngStyle]="{'width.%':dayCellPercentage}" *ngFor="let dateItem of tariffChartDateList;">2000.00</div>
+                        </div>
+                        <div class="divDisplayTableRow">
+                            <div class="divDisplayTableCell brdLft text-left" style="width:18%;">Standard Room</div>
+                            <div class="divDisplayTableCell text-center" (click)="getNightlyRate(nightRateModal, dataItem)" [ngStyle]="{'width.%':dayCellPercentage}" *ngFor="let dateItem of tariffChartDateList;">2000.00</div>
+                        </div>
+                    </ng-container>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<ng-template #nightRateModal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 id="dialog-static-name" class="modal-title pull-left">Nightly Rate Details</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+                <div class="row tariff-chart-row no-margin">
+                    <div class="col-12 col-flexible">
+                        <div class="form-container">
+                            <header>Nightly Rate</header>
+
+                            <section>
+                                <div class="form-group row">
+                                    <div class="col-4">
+                                        <label for="daterange">Select Date</label>
+                                        <div class="input-group date-cal">
+                                            <span (click)="dpsrt.show()"><i class="fa fa-calendar"></i></span>
+                                            <input bsDatepicker class="form-control" id="startDate" #dpsrt="bsDatepicker" type="text" [bsConfig]="tariffChartConfigStart" [(ngModel)]="tcDatePickerStart" (onHidden)="onTariffChartDateChange($event, 'start')">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <label for="daterange">Select Days</label>
+                                        <div class="form-row">
+                                            <div class="col-5">
+                                                <div class="btn-group" dropdown>
+                                                    <button id="button-room" dropdownToggle type="button" class="btn dropdown-toggle" aria-controls="dropdown-room">
+                                                        {{nightRateDays}} <span class="caret"></span>
+                                                    </button>
+                                                    <ul id="dropdown-room" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-room">
+                                                        <li role="menuitem" *ngFor="let dayIndex of [1,2,3,4,5,6,7]" (click)="setNightRows(dayIndex)">
+                                                            <a class="dropdown-item" href="javascript:void(0);">{{dayIndex}}</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <button class="btn btn-normal">Show</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <div class="table-responsive">
+                                <div class="divDisplayTable">
+                                    <div class="divDisplayTableRow" id="nightlyRateTableHeaderRow">
+                                        <div class="divDisplayTableCell brdLft head text-center">Standard Delux Room</div>
+                                        <div class="divDisplayTableCell head text-center">LAR</div>
+                                        <div class="divDisplayTableCell head text-center">BAR</div>
+                                        <div class="divDisplayTableCell head text-center">EBR</div>
+                                        <div class="divDisplayTableCell head text-center">CRP</div>
+                                    </div>
+
+                                    <div class="divDisplayTableRow" *ngFor="let nightDaysRowIndex of nightRateRows; let i = index;">
+                                        <div class="divDisplayTableCell brdLft head text-center">{{ i + 1 | ordinal }} Night Rate</div>
+                                        <div class="divDisplayTableCell text-right">2000</div>
+                                        <div class="divDisplayTableCell text-right">2000</div>
+                                        <div class="divDisplayTableCell text-right">2500</div>
+                                        <div class="divDisplayTableCell text-right">2800</div>
+                                    </div>
+                                    
+                                    <div class="divDisplayTableRow">
+                                        <div class="divDisplayTableCell brdLft head text-center">Total Stay Rate</div>
+                                        <div class="divDisplayTableCell text-right">2000</div>
+                                        <div class="divDisplayTableCell text-right">2000</div>
+                                        <div class="divDisplayTableCell text-right">2500</div>
+                                        <div class="divDisplayTableCell text-right">2800</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

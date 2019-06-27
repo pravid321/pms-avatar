@@ -26,12 +26,15 @@
 
                 <div class="divDisplayTable">
                     <div class="divDisplayTableRow" *ngFor="let policyItem of webPolicyList; let i = index;">
-                        <div class="divDisplayTableCell brdLft text-right" style="width:10%;">{{policyItem.id}}</div>
+                        <div class="divDisplayTableCell brdLft text-center" style="width:10%;">{{policyItem.id}}</div>
 
                         <div class="divDisplayTableCell brdLft text-center" style="width:10%;">
-                            <input type="radio" name="rateCkb" id="rpckb_{{i}}" [(ngModel)]="policyItem.isApplied">
+                            <label class="radio" for="nsRadio_{{i}}">&nbsp;
+                                <input type="radio" name="rateCkb" id="rpckb_{{i}}" [(ngModel)]="policyItem.isApplied">
+                                <span class="checkround"></span>
+                            </label>
                         </div>
-                        
+
                         <div class="divDisplayTableCell text-left" style="width:40%;padding-left: 10px;">
                             <span [hidden]="policyItem.editable">
                                 {{policyItem.description}}
@@ -102,14 +105,14 @@
     </div>
 
     <div class="row" id="footerButtonContainer" style="margin-top:20px;">
-        <div class="col point-cursor" (click)="addRatePlan();">
+        <div class="col point-cursor">
             <span class="badge badge-sky" style="vertical-align:text-top;"><i class="fa fa-plus"></i></span>
             <div style="margin-left:6px;display: inline-block;">Add</div>
         </div>
 
         <div class="col">
             <!-- <button class="btn btn-normal pull-right" type="submit">Save</button> -->
-            <button class="btn btn-normal pull-right" type="submit">Reset</button>
+            <!-- <button class="btn btn-normal pull-right" type="submit">Reset</button> -->
         </div>
     </div>
 </div>

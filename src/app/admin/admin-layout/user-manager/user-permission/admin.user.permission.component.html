@@ -1,0 +1,102 @@
+<div class="modal-body">
+    <div class="container">
+
+        <div class="container-fluid" style="padding:10px 0px;">
+
+            <div class="table-responsive">
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow">
+                        <div class="divDisplayTableCell head brdLft">
+                            <header><strong>User Permission</strong></header>
+                        </div>
+                    </div>
+
+                    <div class="divDisplayTableRow">
+                        <div class="divDisplayTableCell brdLft">
+                            <div class="d-inline-block" style="width:35%;">
+                                Permission to received NA
+                            </div>
+                            <div class="d-inline-block" style="width:65%;">
+                                <div class="form-check form-check-inline">
+                                    <input type="checkbox" class="form-check-input" id="receiveAuditReport">
+                                    <label class="form-check-label" for="receiveAuditReport">Report (This willallow user to receive Night Audit report)</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divDisplayTableRow">
+                        <div class="divDisplayTableCell brdLft">
+                            <div class="d-inline-block" style="width:35%;">Restrict NA Report </div>
+                            <div class="d-inline-block" style="width:65%;">
+                                <div class="form-check form-check-inline">
+                                    <input type="checkbox" class="form-check-input" id="restrictReport">
+                                    <label class="form-check-label" for="restrictReport">(User performing NA will not receive Report)</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divDisplayTableRow">
+                        <div class="divDisplayTableCell brdLft">
+                            <div class="d-inline-block" style="width:35%;">Restrict Downtime email </div>
+                            <div class="d-inline-block" style="width:65%;">
+                                <div class="form-check form-check-inline">
+                                    <input type="checkbox" class="form-check-input" id="restrictDowntimeEmail">
+                                    <label class="form-check-label" for="restrictDowntimeEmail">(User performing NA will not receive Downtime email if selected)</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divDisplayTableRow">
+                        <div class="divDisplayTableCell brdLft">
+                            <div class="d-inline-block" style="width:35%;">Reservation Permission</div>
+                            <div class="d-inline-block" style="width:30%;">
+                                <div class="form-check form-check-inline">
+                                    <input type="checkbox" class="form-check-input" id="partialMode">
+                                    <label class="form-check-label" for="partialMode">Partial Mode</label>
+                                </div>
+                            </div>
+                            <div class="d-inline-block" style="width:30%;">
+                                <div class="form-check form-check-inline">
+                                    <input type="checkbox" class="form-check-input" id="viewMode">
+                                    <label class="form-check-label" for="viewMode">View Mode</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divDisplayTableRow">
+                        <div class="divDisplayTableCell brdLft">
+                            <div class="d-inline-block" style="width:35%;">Front Desk Read-only </div>
+                            <div class="d-inline-block" style="width:35%;">
+                                <div class="form-check">
+                                    <input class="form-check-input position-static" type="checkbox" id="readOnlyFrontDesk" value="option1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divDisplayTableRow">
+                        <div class="divDisplayTableCell brdLft">
+                            <div class="d-inline-block" style="width:35%;">Mark as Sales Person </div>
+                            <div class="d-inline-block" style="width:35%;">
+                                <div class="form-check">
+                                    <input class="form-check-input position-static" type="checkbox" id="salesPerson" value="option1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-normal pull-right" data-dismiss="modal">Cancel</button>
+    <button class="btn btn-normal" type="button">Save User</button>
+</div>

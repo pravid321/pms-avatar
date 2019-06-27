@@ -4,8 +4,7 @@ import { RouteParameterService } from '../../shared/route.parameter.service';
 
 @Component({
   selector: 'app-ui-restaurant',
-  templateUrl: './restaurant.component.html',
-  styleUrls: ['./restaurant.component.scss']
+  templateUrl: './restaurant.component.html'
 })
 export class RestaurantComponent implements OnInit {
 

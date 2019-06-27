@@ -2,7 +2,7 @@
     <h5 id="pageHeading">Hotel Amenities</h5>
 
     <div class="row">
-        
+
         <div class="col-12 col-flexible">
             <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true" class="text-center">
                 {{alertMessageDetails.message}}
@@ -24,10 +24,10 @@
                     <perfect-scrollbar *ngIf="type === 'component'" class="position-relative" [style.max-height.px]="scrollBarContainerHeight" [config]="config" [scrollIndicators]="true" (psXReachEnd)="onScrollEvent($event)" (psYReachEnd)="onScrollEvent($event)" (psXReachStart)="onScrollEvent($event)" (psYReachStart)="onScrollEvent($event)">
 
                         <div class="rTableRow" *ngFor="let aminityData of aminityList; let i = index;">
-                            <div class="rTableCell" style="width:6%">{{i+1}}</div>
+                            <div class="rTableCell text-center" style="width:6%">{{i+1}}</div>
                             <div class="rTableCell" style="width:26%">
                                 <span [hidden]="aminityData.editable">{{aminityData.aminityName}}</span>
-                                <input [hidden]="!aminityData.editable" type="text" name="editAminityName" id="editAminityName_{{i}}" [(ngModel)]="aminityData.aminityName" class="edit-input-box"/>
+                                <input [hidden]="!aminityData.editable" type="text" name="editAminityName" id="editAminityName_{{i}}" [(ngModel)]="aminityData.aminityName" class="edit-input-box" />
                             </div>
                             <div class="rTableCell" style="width:50%">
                                 <span [hidden]="aminityData.editable">
@@ -54,7 +54,11 @@
                             <div class="rTableCell text-center" style="width:50%; height: 40px;">
                                 <input name="aminityDesc" id="aminityDesc" style="width:90%" [(ngModel)]="newAminityDesc" />
                             </div>
-                            <div class="rTableCell" style="width:18%;height: 40px;" (click)="createAminity()"> Add Aminity</div>
+                            <div class="rTableCell text-center" style="width:18%;height: 40px;">
+                                <div class="d-inline-block point-cursor" (click)="createAminity();">
+                                    <img src="./assets/images/save.png" alt="create amenity">
+                                </div>
+                            </div>
                         </div>
                     </perfect-scrollbar>
 

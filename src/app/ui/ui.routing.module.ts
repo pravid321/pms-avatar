@@ -5,17 +5,31 @@ import { CommonModule } from '@angular/common';
 
 import { AuthGuard } from '../shared/guards/auth.guard';
 import { BillingsComponent } from './billings/billings.component';
+import { CloseCashCounterComponent } from './cash-counter/close-counter/close.cash.counter.component';
+import { CounterResolverService } from '../shared/counter.resolver.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FrontdeskComponent, frontDeskChildComponents } from './frontdesk/frontdesk.component';
+import { GuestLookupComponent } from './guestlookup/guestlookup.component';
 import { HousekeepingComponent } from './housekeeping/housekeeping.component';
 import { LayoutComponent } from './layout/layout.component';
+import { OpenCashCounterComponent } from './cash-counter/open-counter/open.cash.counter.component';
 import { OthersComponent } from './others/others.component';
-import { ReportsComponent } from './reports/reports.component';
+import { NightAuditComponent } from './night-audit/night.audit.component';
+import { PaymentsComponent } from './payments/payments.component';
+import { ReportsComponent, reportsChildComponents } from './reports/reports.component';
 import { RestaurantComponent } from './restaurant/restaurant.component';
 import { RoleGuard } from '../shared/guards/role.guard';
+import { TariffChartComponent } from './tariffchart/tariffchart.component';
 import { UserResolver } from '../shared/user.resolver.service';
 
-export const uiRoutingComponent = [BillingsComponent, DashboardComponent, FrontdeskComponent, frontDeskChildComponents, HousekeepingComponent, RestaurantComponent, ReportsComponent, OthersComponent];
+export const uiRoutingComponent = [
+  BillingsComponent, CloseCashCounterComponent, DashboardComponent, 
+  FrontdeskComponent, frontDeskChildComponents, GuestLookupComponent, 
+  HousekeepingComponent, NightAuditComponent, OpenCashCounterComponent, 
+  PaymentsComponent, RestaurantComponent, 
+  ReportsComponent, reportsChildComponents, 
+  OthersComponent, TariffChartComponent
+];
 
 @NgModule({
   imports: [
@@ -37,6 +51,11 @@ export const uiRoutingComponent = [BillingsComponent, DashboardComponent, Frontd
               canActivate: [AuthGuard]
             },
             {
+              path: 'nightaudit',
+              component: NightAuditComponent,
+              canActivate: [AuthGuard]
+            },
+            {
               path: 'dashboard',
               component: DashboardComponent,
               canActivate: [AuthGuard]
@@ -55,8 +74,8 @@ export const uiRoutingComponent = [BillingsComponent, DashboardComponent, Frontd
               component: RestaurantComponent,
               canActivate: [AuthGuard && RoleGuard],
               data:{
-                moduleID: 2,
-                moduleName: "Reservation"
+                moduleID: 5,
+                moduleName: "Restaurent"
               }
             },
             {
@@ -72,8 +91,9 @@ export const uiRoutingComponent = [BillingsComponent, DashboardComponent, Frontd
               path: 'reports',
               component: ReportsComponent,
               canActivate: [AuthGuard && RoleGuard],
+              //canActivate: [AuthGuard],
               data:{
-                moduleID: 4,
+                moduleID: 7,
                 moduleName: "Reports"
               }
             },
@@ -89,12 +109,42 @@ export const uiRoutingComponent = [BillingsComponent, DashboardComponent, Frontd
             {
               path: 'billings',
               component: BillingsComponent,
+              canActivate: [AuthGuard && RoleGuard],
               data:{
-                moduleID: 6,
+                moduleID: 8,
                 moduleName: "Billings"
               }
             },
-
+            {
+              path: 'opencounter',
+              component: OpenCashCounterComponent,
+              canActivate: [AuthGuard && RoleGuard],
+              resolve: {
+                counterData: CounterResolverService
+              },
+              data:{
+                moduleID: 10,
+                moduleName: "Cash Counter"
+              }
+            },
+            {
+              path: 'closecounter',
+              component: CloseCashCounterComponent,
+              canActivate: [AuthGuard && RoleGuard],
+              resolve: {
+                counterData: CounterResolverService
+              },
+              data:{
+                moduleID: 10,
+                moduleName: "Cash Counter"
+              }
+            },
+            //this is temporary basic after completion html it should be removed
+            {
+              path: 'tariff',
+              component: TariffChartComponent,
+              canActivate: [AuthGuard]
+            }
           ]
         },
       ]

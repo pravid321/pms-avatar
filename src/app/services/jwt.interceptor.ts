@@ -13,8 +13,7 @@ export class JwtInterceptor implements HttpInterceptor {
                 setHeaders: {
                     "Content-Type": "application/json",
                     "Accept": "application/json",
-                    //"Access-Control-Allow-Origin": "*",
-                    //"Access-Control-Expose-Headers": "TestHeaderToExpose",
+                    "Access-Control-Allow-Origin": "*",
                     "authToken": `${authToken}`                    
                 }
             });
@@ -24,8 +23,7 @@ export class JwtInterceptor implements HttpInterceptor {
                 setHeaders: {
                     "Content-Type": "application/json",
                     "Accept": "application/json",
-                    "Access-Control-Allow-Origin": "*" 
-                                   
+                    "Access-Control-Allow-Origin": "*"                                    
                 }
             });
         }

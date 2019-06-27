@@ -1,0 +1,84 @@
+<nav id="sidebar"  (clickElsewhere)="closeSideSidebar()">
+    <!-- <div id="dismiss">
+        <i class="fa fa-arrow-left"></i>
+    </div>
+
+    <div class="sidebar-header">
+        <h3>Links</h3>
+    </div>
+
+    <ul class="list-unstyled components"> -->
+    <!-- <p>Dummy Heading</p> -->
+    <!-- <li class="active">
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Dashboard</a>
+                <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <li>
+                        <a href="#">Home 1</a>
+                    </li>
+                    <li>
+                        <a href="#">Home 2</a>
+                    </li>
+                    <li>
+                        <a href="#">Home 3</a>
+                    </li>
+                </ul>
+            </li> -->
+    <!-- <li>
+                <a href="#">About</a>
+                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
+                <ul class="collapse list-unstyled" id="pageSubmenu">
+                    <li>
+                        <a href="#">Page 1</a>
+                    </li>
+                    <li>
+                        <a href="#">Page 2</a>
+                    </li>
+                    <li>
+                        <a href="#">Page 3</a>
+                    </li>
+                </ul>
+            </li>
+        <li class="side-link" routerLinkActive="active" routerLink="./dashboard">
+            <a href="javascript:void(0);">Dashboard</a>
+        </li>
+        <li class="side-link" routerLinkActive="active" routerLink="./frontdesk">
+            <a href="javascript:void(0);">Frontdesk</a>
+        </li>
+        <li class="side-link" routerLinkActive="active" routerLink="./housekeeping">
+            <a href="javascript:void(0);">Housekeeping</a>
+        </li>
+        <li class="side-link" routerLinkActive="active" routerLink="./restaurant">
+            <a href="javascript:void(0);">Restaurant</a>
+        </li>
+        <li class="side-link" routerLinkActive="active" routerLink="./reports">
+            <a href="javascript:void(0);">Reports</a>
+        </li>
+        <li class="side-link" routerLinkActive="active" routerLink="./others">
+            <a href="javascript:void(0);">Others</a>
+        </li> -->
+    <!-- </ul> -->
+    <ul class="list-unstyled components">
+        <li>
+            <a href="#roomSubmenu" data-toggle="collapse" aria-expanded="false">
+                <img src="./assets/images/room-service-ico.png" alt=""> Room Operations
+            </a>
+            <ul class="collapse list-unstyled" id="roomSubmenu">
+                <li><a href="javascript:void(0)" (click)="showFrontDeskPage('CheckedIn')">Check in List</a></li>
+                <li><a href="javascript:void(0)" (click)="showFrontDeskPage('CheckedOut')">Check out List</a></li>
+                <!-- <li><a href="javascript:void(0)" (click)="showFrontDeskPage('inhouse')">Guest In-House List</a></li> -->
+                <li><a href="javascript:void(0)" (click)="showFrontDeskPage('Bookings')">Reservation List</a></li>
+                <!-- <li><a href="javascript:void(0)" (click)="showFrontDeskPage('tempRoom')">Temp Room List</a></li> -->
+                <li><a href="javascript:void(0)" (click)="showFrontDeskPage('NoShow')">No Show List</a></li>
+                <li><a href="javascript:void(0)" (click)="showFrontDeskPage('Cancellations')">Cancelled Reservation List</a></li>
+                <!-- <li><a href="javascript:void(0)" (click)="showFrontDeskPage('checkOutPending')">Check out pending list</a></li>
+                <li><a href="javascript:void(0)" (click)="showFrontDeskPage('')">Pending Follo(s)</a></li>
+                <li><a href="javascript:void(0)" (click)="showFrontDeskPage('checkIn')">3rd Party Reservation List</a></li> -->
+            </ul>
+            <a href="javascript:void(0)" (click)="showFrontDeskPage('GuestLookUp')"> <img src="./assets/images/guest-lookup-ico.png" alt=""> Guest Look-up</a>
+            <a class="blocked" href="#"> <img src="./assets/images/house-status-ico.png" alt=""> House Status</a>
+            <a href="javascript:void(0)" (click)="showFrontDeskPage('TraiffChart')"> <img src="./assets/images/tariffchart-ico.png" alt=""> Tariff Chart</a>
+            <a class="blocked" href="#"> <img src="./assets/images/accounts-ico.png" alt=""> Accounts</a>
+        </li>
+    </ul>
+
+</nav>

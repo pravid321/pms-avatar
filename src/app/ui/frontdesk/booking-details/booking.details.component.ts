@@ -9,8 +9,7 @@ import { IRatePlan, IRoom, IReservationData } from '../Frontdesk';
 
 @Component({
   selector: 'app-ui-frontdesk-booking-details',
-  templateUrl: './booking.details.component.html',
-  styleUrls: ['./booking.details.component.scss']
+  templateUrl: './booking.details.component.html'
 })
 export class BookingDetailsComponent implements OnInit, AfterViewInit {
 
@@ -40,6 +39,10 @@ export class BookingDetailsComponent implements OnInit, AfterViewInit {
     let buffer = 50;
     this.scrollBarContainerHeight = $(document).height() - ($("#main-navbar").outerHeight() + $("#sub-navbar").outerHeight() + $(".frontdesk-header").outerHeight() + $("#pageFooter").outerHeight() + $("#uiFooter").outerHeight() + buffer);
     
+    this.fdServ.getBookingDetails(this.bookingData.bookingID).subscribe(res => {
+      console.log("complete bookings data: ", res);
+    });
+
     this.bsConfigStart = Object.assign({}, {
       containerClass: 'theme-blue',
       dateInputFormat: 'DD-MMM-YYYY',
@@ -56,6 +59,8 @@ export class BookingDetailsComponent implements OnInit, AfterViewInit {
     
     this.roomChanged(this.bookingData.roomtype, this.bookingData.assignedRoomNumber);    
     this.noOfNights = moment(this.bookingData.departureDate).diff(moment(this.bookingData.arrivalDate), 'days');
+
+    console.log("on booking details: ", this.bookingData);
   }
 
   ngAfterViewInit() {
@@ -65,14 +70,35 @@ export class BookingDetailsComponent implements OnInit, AfterViewInit {
     //this.roomChanged(this.bookingData.roomtype);
   }
 
-  roomChanged(roomCode, assignedRoomNumber) {
+  public roomChanged(roomCode: any, assignedRoomNumber: any) {
     this.selectedRoomItem = this.roomList.find(roomItem => roomItem.roomCode == roomCode);
     if (assignedRoomNumber == '') {
       this.bookingData.assignedRoomNumber = this.selectedRoomItem.roomNumbers[0];
     }
   }
 
-  modifyReservation() {
+  public getRatePlan(ratePlanCode: string): string {
+    let selectedRateItem = this.ratePlanList.find(rateItem => rateItem.ratePlanCode == ratePlanCode);
+    return selectedRateItem.ratePlanName;
+  }
+
+  public getRoomType(roomTypeCode: string): string {
+    let roomCodeVal = this.roomList.find(roomItem => roomItem.roomCode == roomTypeCode);
+    return roomCodeVal.roomName;
+  }
+
+  public updateReservationData(dataVal: any, type: string) {
+    if(type == 'adult')
+      this.bookingData.adult = dataVal;
+    else if(type == 'child') 
+      this.bookingData.child = dataVal;
+    else if(type == 'ratePlan') 
+      this.bookingData.ratePlan = dataVal;
+    else if(type == 'roomItem') 
+      this.bookingData.roomtype = dataVal;
+  }
+
+  public modifyReservation() {
     
     let params: IReservationData = {
       "pos": {
@@ -117,19 +143,7 @@ export class BookingDetailsComponent implements OnInit, AfterViewInit {
                     "roomRate": [
                       {
                         "rates": {
-                          "rate": [
-                            {
-                              "base": {
-                                "amountAfterTax": "998.0",
-                                "amountBeforeTax": "998.0",
-                                "currencyCode": "INR"
-                              },
-                              "effectiveDate": moment(this.bookingData.arrivalDate, "DD-MMM-YYYY").format("YYYY-MM-DD 00:00:00.0"),
-                              "expireDate": moment(this.bookingData.departureDate, "DD-MMM-YYYY").format("YYYY-MM-DD 23:59:59.9"),
-                              "rateTimeUnit": "Day",
-                              "unitMultiplier": "1"
-                            }
-                          ]
+                          "rate": []
                         },
                         "numberOfUnits": this.bookingData.numberOfRooms,
                         "ratePlanCode": this.bookingData.ratePlan,
@@ -186,7 +200,7 @@ export class BookingDetailsComponent implements OnInit, AfterViewInit {
                           "type": ""
                         }
                       ],
-                      "amount": "0.0",
+                      "amount": "",
                       "currenyCode": "INR"
                     },
                     "amountAfterTax": "998.0",
@@ -326,12 +340,31 @@ export class BookingDetailsComponent implements OnInit, AfterViewInit {
       "version": "1.003"
     };
 
+    let startDate = moment(this.bookingData.arrivalDate, 'DD-MMM-YYYY').clone();
+    while(moment(this.bookingData.departureDate, "DD-MMM-YYYY").diff(moment(startDate, 'DD-MMM-YYYY')) > 0) {
+      params.hotelReservations.hotelReservation[0].roomStays.roomStay[0].roomRates.roomRate[0].rates.rate.push({        
+          "base": {
+            "amountAfterTax": "998.0",
+            "amountBeforeTax": "998.0",
+            "currencyCode": "INR"
+          },
+          "effectiveDate": moment(startDate, "DD-MMM-YYYY").format("YYYY-MM-DD 00:00:00.0"),
+          "expireDate": moment(startDate, "DD-MMM-YYYY").add(1, 'days').format("YYYY-MM-DD 23:59:59.9"),
+          "rateTimeUnit": "Day",
+          "unitMultiplier": "1"
+        })
+      startDate = startDate.add(1, 'days');
+    }
+
+    console.log("params: ", params);
+
+
     this.fdServ.createReservation(params).subscribe(res => {
       //this.modal.hide();
       console.log('in modify reservation: ', res);
       this.alertMessageDetails.response = true;
 
-      if(res['success'] == true){
+      if(res['successList'][0]['status'].toLowerCase() == 'success'){
           this.alertMessageDetails.type = 'success';
           this.alertMessageDetails.message = "Reservation details updated successfully";
       } else {

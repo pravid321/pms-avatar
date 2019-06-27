@@ -2,42 +2,57 @@
 
     <div class="frontdesk-header">
 
-        <div class="row">
+        <div class="row no-gutters">
             <div class="col-lg-8 col-12">
-            <!-- <div class="col"> -->
                 <i class="fa fa-calendar" (click)="dpr.show()"></i>
                 <i class="fa fa-calendar" style="margin-left:5px;" (click)="dpr.show()"></i>
                 <!-- <span style="margin-left:20px;margin-right: 20px;">{{selectedStartDate}} - {{selectedEndDate}}</span> -->
 
-                <input type="text" readonly class="form-control date-input" #dpr="bsDaterangepicker" (onHidden)="onCalenderValueChange()" bsDaterangepicker [(ngModel)]="bsRangeValue" [bsConfig]="bsConfig" (bsValueChange)="datePickerRangeSet($event)">
+                <input type="text" readonly class="form-control date-input" #dpr="bsDaterangepicker"
+                    (onHidden)="onCalenderValueChange()" bsDaterangepicker [(ngModel)]="bsRangeValue"
+                    [bsConfig]="bsConfig">
 
 
-                <button type="button" class="btn btn-round-xs btn-xs" *ngIf="fdPageView == 'console'" [class.active]="dateTab == 'custom'" (click)="setSchedularDateRange('custom')" (click)="dpr.show()">Custom</button>
-                <button type="button" class="btn btn-round-xs btn-xs" *ngIf="fdPageView == 'console'" [class.active]="dateTab == '1'" (click)="setSchedularDateRange('1')">Today</button>
-                <button type="button" class="btn btn-round-xs btn-xs" *ngIf="fdPageView == 'console'" [class.active]="dateTab == '3'" (click)="setSchedularDateRange('3')">3 Days</button>
-                <button type="button" class="btn btn-round-xs btn-xs" *ngIf="fdPageView == 'console'" [class.active]="dateTab == '7'" (click)="setSchedularDateRange('7')">Week</button>
-                <button type="button" class="btn btn-round-xs btn-xs" *ngIf="fdPageView == 'console'" [class.active]="dateTab == '15'" (click)="setSchedularDateRange('15')">15 Days</button>
-                <button type="button" class="btn btn-round-xs btn-xs" *ngIf="fdPageView == 'console'" [class.active]="dateTab == 'month'" (click)="setSchedularDateRange('month')">Month</button>
+                <button type="button" class="btn btn-round-xs btn-xs" *ngIf="fdPageView == 'console'"
+                    [class.active]="dateTab == 'custom'" (click)="setSchedularDateRange('custom')"
+                    (click)="dpr.show()">Custom</button>
+                <!-- <button type="button" class="btn btn-round-xs btn-xs" *ngIf="fdPageView == 'console'"
+                    [class.active]="dateTab == '1'" (click)="setSchedularDateRange('1')">Today</button>
+                <button type="button" class="btn btn-round-xs btn-xs" *ngIf="fdPageView == 'console'"
+                    [class.active]="dateTab == '3'" (click)="setSchedularDateRange('3')">3 Days</button>
+                <button type="button" class="btn btn-round-xs btn-xs" *ngIf="fdPageView == 'console'"
+                    [class.active]="dateTab == '7'" (click)="setSchedularDateRange('7')">Week</button> -->
+                <button type="button" class="btn btn-round-xs btn-xs" *ngIf="fdPageView == 'console'"
+                    [class.active]="dateTab == '15'" (click)="setSchedularDateRange('15')">15 Days</button>
+                <button type="button" class="btn btn-round-xs btn-xs" *ngIf="fdPageView == 'console'"
+                    [class.active]="dateTab == 'month'" (click)="setSchedularDateRange('month')">Month</button>
 
-                <button type="button" class="btn btn-round-xs btn-xs" *ngIf="fdPageView == 'bookingDetails' || fdPageView == 'reservationReports'" [class.active]="dateTab == 'booking'" (click)="setSchedularDateRange();">Console</button>
+                <button type="button" class="btn btn-round-xs btn-xs"
+                    *ngIf="fdPageView == 'bookingDetails' || fdPageView == 'reservationReports' || fdPageView == 'paymentsDetails' || fdPageView == 'traiffChart' || fdPageView == 'guestLookUp'"
+                    [class.active]="dateTab == 'booking'" (click)="setSchedularDateRange();">
+                    Console
+                </button>
             </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 pull-right">
-                <div class="row">
-                    <div class="pull-left">
+            <div class="col-lg-4 col-12 pull-right"
+                *ngIf="fdPageView != 'paymentsDetails' && detailReservationList.length > 0">
+                <div class="row no-gutters">
+                    <div class="col">
                         <div class="owl-nav">
                             <div class="owl-prev" (click)="carouselPrev()"><i class="fa fa-angle-left"></i></div>
                         </div>
                     </div>
-                    <div class="col-10">
+                    <div class="col-11">
                         <owl-carousel #owlElement [options]="buttonCarouselOptions">
                             <div class="item" *ngFor="let revItem of detailReservationList">
-                                <button type="button" class="btn btn-round-xs btn-xs" [class.active]="fdPageView == 'bookingDetails' && eventBookingData.bookingID == revItem.bookingID" (click)="showBookingSection(revItem.otherData, false)">{{revItem.givenName}}</button>
+                                <button type="button" class="btn btn-round-xs btn-xs"
+                                    [class.active]="fdPageView == 'bookingDetails' && eventBookingData.bookingID == revItem.bookingID"
+                                    (click)="showBookingSection(revItem.otherData, false)">{{revItem.givenName}}</button>
                             </div>
                         </owl-carousel>
                     </div>
-                    <div class="pull-right">
-                        <div class="owl-nav">
+                    <div class="col">
+                        <div class="owl-nav pull-right">
                             <div class="owl-next" (click)="carouselNext()"><i class="fa fa-angle-right"></i></div>
                         </div>
                     </div>
@@ -46,20 +61,60 @@
         </div>
     </div>
 
-    <ng-container *ngIf="fdPageView == 'console'">
-        <div class="room-blocked-row">
-            <div class="room-blocked-head">Blocked</div>
-            <div class="room-blocked-cell" [style.width.px]="blockedRoomCountCellWidth" *ngFor="let calDays of countObservable">0</div>
+    <div [ngSwitch]="fdPageView" style="padding:0px 10px;">
+        <ng-container *ngSwitchCase="'console'">
+            <div class="room-blocked-row">
+                <div class="room-blocked-head">Blocked</div>
+                <div class="room-blocked-cell" [style.width.px]="blockedRoomCountCellWidth"
+                    *ngFor="let calDays of countObservable">0</div>
+            </div>
+            <daypilot-scheduler [config]="config" [events]="events" (viewChange)="viewChange($event)" #scheduler>
+            </daypilot-scheduler>
+            <create-dialog #create (close)="createClosed($event)" [ratePlanList]="mappedRatePlanList"></create-dialog>
+            <!-- <br> -->
+            <!-- <br> -->
+            <!-- <scheduler-component></scheduler-component> -->
+        </ng-container>
+
+        <app-ui-frontdesk-booking-details *ngSwitchCase="'bookingDetails'" [bookingData]="eventBookingData"
+            [roomList]="roomList" [ratePlanList]="ratePlanList"></app-ui-frontdesk-booking-details>
+
+        <app-ui-frontdesk-report-details *ngSwitchCase="'reservationReports'" [bsRangeValue]="bsRangeValue"
+            [requestType]=reservationStatusReportType></app-ui-frontdesk-report-details>
+
+        <payment-details *ngSwitchCase="'paymentsDetails'" [bookingData]="eventBookingData"></payment-details>
+
+        <app-ui-tariff-chart *ngSwitchCase="'traiffChart'"></app-ui-tariff-chart>
+
+        <app-ui-guest-lookup *ngSwitchCase="'guestLookUp'"></app-ui-guest-lookup>
+    </div>
+
+
+    <ng-template #checkInModal>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-static-name" class="modal-title pull-left">Check In Details</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <app-ui-frontdesk-checkin-card (closeCheckIn)="closeCheckInOut($event)" [bookingData]="eventBookingOption"></app-ui-frontdesk-checkin-card>
+            </div>
         </div>
-        <daypilot-scheduler [config]="config" [events]="events" (viewChange)="viewChange($event)" #scheduler></daypilot-scheduler>
-        <create-dialog #create (close)="createClosed($event)" [ratePlanList]="ratePlanList"></create-dialog>
-        <!-- <br> -->
-        <!-- <br> -->
-        <!-- <scheduler-component></scheduler-component> -->
-    </ng-container>
+    </ng-template>
 
-    <app-ui-frontdesk-booking-details *ngIf="fdPageView == 'bookingDetails'" [bookingData]="eventBookingData" [roomList]="roomList" [ratePlanList]="ratePlanList"></app-ui-frontdesk-booking-details>
-
-    <app-ui-frontdesk-report-details *ngIf="fdPageView == 'reservationReports'" [bsRangeValue]="bsRangeValue" [requestType]=reservationStatusReportType></app-ui-frontdesk-report-details>
-
+    <ng-template #checkOutModal>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-static-name" class="modal-title pull-left">Check Out Details</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <app-ui-frontdesk-checkout-card (closeCheckOut)="closeCheckInOut(type)" [bookingData]="eventBookingOption"></app-ui-frontdesk-checkout-card>
+            </div>
+        </div>
+    </ng-template>
 </div>
